@@ -1,0 +1,79 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Client Information</h5>
+  </div>
+  <div class="ibox-content form-horizontal">
+    <form class="form-horizontal">
+    <div class="row">
+      <!-- First panel 
+          ==============
+          This panel will house the most basic 
+          of input. client name tin. It will 
+          initiate a search when the button "Next" 
+          is pressed
+      -->
+      
+      <div>
+        <div class="col-sm-10">
+          <!-- TODO: Add a button to perform and advance search -->
+          <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name' }}"></textbox>
+          <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin' }}"></textbox>
+          <dropdown [config]="{
+            label: { text: 'Individual/Non-individual' },
+            input: { name: 'type', options: [
+              { value: 'individual', text: 'Individual'},
+              { value: 'non-individual', text: 'Non-individual'}
+            ]}
+          }"></dropdown>
+        </div>
+      </div>
+
+      <!-- panel (2)
+          ================
+          This panel will contain the contect 
+          and address information for the client
+      -->
+      <div>
+        <div class="col-sm-12">
+          <!-- TODO: Create a contact module template and place it here -->
+          <datatable 
+            [config]="{
+              headers: [
+                { key: 'type', text: 'Type' },
+                { key: 'description', text: 'Description' }
+              ],
+              action: {
+                enable: true,
+                text: 'Action',
+                button: {
+                  add: { enable: true, text: 'Add Contact' },
+                  style: 'buttons',
+                  view: { enable: true },
+                  edit: { enable: true },
+                  delete: { enable: true }
+                }
+              }
+            }"
+            [dataset]="contactdata"
+          ></datatable>
+
+          <button (click)="justChecking()">Check it</button>
+          <!-- TODO: Create a address module template and place it here -->
+        </div>
+      </div>
+      
+
+      <!-- Panel (3)
+          ================
+          This panel contains the products module
+      -->
+      <div>
+        <div class="col-sm-6 col-sm-offset-2">
+          <!-- TODO: Create a products module template and place it here -->
+        </div>
+      </div>
+      
+    </div>
+    </form>
+  </div>
+</div>

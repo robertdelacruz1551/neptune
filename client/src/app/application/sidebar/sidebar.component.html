@@ -1,0 +1,41 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span class="block m-t-xs">
+                        <a routerLink="{{home}}"><strong class="font-bold">{{name}}</strong></a>
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="text-muted text-xs block">
+                                {{title}}
+                                <b class="caret"></b>
+                            </span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a routerLink="/auth/{{username}}/profile">Profile</a></li>
+                        <li><a routerLink="/auth/{{username}}/contact">Contacts</a></li>
+                        <li><a routerLink="/auth/{{username}}/mailbox">Mailbox</a></li>
+                        <li class="divider"></li>
+                        <li><a (click)="logOff($event)">Logout</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    BPM
+                </div>
+            </li>
+
+            <li *ngFor="let application of applications">
+                <a href="#"><i class="{{application.icon}}"></i> <span class="nav-label">{{application.name}}</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li *ngFor="let _interface of application.interfaces">
+                        <a routerLink="{{_interface.url}}">{{_interface.name}}</a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</nav>

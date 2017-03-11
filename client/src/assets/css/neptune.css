@@ -1,0 +1,12 @@
+
+.nav > li.active,
+.nav > li.active > a,
+.nav > li.active > a:focus,
+.nav > li.active > a:hover {
+  border-left: none;
+  background: #1ab394;
+}
+
+.dropdown-toggle {
+	color: #000;
+}
