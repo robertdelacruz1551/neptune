@@ -173,8 +173,8 @@ export class DropdownConfig {
         <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]"></td>
         <td *ngIf="config.action.enable === true">
           <div *ngIf="config.action.button.style ==='buttons'">
-            <a *ngIf="config.action.button.view.enable" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
-            <a *ngIf="config.action.button.edit.enable" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a>
+            <a *ngIf="config.action.button.view.enable" class="btn btn-default btn-xs" data-toggle="modal" data-target="#viewRowModal"><i class="fa fa-eye"></i></a>
+            <a *ngIf="config.action.button.edit.enable" class="btn btn-default btn-xs" data-toggle="modal" data-target="#viewRowModal"><i class="fa fa-pencil"></i></a>
             <a *ngIf="config.action.button.delete.enable" class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteRowModal"><i class="fa fa-times"></i></a>
           </div>
         </td>
@@ -190,7 +190,7 @@ export class DropdownConfig {
           <h4 class="modal-title" id="deleteRowModalLabel">Warning</h4>
         </div>
         <div class="modal-body">
-          <p [innerHtml]="config.action.button.delete.message"></p>
+          <p>Delete this records?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -200,6 +200,24 @@ export class DropdownConfig {
     </div>
   </div>
 
+  <div *ngIf="config.action.button.edit.modal" class="modal fade" id="viewRowModal" tabindex="-1" role="dialog" aria-labelledby="viewRowModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="viewRowModalLabel">View Modal</h4>
+        </div>
+        <div class="modal-body">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" [src]="config.action.button.edit.url | safe"></iframe>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   `
 })
 export class DatatableComponent{
@@ -242,7 +260,12 @@ export class DatatableConfig {
       add: { enable: boolean; text: string; };
       style?: string; //dropdown / buttons
       view?: { enable: boolean };
-      edit?: { enable: boolean };
+      edit?: { 
+        enable: boolean;
+        modal: boolean;
+        url: string;
+        key?: string;
+      };
       delete?: { 
         enable: boolean; 
         message?: string;
@@ -250,5 +273,18 @@ export class DatatableConfig {
     }
   };
 };
+
+
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer} from '@angular/platform-browser';
+
+@Pipe({ name: 'safe' })
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {}
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+} 
+
 
 // tslint:disable-next-line:max-line-length

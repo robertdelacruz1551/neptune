@@ -28,6 +28,7 @@ import {
   CheckboxComponent,
   DropdownComponent,
   DatatableComponent,
+  SafePipe
 } from './application/interface/know-your-customer/ui-components/elements/elements.component';
 
 /**
@@ -53,7 +54,8 @@ import { SidebarService } from './application/sidebar/sidebar.service';
     CheckboxComponent,
     DropdownComponent,
     DatatableComponent,
-    ClientComponent
+    ClientComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
