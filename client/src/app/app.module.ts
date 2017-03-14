@@ -29,7 +29,7 @@ import {
   DropdownComponent,
   DatatableComponent,
   SafePipe
-} from './application/interface/know-your-customer/ui-components/elements/elements.component';
+} from './application/interface/element-template/templates.component';
 
 /**
  * Services

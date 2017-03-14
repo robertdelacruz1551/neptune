@@ -190,7 +190,7 @@ export class DropdownConfig {
           <h4 class="modal-title" id="deleteRowModalLabel">Warning</h4>
         </div>
         <div class="modal-body">
-          <p>Delete this records?</p>
+          <p>Delete this record?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -200,7 +200,7 @@ export class DropdownConfig {
     </div>
   </div>
 
-  <div *ngIf="config.action.button.edit.modal" class="modal fade" id="viewRowModal" tabindex="-1" role="dialog" aria-labelledby="viewRowModalLabel">
+  <div *ngIf="1 !== 0"class="modal fade" id="viewRowModal" tabindex="-1" role="dialog" aria-labelledby="viewRowModalLabel">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -208,9 +208,7 @@ export class DropdownConfig {
           <h4 class="modal-title" id="viewRowModalLabel">View Modal</h4>
         </div>
         <div class="modal-body">
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" [src]="config.action.button.edit.url | safe"></iframe>
-          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -262,9 +260,11 @@ export class DatatableConfig {
       view?: { enable: boolean };
       edit?: { 
         enable: boolean;
-        modal: boolean;
-        url: string;
-        key?: string;
+        modal?: {
+          enable: boolean;
+          component: string;
+          inputs: any;
+        };
       };
       delete?: { 
         enable: boolean; 
@@ -274,6 +274,14 @@ export class DatatableConfig {
   };
 };
 
+
+
+/**
+ *
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" [src]="config.action.button.edit.url | safe"></iframe>
+  </div>
+ */
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer} from '@angular/platform-browser';
@@ -286,5 +294,56 @@ export class SafePipe implements PipeTransform {
   }
 } 
 
+
+
+
+
+
+
+import {ViewContainerRef, ViewChild, ReflectiveInjector, ComponentFactoryResolver} from '@angular/core';
+@Component({
+  selector: 'dynamic-component',
+  entryComponents: [ContactComponent], // Reference to the components must be here in order to dynamically create them
+  template: `
+    <div #dynamicComponentContainer></div>
+  `,
+})
+export default class DynamicComponent {
+  currentComponent = null;
+
+  @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) dynamicComponentContainer: ViewContainerRef;
+  
+  // component: Class for the component you want to create
+  // inputs: An object with key/value pairs mapped to input name/input value
+  @Input() set componentData(data: {component: any, inputs: any }) {
+    if (!data) {
+      return;
+    }
+
+    // Inputs need to be in the following format to be resolved properly
+    let inputProviders = Object.keys(data.inputs).map((inputName) => {return {provide: inputName, useValue: data.inputs[inputName]};});
+    let resolvedInputs = ReflectiveInjector.resolve(inputProviders);
+    
+    // We create an injector out of the data we want to pass down and this components injector
+    let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.dynamicComponentContainer.parentInjector);
+    
+    // We create a factory out of the component we want to create
+    let factory = this.resolver.resolveComponentFactory(data.component);
+    
+    // We create the component using the factory and the injector
+    let component = factory.create(injector);
+    
+    // We insert the component into the dom container
+    this.dynamicComponentContainer.insert(component.hostView);
+    
+    // We can destroy the old component is we like by calling destroy
+    if (this.currentComponent) {
+      this.currentComponent.destroy();
+    }
+    this.currentComponent = component;
+  }
+  
+  constructor(private resolver: ComponentFactoryResolver) { }
+}
 
 // tslint:disable-next-line:max-line-length
