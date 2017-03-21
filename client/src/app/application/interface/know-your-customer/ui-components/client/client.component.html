@@ -32,11 +32,14 @@
           ================
           This panel will contain the contect 
           and address information for the client
+
+          <button (click)="justChecking()">Check it</button>
       -->
       <div>
         <div class="col-sm-12">
           <!-- TODO: Create a contact module template and place it here -->
           <datatable 
+            [dataset]="contactdata"
             [config]="{
               headers: [
                 { key: 'type', text: 'Type' },
@@ -46,19 +49,43 @@
                 enable: true,
                 text: 'Action',
                 button: {
-                  add: { enable: true, text: 'Add Contact' },
+                  add: { enable: true, text: 'Add Product' },
                   style: 'buttons',
-                  view: { enable: true },
+                  view: { enable: false },
                   edit: { enable: true },
                   delete: { enable: true }
                 }
               }
             }"
-            [dataset]="contactdata"
           ></datatable>
 
-          <button (click)="justChecking()">Check it</button>
+          
           <!-- TODO: Create a address module template and place it here -->
+          <datatable 
+            [dataset]="addressdata"
+            [config]="{
+              headers: [
+                {key: 'line1', text: 'Address Line 1'},
+                {key: 'line2', text: 'Address Line 2'},
+                {key: 'line3', text: 'Address Line 3'},
+                {key: 'city', text: 'City'},
+                {key: 'state', text: 'State'},
+                {key: 'zip', text: 'Postal Code'},
+                {key: 'type', text: 'Type'}
+              ],
+              action: {
+                enable: true,
+                text: 'Action',
+                button: {
+                  add: { enable: true, text: 'New Address' },
+                  style: 'buttons',
+                  view: { enable: false },
+                  edit: { enable: true },
+                  delete: { enable: true }
+                }
+              }
+            }"
+          ></datatable>
         </div>
       </div>
       
@@ -68,8 +95,30 @@
           This panel contains the products module
       -->
       <div>
-        <div class="col-sm-6 col-sm-offset-2">
+        <div class="col-sm-12">
           <!-- TODO: Create a products module template and place it here -->
+          <datatable 
+            [dataset]="productsdata"
+            [config]="{
+              headers: [
+                {key: 'number', text: 'Account Number'},
+                {key: 'family', text: 'Product Family'},
+                {key: 'name', text: 'Name'},
+                {key: 'relationship', text: 'Relationship'}
+              ],
+              action: {
+                enable: true,
+                text: 'Action',
+                button: {
+                  add: { enable: true, text: 'New Product' },
+                  style: 'buttons',
+                  view: { enable: false },
+                  edit: { enable: true },
+                  delete: { enable: true }
+                }
+              }
+            }"
+          ></datatable>
         </div>
       </div>
       

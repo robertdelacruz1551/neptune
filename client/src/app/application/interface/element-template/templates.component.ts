@@ -156,7 +156,6 @@ export class DropdownConfig {
 
 
 
-
 @Component({
   selector: 'datatable',
   template: `
@@ -173,16 +172,16 @@ export class DropdownConfig {
         <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]"></td>
         <td *ngIf="config.action.enable === true">
           <div *ngIf="config.action.button.style ==='buttons'">
-            <a *ngIf="config.action.button.view.enable" class="btn btn-default btn-xs" data-toggle="modal" data-target="#viewRowModal"><i class="fa fa-eye"></i></a>
-            <a *ngIf="config.action.button.edit.enable" class="btn btn-default btn-xs" data-toggle="modal" data-target="#viewRowModal"><i class="fa fa-pencil"></i></a>
-            <a *ngIf="config.action.button.delete.enable" class="btn btn-default btn-xs" data-toggle="modal" data-target="#deleteRowModal"><i class="fa fa-times"></i></a>
+            <a *ngIf="config.action.button.view.enable"   class="btn btn-default btn-xs" data-toggle="modal" data-target="#viewRowModal"><i class="fa fa-eye"></i></a>
+            <a *ngIf="config.action.button.edit.enable"   class="btn btn-default btn-xs" data-toggle="modal" data-target="#editRowModal"><i class="fa fa-pencil"></i></a>
+            <a *ngIf="config.action.button.delete.enable" class="btn btn-default btn-xs" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"><i class="fa fa-times"></i></a>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div class="modal fade" id="deleteRowModal" tabindex="-1" role="dialog" aria-labelledby="deleteRowModalLabel">
+  <div class="modal fade" [id]="deleteModalId" tabindex="-1" role="dialog" aria-labelledby="deleteRowModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -199,26 +198,9 @@ export class DropdownConfig {
       </div>
     </div>
   </div>
-
-  <div *ngIf="1 !== 0"class="modal fade" id="viewRowModal" tabindex="-1" role="dialog" aria-labelledby="viewRowModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="viewRowModalLabel">View Modal</h4>
-        </div>
-        <div class="modal-body">
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
   `
 })
-export class DatatableComponent{
+export class DatatableComponent {
   @Input() config: DatatableConfig = {
     headers: [], action: { enable: false }
   };
@@ -229,18 +211,24 @@ export class DatatableComponent{
  * row. Can only be set when the 
  * user clicks on the row
  */private row: number;
-
+  
+/**
+ * 
+ */private deleteModalId = Math.random().toString(36).substring(7); 
 /**
  * This method sets the row in focus to 
  * view, edit or delete from the dataset
  * @param row: is initialized on click
  */focusOnRow(row: number) {
+   console.log(this.dataset);
+   console.log(this.deleteModalId);
     this.row = row;
   };
 
 /**
  * Deletes the row in focus from the dataset
  */deleteRow() {
+   console.log(this.dataset);
     this.dataset.splice(this.row, 1);
   }
 }
@@ -260,11 +248,6 @@ export class DatatableConfig {
       view?: { enable: boolean };
       edit?: { 
         enable: boolean;
-        modal?: {
-          enable: boolean;
-          component: string;
-          inputs: any;
-        };
       };
       delete?: { 
         enable: boolean; 
@@ -295,55 +278,5 @@ export class SafePipe implements PipeTransform {
 } 
 
 
-
-
-
-
-
-import {ViewContainerRef, ViewChild, ReflectiveInjector, ComponentFactoryResolver} from '@angular/core';
-@Component({
-  selector: 'dynamic-component',
-  entryComponents: [ContactComponent], // Reference to the components must be here in order to dynamically create them
-  template: `
-    <div #dynamicComponentContainer></div>
-  `,
-})
-export default class DynamicComponent {
-  currentComponent = null;
-
-  @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) dynamicComponentContainer: ViewContainerRef;
-  
-  // component: Class for the component you want to create
-  // inputs: An object with key/value pairs mapped to input name/input value
-  @Input() set componentData(data: {component: any, inputs: any }) {
-    if (!data) {
-      return;
-    }
-
-    // Inputs need to be in the following format to be resolved properly
-    let inputProviders = Object.keys(data.inputs).map((inputName) => {return {provide: inputName, useValue: data.inputs[inputName]};});
-    let resolvedInputs = ReflectiveInjector.resolve(inputProviders);
-    
-    // We create an injector out of the data we want to pass down and this components injector
-    let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, this.dynamicComponentContainer.parentInjector);
-    
-    // We create a factory out of the component we want to create
-    let factory = this.resolver.resolveComponentFactory(data.component);
-    
-    // We create the component using the factory and the injector
-    let component = factory.create(injector);
-    
-    // We insert the component into the dom container
-    this.dynamicComponentContainer.insert(component.hostView);
-    
-    // We can destroy the old component is we like by calling destroy
-    if (this.currentComponent) {
-      this.currentComponent.destroy();
-    }
-    this.currentComponent = component;
-  }
-  
-  constructor(private resolver: ComponentFactoryResolver) { }
-}
 
 // tslint:disable-next-line:max-line-length

@@ -11,3 +11,4 @@ export class ContactComponent implements OnInit {
 
   ngOnInit() { }
 }
+  // tslint:disable-next-line:component-selector-prefix

@@ -12,6 +12,16 @@ export class ClientComponent {
     { type: 'Email', description: 'rd@aol.com'}
   ];
 
+  addressdata = [
+    {line1: '9876 Street Ave', city: 'Warwick', state: 'Rhode Island', zip: '02993-0990', type: 'Home'},
+  ];
+
+  productsdata = [
+    {number: '90-88394382', family: 'Checking', name: 'Classic Checking', relationship: 'Primary'},
+    {number: '10-288263332', family: 'Savings', name: 'Standard Savings', relationship: 'Primary'},
+    {number: '90-7736278838', family: 'Savings', name: 'Passbook Savings', relationship: 'Beneficiary'}
+  ];
+
   justChecking() {
     console.log(this.contactdata);
   }
@@ -86,7 +96,6 @@ export class Address {
   zip?: string;
   country?: string;
   type?: string; // primary residence, head quarters...
-  active: boolean;
 }
 
 export class Product {
@@ -94,7 +103,6 @@ export class Product {
   family?: string;
   name: string;
   relationship?: string;
-  active: boolean;
 }
 
 export class Firm {
