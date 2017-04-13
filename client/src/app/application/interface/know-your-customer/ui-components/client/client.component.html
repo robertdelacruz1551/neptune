@@ -12,7 +12,6 @@
           initiate a search when the button "Next" 
           is pressed
       -->
-      
       <div>
         <div class="col-sm-10">
           <!-- TODO: Add a button to perform and advance search -->
@@ -79,7 +78,7 @@
                 button: {
                   add: { enable: true, text: 'New Address' },
                   style: 'buttons',
-                  view: { enable: false },
+                  view: { enable: true },
                   edit: { enable: true },
                   delete: { enable: true }
                 }
@@ -121,7 +120,49 @@
           ></datatable>
         </div>
       </div>
+
+
+      <div>
+        <div class="col-sm-12">
+          <datatable 
+            [dataset]="branchdata"
+            [config]="{
+              headers: [
+                {key: 'employee', text: 'Employee'},
+                {key: 'relationship', text: 'Relationship'},
+                {key: 'division', text: 'Division'},
+                {key: 'branch', text: 'Branch'}
+              ],
+              action: {
+                enable: true,
+                text: 'Action',
+                button: {
+                  add: { enable: true, text: 'Add Branch' },
+                  style: 'buttons',
+                  view: { enable: false },
+                  edit: { enable: true },
+                  delete: { enable: true }
+                }
+              }
+            }"
+          ></datatable>
+        </div>
+      </div>
       
+      <!--
+        individuals
+       -->
+      <div>
+        <div class="col-sm-12"><!-- classification -->
+          <checkbox [bind]="[]" [config]="{
+            label: { text: 'Client Type' },
+            input: { options: [
+              { name: 'type1', value: 'type i', text: 'Type 1' },
+              { name: 'type2', value: 'type ii', text: 'Type 2' }
+            ]}
+          }"></checkbox>
+        </div>
+      </div>
     </div>
     </form>
   </div>

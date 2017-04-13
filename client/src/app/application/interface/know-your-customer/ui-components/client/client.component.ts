@@ -19,7 +19,12 @@ export class ClientComponent {
   productsdata = [
     {number: '90-88394382', family: 'Checking', name: 'Classic Checking', relationship: 'Primary'},
     {number: '10-288263332', family: 'Savings', name: 'Standard Savings', relationship: 'Primary'},
-    {number: '90-7736278838', family: 'Savings', name: 'Passbook Savings', relationship: 'Beneficiary'}
+    {number: '453366232', family: 'Accounting', name: 'Federal Income Tax Preperation', relationship: 'Subscriber'}
+  ];
+
+  branchdata = [
+    { employee: 'Bobby Dixon', relationship: 'Branch Manager', division: 'New England', branch: 'MA122'},
+    { employee: 'Jeanne Silva', relationship: 'Personal Banker', division: 'New England', branch: 'MA122'}
   ];
 
   justChecking() {

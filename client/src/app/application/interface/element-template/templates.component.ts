@@ -49,7 +49,10 @@ export class TextBoxConfig {
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="checkbox">
-        <label><input type="checkbox" [name]="option.name" [value]="option.value" [checked]="isChecked(option.value)" (change)="updateArray(option.value, $event.target.checked)">{{option.text}} </label>
+        <label>
+          <input type="checkbox" [name]="option.name" [value]="option.value" [checked]="isChecked(option.value)" (change)="updateArray(option.value, $event.target.checked)">
+          {{option.text}}
+        </label>
       </div>
     </div>
   </div>
@@ -96,7 +99,10 @@ export class CheckboxConfig {
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="radio">
-        <label class="disable"><input type="radio" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="propertyUpdate.emit(this.bind)" [value]="option.value"> {{option.text}} </label>
+        <label class="disable">
+          <input type="radio" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="propertyUpdate.emit(this.bind)" [value]="option.value"> 
+          {{option.text}}
+        </label>
       </div>
     </div>
   </div>
@@ -168,16 +174,17 @@ export class DropdownConfig {
       </tr>
     </thead>
     <tbody>
+
       <tr *ngFor="let data of dataset; let row = index;" (click)="focusOnRow(row);">
         <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]"></td>
         <td *ngIf="config.action.enable === true">
           <div *ngIf="config.action.button.style ==='buttons'">
-            <a *ngIf="config.action.button.view.enable"   class="btn btn-default btn-xs" data-toggle="modal" data-target="#viewRowModal"><i class="fa fa-eye"></i></a>
             <a *ngIf="config.action.button.edit.enable"   class="btn btn-default btn-xs" data-toggle="modal" data-target="#editRowModal"><i class="fa fa-pencil"></i></a>
             <a *ngIf="config.action.button.delete.enable" class="btn btn-default btn-xs" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"><i class="fa fa-times"></i></a>
           </div>
         </td>
       </tr>
+
     </tbody>
   </table>
 
@@ -213,22 +220,22 @@ export class DatatableComponent {
  */private row: number;
   
 /**
- * 
+ * This property will have the 
+ * modal key to delete records 
+ * from the datatable
  */private deleteModalId = Math.random().toString(36).substring(7); 
+
 /**
  * This method sets the row in focus to 
  * view, edit or delete from the dataset
  * @param row: is initialized on click
  */focusOnRow(row: number) {
-   console.log(this.dataset);
-   console.log(this.deleteModalId);
     this.row = row;
   };
 
 /**
  * Deletes the row in focus from the dataset
  */deleteRow() {
-   console.log(this.dataset);
     this.dataset.splice(this.row, 1);
   }
 }
