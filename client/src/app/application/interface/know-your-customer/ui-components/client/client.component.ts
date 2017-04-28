@@ -27,9 +27,15 @@ export class ClientComponent {
     { employee: 'Jeanne Silva', relationship: 'Personal Banker', division: 'New England', branch: 'MA122'}
   ];
 
-  justChecking() {
-    console.log(this.contactdata);
-  }
+  identificationData = [
+    { type: 'Drivers License', number: '500032', issuer: 'Rhode Island', expiration: '02/2/20018', country: 'USA' }
+  ];
+
+  citizenshipData = [
+    { country: 'United State', proof: 'US issued passport'}
+  ];
+
+  politicalpositionData = [];
 }
 
 
@@ -56,17 +62,9 @@ export class Client {
       dob: Date;
       identifications: { type: string; number: string; issuer?: string; expiration?: Date; country?: string; } [];
       citizenship: { country: string; proof: string; } [];
-      military: {
-        active: boolean;
-        start: Date;
-        end?: Date;
-        rank?: string;
-        branch?: string;
-      };
       politician: {
         pep: boolean;
         positions: {
-          active: boolean;
           office: string;
           title: string;
           country: string;

@@ -15,50 +15,172 @@
       <div>
         <div class="col-sm-10">
           <!-- TODO: Add a button to perform and advance search -->
-          <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name' }}"></textbox>
-          <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin' }}"></textbox>
+          <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name', size: 'large' }}"></textbox>
+          <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin', size: '2' }}"></textbox>
           <dropdown [config]="{
             label: { text: 'Individual/Non-individual' },
-            input: { name: 'type', options: [
-              { value: 'individual', text: 'Individual'},
-              { value: 'non-individual', text: 'Non-individual'}
-            ]}
+            input: { 
+              name: 'type', 
+              size: 'medium', 
+                options: [
+                { value: 'individual', text: 'Individual'},
+                { value: 'non-individual', text: 'Non-individual'}
+              ]
+            }
           }"></dropdown>
         </div>
       </div>
 
+      <!--
+        individuals
+       -->
+      <div>
+        <div class="col-sm-10"><!-- classification -->
+
+          <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+              <!-- TODO: Create a contact module template and place it here -->
+              <datatable 
+                [dataset]="contactdata"
+                [config]="{
+                  headers: [
+                    { key: 'type', text: 'Type' },
+                    { key: 'description', text: 'Description' }
+                  ],
+                  action: {
+                    enable: true,
+                    text: 'Action',
+                    button: {
+                      add: { enable: true, text: 'Add Contact' },
+                      style: 'buttons',
+                      view: { enable: false },
+                      edit: { enable: true },
+                      delete: { enable: true }
+                    }
+                  }
+                }"
+              ></datatable>
+            </div>
+          </div>
+
+          <textbox [config]="{label: { text: 'Date of Birth' }, input: { name: 'dob', size: '2' }}"></textbox>
+          
+          <checkbox [bind]="[]" [config]="{
+            label: { text: 'Client Classification' },
+            input: { options: [
+              { name: 'type1', value: 'type i', text: 'Type 1' },
+              { name: 'type2', value: 'type ii', text: 'Type 2' }
+            ]}
+          }"></checkbox>
+          
+          <div class="row">
+            <div class="col-sm-6 col-sm-offset-4">
+              <datatable
+                [dataset]="citizenshipData"
+                [config]="{
+                  headers: [
+                    { key: 'country', text: 'Country' },
+                    { key: 'proof', text: 'Proof Obtained' }
+                  ],
+                  action: {
+                    enable: true,
+                    text: 'Action',
+                    button: {
+                      add: { enable: true, text: 'Add Citizenship' },
+                      style: 'buttons',
+                      view: { enable: false },
+                      edit: { enable: true },
+                      delete: { enable: true }
+                    }
+                  }
+                }"
+              ></datatable>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-sm-offset-4">
+              <datatable
+                [dataset]="identificationData"
+                [config]="{
+                  headers: [
+                    { key: 'type', text: 'Type' },
+                    { key: 'number', text: 'Number' },
+                    { key: 'issuer', text: 'Issuer' },
+                    { key: 'expiration', text: 'Expiration Date' },
+                    { key: 'country', text: 'Country' }
+                  ],
+                  action: {
+                    enable: true,
+                    text: 'Action',
+                    button: {
+                      add: { enable: true, text: 'Add Identification' },
+                      style: 'buttons',
+                      view: { enable: false },
+                      edit: { enable: true },
+                      delete: { enable: true }
+                    }
+                  }
+                }"
+              ></datatable>            
+            </div>
+          </div>
+
+          <radio
+            [bind]="[]"
+            [config]="{
+              label: { text: 'Is the client a politically involved person?'},
+              input: { name: 'pep', options: [
+                { value: true, text: 'Yes' },
+                { value: false, text: 'No' }
+              ]}
+            }"
+          ></radio>
+          <div class="row">
+            <div class="col-sm-6 col-sm-offset-4">
+              <datatable
+                [dataset]="politicalpositionData"
+                [config]="{
+                  headers: [
+                    { key: 'office', text: 'Office' },
+                    { key: 'title', text: 'Title' },
+                    { key: 'country', text: 'Country'}
+                  ],
+                  action: {
+                    enable: true,
+                    text: 'Action',
+                    button: {
+                      add: { enable: true, text: 'Political Office' },
+                      style: 'buttons',
+                      view: { enable: false },
+                      edit: { enable: true },
+                      delete: { enable: true }
+                    }
+                  }
+                }"
+              ></datatable>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <!--
+        non individuals
+       -->
+      <div>
+
+      </div>
+
+
+      
       <!-- panel (2)
           ================
           This panel will contain the contect 
           and address information for the client
-
-          <button (click)="justChecking()">Check it</button>
       -->
       <div>
-        <div class="col-sm-12">
-          <!-- TODO: Create a contact module template and place it here -->
-          <datatable 
-            [dataset]="contactdata"
-            [config]="{
-              headers: [
-                { key: 'type', text: 'Type' },
-                { key: 'description', text: 'Description' }
-              ],
-              action: {
-                enable: true,
-                text: 'Action',
-                button: {
-                  add: { enable: true, text: 'Add Product' },
-                  style: 'buttons',
-                  view: { enable: false },
-                  edit: { enable: true },
-                  delete: { enable: true }
-                }
-              }
-            }"
-          ></datatable>
-
-          
+        <div class="col-sm-8 col-sm-offset-4">
           <!-- TODO: Create a address module template and place it here -->
           <datatable 
             [dataset]="addressdata"
@@ -84,7 +206,7 @@
                 }
               }
             }"
-          ></datatable>
+          ></datatable>            
         </div>
       </div>
       
@@ -94,7 +216,7 @@
           This panel contains the products module
       -->
       <div>
-        <div class="col-sm-12">
+        <div class="col-sm-8 col-sm-offset-4">
           <!-- TODO: Create a products module template and place it here -->
           <datatable 
             [dataset]="productsdata"
@@ -123,7 +245,7 @@
 
 
       <div>
-        <div class="col-sm-12">
+        <div class="col-sm-8 col-sm-offset-4">
           <datatable 
             [dataset]="branchdata"
             [config]="{
@@ -148,21 +270,7 @@
           ></datatable>
         </div>
       </div>
-      
-      <!--
-        individuals
-       -->
-      <div>
-        <div class="col-sm-12"><!-- classification -->
-          <checkbox [bind]="[]" [config]="{
-            label: { text: 'Client Type' },
-            input: { options: [
-              { name: 'type1', value: 'type i', text: 'Type 1' },
-              { name: 'type2', value: 'type ii', text: 'Type 2' }
-            ]}
-          }"></checkbox>
-        </div>
-      </div>
+
     </div>
     </form>
   </div>

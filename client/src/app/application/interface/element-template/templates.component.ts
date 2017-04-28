@@ -15,26 +15,28 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
   template: `
   <div class="form-group">
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
-    <div class="col-sm-8">
+    <div [ngClass]="(!config.input.size || config.input.size == 'large' || config.input.size == '8' )?'col-sm-8': { 'small' : 'col-sm-2', 'medium' : 'col-sm-4', '1' : 'col-sm-1', '2' : 'col-sm-2', '3' : 'col-sm-3', '4' : 'col-sm-4', '5' : 'col-sm-5', '6' : 'col-sm-6', '7' : 'col-sm-7' }[config.input.size]">
       <input *ngIf="!config.input.readonly && !config.input.placeholder" type="text" class="form-control input-sm" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="propertyUpdate.emit(this.bind)">
       <input *ngIf="!config.input.readonly && config.input.placeholder" type="text" class="form-control input-sm" [name]="config.input.name"[placeholder]="config.input.placeholder" [(ngModel)]="bind" (ngModelChange)="propertyUpdate.emit(this.bind)">
       <input *ngIf="config.input.readonly" type="text" class="form-control" [id]="config.input.id" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="propertyUpdate.emit(this.bind)" readonly>
     </div>
   </div>
-  `
+  `,
+  styles: [`
+  .form-group, .form-control {
+    font-size: 11px;
+  }
+  `]
 })
 export class TextboxComponent {
-  @Input() config: TextBoxConfig = {
-    label: { text: null },
-    input: { name: null }
-  };
+  @Input() config: TextBoxConfig;
   @Input() bind: string;
   @Output() propertyUpdate = new EventEmitter();
 }
 
 export class TextBoxConfig {
-  label: { text: string; };
-  input: { readonly?: boolean; name: string; placeholder?: string };
+  label: { text?: string; };
+  input: { readonly?: boolean; name: string; placeholder?: string; size?: string; };
 }
 
 
@@ -56,7 +58,12 @@ export class TextBoxConfig {
       </div>
     </div>
   </div>
-  `
+  `,
+  styles: [`
+  .form-group {
+    font-size: 11px;
+  }
+  `]
 })
 export class CheckboxComponent {
   @Input() config: CheckboxConfig = {
@@ -99,14 +106,19 @@ export class CheckboxConfig {
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="radio">
-        <label class="disable">
+        <label>
           <input type="radio" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="propertyUpdate.emit(this.bind)" [value]="option.value"> 
           {{option.text}}
         </label>
       </div>
     </div>
   </div>
-  `
+  `,
+  styles: [`
+  .form-group {
+    font-size: 11px;
+  }
+  `]
 })
 export class RadioComponent {
   @Input() config: RadioConfig = {
@@ -119,7 +131,7 @@ export class RadioComponent {
 
 export class RadioConfig {
   label: { text: string; };
-  input: { readonly?: boolean; name: string; options: { value: string; text: string; } []};
+  input: { readonly?: boolean; name: string; options: { value: any; text: string; } []};
 }
 
 
@@ -132,7 +144,7 @@ export class RadioConfig {
   template: `
   <div class="form-group">
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
-    <div class="col-sm-8">
+    <div [ngClass]="(!config.input.size || config.input.size == 'large' || config.input.size == '8' )?'col-sm-8': { 'small' : 'col-sm-2', 'medium' : 'col-sm-4', '1' : 'col-sm-1', '2' : 'col-sm-2', '3' : 'col-sm-3', '4' : 'col-sm-4', '5' : 'col-sm-5', '6' : 'col-sm-6', '7' : 'col-sm-7' }[config.input.size]">
       <select *ngIf="!config.input.readonly" class="form-control input-sm" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="propertyUpdate.emit(this.bind)">
         <option *ngIf="config.input.emptyOption" value=""></option>
         <option *ngFor="let option of config.input.options" [value]="option.value" [innerHtml]="option.text"></option>
@@ -140,13 +152,15 @@ export class RadioConfig {
       </select>
     </div>
   </div>
-  `
+  `,
+  styles: [`
+  .form-group, .form-control {
+    font-size: 11px;
+  }
+  `]
 })
 export class DropdownComponent {
-  @Input() config: DropdownConfig = {
-    label: { text: null },
-    input: { name: null, options: [] }
-  };
+  @Input() config: DropdownConfig;
   @Input() bind: string;
   @Output() propertyUpdate = new EventEmitter();
 
@@ -155,7 +169,7 @@ export class DropdownComponent {
 
 export class DropdownConfig {
   label: { text: string; };
-  input: { readonly?: boolean; name: string; emptyOption?: boolean; otherOption?: boolean; options: { value: string; text: string; }[] };
+  input: { readonly?: boolean; size?: string; name: string; emptyOption?: boolean; otherOption?: boolean; options: { value: string; text: string; }[] };
 }
 
 
@@ -165,8 +179,8 @@ export class DropdownConfig {
 @Component({
   selector: 'datatable',
   template: `
-  <button *ngIf="config.action.button.add.enable" class="btn btn-default btn-sm" [innerHtml]="config.action.button.add.text"></button>
-  <table class="table table-hover table-bordered">
+  <button *ngIf="config.action.button.add.enable" class="btn btn-default btn-xs" [innerHtml]="config.action.button.add.text"></button>
+  <table class="table table-hover table-bordered datatable">
     <thead>
       <tr>
         <th *ngFor="let header of config.headers" [innerHtml]="header.text"></th>
@@ -199,13 +213,23 @@ export class DropdownConfig {
           <p>Delete this record?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="deleteRow()">Delete</button>
+          <button type="button" class="btn btn-default btn-action" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-warning btn-action" data-dismiss="modal" (click)="deleteRow()">Delete</button>
         </div>
       </div>
     </div>
   </div>
-  `
+  `,
+  styles: [`
+  .datatable > tbody > tr > td, .datatable > thead > tr > th, .datatable > tbody > tr > th, .datatable > tfoot > tr > th, .datatable > thead > tr > td{
+    padding: 5px;
+    vertical-align: middle;
+    font-size: 11px;
+  }
+  .datatable .btn{
+    margin-bottom: 0px;
+  }
+  `]
 })
 export class DatatableComponent {
   @Input() config: DatatableConfig = {

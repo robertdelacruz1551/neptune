@@ -22,7 +22,6 @@ import { MessageComponent } from './application/navigation/message/message.compo
 import { NotificationComponent } from './application/navigation/notification/notification.component';
 import { KycOnboarding } from './application/interface/know-your-customer/on-boarding/kycOnboarding.component';
 import { ClientComponent } from './application/interface/know-your-customer/ui-components/client/client.component';
-import { ContactComponent } from './application/interface/know-your-customer/ui-components/client/contacts/contact.component';
 import {
   TextboxComponent,
   RadioComponent,
@@ -56,7 +55,6 @@ import { SidebarService } from './application/sidebar/sidebar.service';
     DropdownComponent,
     DatatableComponent,
     ClientComponent,
-    ContactComponent,
     SafePipe
   ],
   imports: [
