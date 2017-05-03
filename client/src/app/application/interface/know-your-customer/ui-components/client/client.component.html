@@ -5,170 +5,298 @@
   <div class="ibox-content form-horizontal">
     <form class="form-horizontal">
     <div class="row">
-      <!-- First panel 
-          ==============
-          This panel will house the most basic 
-          of input. client name tin. It will 
-          initiate a search when the button "Next" 
-          is pressed
-      -->
-      <div>
-        <div class="col-sm-10">
-          <!-- TODO: Add a button to perform and advance search -->
-          <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name', size: 'large' }}"></textbox>
-          <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin', size: '2' }}"></textbox>
-          <dropdown [config]="{
-            label: { text: 'Individual/Non-individual' },
-            input: { 
-              name: 'type', 
-              size: 'medium', 
-                options: [
-                { value: 'individual', text: 'Individual'},
-                { value: 'non-individual', text: 'Non-individual'}
-              ]
-            }
-          }"></dropdown>
-        </div>
-      </div>
-
       <!--
         individuals
        -->
-      <div>
-        <div class="col-sm-10"><!-- classification -->
-
-          <div class="row">
-            <div class="col-sm-4 col-sm-offset-4">
-              <!-- TODO: Create a contact module template and place it here -->
-              <datatable 
-                [dataset]="contactdata"
-                [config]="{
-                  headers: [
-                    { key: 'type', text: 'Type' },
-                    { key: 'description', text: 'Description' }
-                  ],
-                  action: {
-                    enable: true,
-                    text: 'Action',
-                    button: {
-                      add: { enable: true, text: 'Add Contact' },
-                      style: 'buttons',
-                      view: { enable: false },
-                      edit: { enable: true },
-                      delete: { enable: true }
-                    }
+      <div class="col-sm-12">
+        <!-- TODO: Add a button to perform and advance search -->
+        <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name', size: '6' }}"></textbox>
+        <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin', size: 'small' }}"></textbox>
+        
+        <div class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+            <!-- TODO: Create a contact module template and place it here -->
+            <datatable 
+              [dataset]="contactdata"
+              [config]="{
+                headers: [
+                  { key: 'type', text: 'Type' },
+                  { key: 'description', text: 'Description' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Contact' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
                   }
-                }"
-              ></datatable>
-            </div>
+                }
+              }"
+            ></datatable>
           </div>
+        </div>
 
-          <textbox [config]="{label: { text: 'Date of Birth' }, input: { name: 'dob', size: '2' }}"></textbox>
-          
-          <checkbox [bind]="[]" [config]="{
-            label: { text: 'Client Classification' },
-            input: { options: [
-              { name: 'type1', value: 'type i', text: 'Type 1' },
-              { name: 'type2', value: 'type ii', text: 'Type 2' }
+        <textbox [config]="{label: { text: 'Date of Birth' }, input: { name: 'dob', size: 'small' }}"></textbox>
+        
+        <checkbox [bind]="[]" [config]="{
+          label: { text: 'Client Classification' },
+          input: { options: [
+            { name: 'type1', value: 'type i', text: 'Type 1' },
+            { name: 'type2', value: 'type ii', text: 'Type 2' }
+          ]}
+        }"></checkbox>
+        
+        <radio
+          [bind]="[]"
+          [config]="{
+            label: { text: 'Is the client a politically involved person?'},
+            input: { name: 'pep', options: [
+              { value: true, text: 'Yes' },
+              { value: false, text: 'No' }
             ]}
-          }"></checkbox>
-          
-          <div class="row">
-            <div class="col-sm-6 col-sm-offset-4">
-              <datatable
-                [dataset]="citizenshipData"
-                [config]="{
-                  headers: [
-                    { key: 'country', text: 'Country' },
-                    { key: 'proof', text: 'Proof Obtained' }
-                  ],
-                  action: {
-                    enable: true,
-                    text: 'Action',
-                    button: {
-                      add: { enable: true, text: 'Add Citizenship' },
-                      style: 'buttons',
-                      view: { enable: false },
-                      edit: { enable: true },
-                      delete: { enable: true }
-                    }
-                  }
-                }"
-              ></datatable>
-            </div>
-          </div>
+          }"
+        ></radio>
 
-          <div class="row">
-            <div class="col-sm-8 col-sm-offset-4">
-              <datatable
-                [dataset]="identificationData"
-                [config]="{
-                  headers: [
-                    { key: 'type', text: 'Type' },
-                    { key: 'number', text: 'Number' },
-                    { key: 'issuer', text: 'Issuer' },
-                    { key: 'expiration', text: 'Expiration Date' },
-                    { key: 'country', text: 'Country' }
-                  ],
-                  action: {
-                    enable: true,
-                    text: 'Action',
-                    button: {
-                      add: { enable: true, text: 'Add Identification' },
-                      style: 'buttons',
-                      view: { enable: false },
-                      edit: { enable: true },
-                      delete: { enable: true }
-                    }
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-4">
+            <datatable
+              [dataset]="citizenshipData"
+              [config]="{
+                headers: [
+                  { key: 'country', text: 'Country' },
+                  { key: 'proof', text: 'Proof Obtained' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Citizenship' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
                   }
-                }"
-              ></datatable>            
-            </div>
+                }
+              }"
+            ></datatable>
           </div>
+        </div>
 
-          <radio
-            [bind]="[]"
-            [config]="{
-              label: { text: 'Is the client a politically involved person?'},
-              input: { name: 'pep', options: [
-                { value: true, text: 'Yes' },
-                { value: false, text: 'No' }
-              ]}
-            }"
-          ></radio>
-          <div class="row">
-            <div class="col-sm-6 col-sm-offset-4">
-              <datatable
-                [dataset]="politicalpositionData"
-                [config]="{
-                  headers: [
-                    { key: 'office', text: 'Office' },
-                    { key: 'title', text: 'Title' },
-                    { key: 'country', text: 'Country'}
-                  ],
-                  action: {
-                    enable: true,
-                    text: 'Action',
-                    button: {
-                      add: { enable: true, text: 'Political Office' },
-                      style: 'buttons',
-                      view: { enable: false },
-                      edit: { enable: true },
-                      delete: { enable: true }
-                    }
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-4">
+            <datatable
+              [dataset]="identificationData"
+              [config]="{
+                headers: [
+                  { key: 'type', text: 'Type' },
+                  { key: 'number', text: 'Number' },
+                  { key: 'issuer', text: 'Issuer' },
+                  { key: 'expiration', text: 'Expiration Date' },
+                  { key: 'country', text: 'Country' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Identification' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
                   }
-                }"
-              ></datatable>
-            </div>
+                }
+              }"
+            ></datatable>            
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-4">
+            <datatable
+              [dataset]="politicalpositionData"
+              [config]="{
+                headers: [
+                  { key: 'office', text: 'Office' },
+                  { key: 'title', text: 'Title' },
+                  { key: 'country', text: 'Country'}
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Political Office' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
+                  }
+                }
+              }"
+            ></datatable>
           </div>
         </div>
       </div>
-
       
       <!--
         non individuals
        -->
-      <div>
+      <div class="col-sm-12">
+
+        <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name', size: '6' }}"></textbox>
+        <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin', size: 'small' }}"></textbox>
+
+        <checkbox [bind]="[]" [config]="{
+          label: { text: 'Client Classification' },
+          input: { options: [
+            { name: 'type1', value: 'type i', text: 'Type 1' },
+            { name: 'type2', value: 'type ii', text: 'Type 2' }
+          ]}
+        }"></checkbox>
+
+        <div class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+            <datatable
+              [dataset]="industryData"
+              [config]="{
+                headers: [
+                  { key: 'code', text: 'Industry Code' },
+                  { key: 'description', text: 'Description' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Industry' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
+                  }
+                }
+              }"
+            ></datatable>
+          </div>
+        </div>
+
+        <textbox [config]="{label: { text: 'Company Structure' }, input: { name: 'entityStructure', size: '4' }}"></textbox>
+        <textbox [config]="{label: { text: 'Formation Date' }, input: { name: 'formationDate', size: '2' }}"></textbox>
+        <textbox [config]="{label: { text: 'Status' }, input: { name: 'formationStatus', size: '2' }}"></textbox>
+        <textbox [config]="{label: { text: 'Formation Country' }, input: { name: 'formationCountry', size: '1' }}"></textbox>
+
+        <div class="row">
+          <div class="col-sm-3 col-sm-offset-4">
+            <datatable
+              [dataset]="[]"
+              [config]="{
+                headers: [
+                  { key: 'firm', text: 'Register Agent' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Industry' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
+                  }
+                }
+              }"
+            ></datatable>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3 col-sm-offset-4">
+            <datatable
+              [dataset]="[]"
+              [config]="{
+                headers: [
+                  { key: 'firm', text: 'Legal Service' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Industry' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
+                  }
+                }
+              }"
+            ></datatable>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3 col-sm-offset-4">
+            <datatable
+              [dataset]="[]"
+              [config]="{
+                headers: [
+                  { key: 'firm', text: 'Accounting Firm' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Industry' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
+                  }
+                }
+              }"
+            ></datatable>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-3 col-sm-offset-4">
+            <datatable
+              [dataset]="[]"
+              [config]="{
+                headers: [
+                  { key: 'firm', text: 'Marketing Firm' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Industry' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
+                  }
+                }
+              }"
+            ></datatable>
+          </div>
+        </div>
+
+        <radio
+          [bind]="[]"
+          [config]="{
+            label: { text: 'Is the company publicly traded?'},
+            input: { name: 'stock', options: [
+              { value: true, text: 'Yes' },
+              { value: false, text: 'No' }
+            ]}
+          }"
+        ></radio>
+
+        <div class="row">
+          <div class="col-sm-5 col-sm-offset-4">
+            <datatable
+              [dataset]="stockInformation"
+              [config]="{
+                headers: [
+                  { key: 'exchange', text: 'Exchange' },
+                  { key: 'symbol', text: 'Symbol' }
+                ],
+                action: {
+                  enable: true,
+                  button: {
+                    add: { enable: true, text: 'Add Industry' },
+                    view: { enable: false },
+                    edit: { enable: true },
+                    delete: { enable: true }
+                  }
+                }
+              }"
+            ></datatable>
+          </div>
+        </div>
 
       </div>
 
@@ -180,15 +308,13 @@
           and address information for the client
       -->
       <div>
-        <div class="col-sm-8 col-sm-offset-4">
+        <div class="col-sm-10 col-sm-offset-1">
           <!-- TODO: Create a address module template and place it here -->
           <datatable 
             [dataset]="addressdata"
             [config]="{
               headers: [
-                {key: 'line1', text: 'Address Line 1'},
-                {key: 'line2', text: 'Address Line 2'},
-                {key: 'line3', text: 'Address Line 3'},
+                {key: 'line1', text: 'Street Address'},
                 {key: 'city', text: 'City'},
                 {key: 'state', text: 'State'},
                 {key: 'zip', text: 'Postal Code'},
@@ -196,10 +322,8 @@
               ],
               action: {
                 enable: true,
-                text: 'Action',
                 button: {
                   add: { enable: true, text: 'New Address' },
-                  style: 'buttons',
                   view: { enable: true },
                   edit: { enable: true },
                   delete: { enable: true }
@@ -216,7 +340,7 @@
           This panel contains the products module
       -->
       <div>
-        <div class="col-sm-8 col-sm-offset-4">
+        <div class="col-sm-10 col-sm-offset-1">
           <!-- TODO: Create a products module template and place it here -->
           <datatable 
             [dataset]="productsdata"
@@ -229,10 +353,8 @@
               ],
               action: {
                 enable: true,
-                text: 'Action',
                 button: {
                   add: { enable: true, text: 'New Product' },
-                  style: 'buttons',
                   view: { enable: false },
                   edit: { enable: true },
                   delete: { enable: true }
@@ -245,7 +367,7 @@
 
 
       <div>
-        <div class="col-sm-8 col-sm-offset-4">
+        <div class="col-sm-10 col-sm-offset-1">
           <datatable 
             [dataset]="branchdata"
             [config]="{
@@ -257,10 +379,8 @@
               ],
               action: {
                 enable: true,
-                text: 'Action',
                 button: {
                   add: { enable: true, text: 'Add Branch' },
-                  style: 'buttons',
                   view: { enable: false },
                   edit: { enable: true },
                   delete: { enable: true }

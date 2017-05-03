@@ -36,6 +36,15 @@ export class ClientComponent {
   ];
 
   politicalpositionData = [];
+
+  industryData = [
+    { code: '32344', description: 'General Construction' },
+    { code: '4322', description: 'Plumber' },
+  ];
+
+  entity = [
+    { structure: 'LTD', formationDate: '22-Dec-1977', status: 'Active', country: 'United States' }
+  ];
 }
 
 
@@ -73,7 +82,7 @@ export class Client {
     };
     nonindividual?: {
       classification: string [];
-      industries: { code: string; name: string; active: boolean} [];
+      industries: { code: string; description: string; } [];
       entity: {
         structure: string;
         formationDate: Date;

@@ -174,31 +174,36 @@ export class DropdownConfig {
 
 
 
-
-
 @Component({
   selector: 'datatable',
   template: `
-  <button *ngIf="config.action.button.add.enable" class="btn btn-default btn-xs" [innerHtml]="config.action.button.add.text"></button>
-  <table class="table table-hover table-bordered datatable">
+  <table class="table table-hover table-bordered datatable" [id]="datasetId">
     <thead>
       <tr>
-        <th *ngFor="let header of config.headers" [innerHtml]="header.text"></th>
-        <th *ngIf="config.action.enable" [innerHtml]="config.action.text"></th>
+        <th *ngIf="config.action.enable">
+          <div class="btn-group">
+            <span class="glyphicon glyphicon-th-list" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-hidden="true"></span>
+            <ul class="dropdown-menu">
+              <li *ngIf="!allSelected && rowsSelected.length < dataset.length"><a (click)="selectAll()">Select All</a></li>
+              <li *ngIf="allSelected || rowsSelected.length === dataset.length" ><a (click)="deselectAll()">Deselect All</a></li>
+              <li role="separator" class="divider"></li>
+              <li *ngIf="config.action.button.add.enable"><a>Add</a></li>
+              <li><a>View</a></li>
+              <li><a>Edit</a></li>
+              <li *ngIf="config.action.button.delete.enable"><a data-toggle="modal" [attr.data-target]="'#' + deleteModalId">Delete</a></li>
+            </ul>
+          </div>
+        </th>
+        <th *ngFor="let header of config.headers"  [innerHtml]="header.text"></th>
       </tr>
     </thead>
     <tbody>
-
       <tr *ngFor="let data of dataset; let row = index;" (click)="focusOnRow(row);">
-        <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]"></td>
         <td *ngIf="config.action.enable === true">
-          <div *ngIf="config.action.button.style ==='buttons'">
-            <a *ngIf="config.action.button.edit.enable"   class="btn btn-default btn-xs" data-toggle="modal" data-target="#editRowModal"><i class="fa fa-pencil"></i></a>
-            <a *ngIf="config.action.button.delete.enable" class="btn btn-default btn-xs" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"><i class="fa fa-times"></i></a>
-          </div>
+          <input type="checkbox" [checked]="allSelected" [name]="datasetId + row" [value]="row" (click)="selectedRow(data)">
         </td>
+        <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]"></td>
       </tr>
-
     </tbody>
   </table>
 
@@ -210,7 +215,7 @@ export class DropdownConfig {
           <h4 class="modal-title" id="deleteRowModalLabel">Warning</h4>
         </div>
         <div class="modal-body">
-          <p>Delete this record?</p>
+          <p>Delete the selected records?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-action" data-dismiss="modal">Cancel</button>
@@ -236,6 +241,30 @@ export class DatatableComponent {
     headers: [], action: { enable: false }
   };
   @Input() dataset: any [];
+/**
+ * if the user clicks on selected all then set all 
+ * the checkboxes in the table to checked
+ */private allSelected: boolean;
+
+  selectAll() {
+    this.allSelected = true;
+    this.dataset.forEach(row => {
+      this.selectedRow(row);
+    });
+  };
+
+  deselectAll() {
+    this.allSelected = false;
+    this.rowsSelected = [];
+  };
+/**
+ * The unique identifier for the dataset
+ */private datasetId = Math.random().toString(36).substring(7); 
+
+/**
+ * This property will have the modal key 
+ * to delete records from the datatable
+ */private deleteModalId = Math.random().toString(36).substring(7);
 
 /**
  * This property will contain the 
@@ -244,10 +273,9 @@ export class DatatableComponent {
  */private row: number;
   
 /**
- * This property will have the 
- * modal key to delete records 
- * from the datatable
- */private deleteModalId = Math.random().toString(36).substring(7); 
+ * This property is an array 
+ * containing the rows selected
+ */private rowsSelected: any [] = [];
 
 /**
  * This method sets the row in focus to 
@@ -258,10 +286,25 @@ export class DatatableComponent {
   };
 
 /**
+ * This method sets the row in focus to 
+ * view, edit or delete from the dataset
+ * @param row: is initialized on click
+ */selectedRow(data: any) {
+    if(this.rowsSelected.indexOf(data) == -1) {
+      this.rowsSelected.push(data);
+    }else{
+      this.rowsSelected.splice(this.rowsSelected.indexOf(data), 1);
+    };
+  };
+
+/**
  * Deletes the row in focus from the dataset
  */deleteRow() {
-    this.dataset.splice(this.row, 1);
-  }
+    this.rowsSelected.forEach(row => {
+      this.dataset.splice(this.dataset.indexOf(row), 1);
+    });
+    this.allSelected = false;
+  };
 }
 
 
@@ -272,42 +315,22 @@ export class DatatableConfig {
   } [];
   action: {
     enable: boolean;
-    text?: string;
     button?: {
-      add: { enable: boolean; text: string; };
-      style?: string; //dropdown / buttons
+      add?: { enable: boolean; form: Form; };
       view?: { enable: boolean };
-      edit?: { 
-        enable: boolean;
-      };
-      delete?: { 
-        enable: boolean; 
-        message?: string;
-      };
+      edit?: { enable: boolean; form: Form; };
+      delete?: { enable: boolean; message?: string; };
     }
   };
 };
 
-
-
-/**
- *
-  <div class="embed-responsive embed-responsive-16by9">
-    <iframe class="embed-responsive-item" [src]="config.action.button.edit.url | safe"></iframe>
-  </div>
- */
-
-import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer} from '@angular/platform-browser';
-
-@Pipe({ name: 'safe' })
-export class SafePipe implements PipeTransform {
-  constructor(private sanitizer: DomSanitizer) {}
-  transform(url) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
-} 
-
-
-
+class Form {
+  elements: {
+    type: string; // textbox, checkbox, radio, dropdown
+    textbox?: { config: TextBoxConfig };
+    checkbox?: { config: CheckboxConfig };
+    radio?: { config: RadioConfig };
+    dropdown?: { config: DropdownConfig };
+  } [];
+}
 // tslint:disable-next-line:max-line-length
