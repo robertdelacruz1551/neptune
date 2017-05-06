@@ -27,7 +27,8 @@ import {
   RadioComponent,
   CheckboxComponent,
   DropdownComponent,
-  DatatableComponent
+  DatatableComponent,
+  DatatableModal
 } from './application/interface/element-template/templates.component';
 
 /**
@@ -53,7 +54,8 @@ import { SidebarService } from './application/sidebar/sidebar.service';
     CheckboxComponent,
     DropdownComponent,
     DatatableComponent,
-    ClientComponent
+    ClientComponent,
+    DatatableModal
   ],
   imports: [
     BrowserModule,

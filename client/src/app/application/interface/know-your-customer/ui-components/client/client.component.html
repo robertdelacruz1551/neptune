@@ -26,8 +26,104 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Contact' },
-                    view: { enable: false },
+                    add: { 
+                      enable: true,
+                      modal: {
+                        id: 'contactAddModal',
+                        labelBy: 'contactAddModalLabel',
+                        header: {
+                          enable: true,
+                          text: 'Contact Information'
+                        },
+                        form: {
+                          elements: [
+                            {
+                              type: 'dropdown',
+                              dropdown: {
+                                bind: 'type',
+                                config: {
+                                  label: { text: 'Type' },
+                                  input: { 
+                                    size: 'medium', 
+                                    name: 'contactModalType', 
+                                    options: [
+                                      { value: 'Email', text: 'Email' },
+                                      { value: 'Mobile Number', text: 'Mobile Number' },
+                                      { value: 'Home Number', text: 'Home Number' }
+                                    ] 
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              type: 'textbox',
+                              textbox: {
+                                bind: 'description',
+                                config: {
+                                  label: { text: 'Description' }, 
+                                  input: { name: 'contactModalDescription', size: '6' }}
+                              }
+                            }
+                          ]
+                        },
+                        footer: {
+                          enable: true,
+                          commit: {
+                            text: 'Save',
+                            enable: true
+                          }
+                        }
+                      }
+                    },
+                    view: { 
+                      enable: true,
+                      modal: {
+                        id: 'contactViewModal',
+                        labelBy: 'contactViewModalLabel',
+                        header: {
+                          enable: true,
+                          text: 'Contact Information'
+                        },
+                        form: {
+                          elements: [
+                            {
+                              type: 'dropdown',
+                              dropdown: {
+                                bind: 'type',
+                                config: {
+                                  label: { text: 'Type' },
+                                  input: { 
+                                    size: 'medium', 
+                                    name: 'contactModalType', 
+                                    options: [
+                                      { value: 'Email', text: 'Email' },
+                                      { value: 'Mobile Number', text: 'Mobile Number' },
+                                      { value: 'Home Number', text: 'Home Number' }
+                                    ] 
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              type: 'textbox',
+                              textbox: {
+                                bind: 'description',
+                                config: {
+                                  label: { text: 'Description' }, 
+                                  input: { name: 'contactModalDescription', size: '6' }}
+                              }
+                            }
+                          ]
+                        },
+                        footer: {
+                          enable: true,
+                          commit: {
+                            text: 'Save',
+                            enable: true
+                          }
+                        }
+                      }
+                    },
                     edit: { enable: true },
                     delete: { enable: true }
                   }
@@ -70,7 +166,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Citizenship' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -96,7 +192,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Identification' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -120,7 +216,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Political Office' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -160,7 +256,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Industry' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -179,7 +275,7 @@
         <div class="row">
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
-              [dataset]="[]"
+              [dataset]="agent"
               [config]="{
                 headers: [
                   { key: 'firm', text: 'Register Agent' }
@@ -187,7 +283,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Industry' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -201,7 +297,7 @@
         <div class="row">
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
-              [dataset]="[]"
+              [dataset]="legal"
               [config]="{
                 headers: [
                   { key: 'firm', text: 'Legal Service' }
@@ -209,7 +305,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Industry' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -223,7 +319,7 @@
         <div class="row">
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
-              [dataset]="[]"
+              [dataset]="accounting"
               [config]="{
                 headers: [
                   { key: 'firm', text: 'Accounting Firm' }
@@ -231,7 +327,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Industry' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -245,7 +341,7 @@
         <div class="row">
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
-              [dataset]="[]"
+              [dataset]="marketing"
               [config]="{
                 headers: [
                   { key: 'firm', text: 'Marketing Firm' }
@@ -253,7 +349,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Industry' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -287,7 +383,7 @@
                 action: {
                   enable: true,
                   button: {
-                    add: { enable: true, text: 'Add Industry' },
+                    add: { enable: true },
                     view: { enable: false },
                     edit: { enable: true },
                     delete: { enable: true }
@@ -323,7 +419,7 @@
               action: {
                 enable: true,
                 button: {
-                  add: { enable: true, text: 'New Address' },
+                  add: { enable: true },
                   view: { enable: true },
                   edit: { enable: true },
                   delete: { enable: true }
@@ -354,7 +450,7 @@
               action: {
                 enable: true,
                 button: {
-                  add: { enable: true, text: 'New Product' },
+                  add: { enable: true },
                   view: { enable: false },
                   edit: { enable: true },
                   delete: { enable: true }
@@ -380,7 +476,7 @@
               action: {
                 enable: true,
                 button: {
-                  add: { enable: true, text: 'Add Branch' },
+                  add: { enable: true },
                   view: { enable: false },
                   edit: { enable: true },
                   delete: { enable: true }

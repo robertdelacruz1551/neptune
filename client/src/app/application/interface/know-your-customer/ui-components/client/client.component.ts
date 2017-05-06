@@ -45,6 +45,11 @@ export class ClientComponent {
   entity = [
     { structure: 'LTD', formationDate: '22-Dec-1977', status: 'Active', country: 'United States' }
   ];
+
+  marketing = [];
+  accounting = [];
+  legal = [];
+  agent = [];
 }
 
 
