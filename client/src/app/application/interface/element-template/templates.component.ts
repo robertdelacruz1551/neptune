@@ -180,10 +180,10 @@ export class DropdownConfig {
             <ul class="dropdown-menu">
               <li *ngIf="!allSelected"><a (click)="selectAll()">Select All</a></li>
               <li *ngIf="allSelected" ><a (click)="deselectAll()">Deselect All</a></li>
-              <li role="separator" class="divider"></li>
-              <li *ngIf="config.action.button.add.enable  && config.action.button.add.modal" ><a data-toggle="modal" [attr.data-target] = "'#' + config.action.button.add.modal.id" >Add</a></li>
-              <li *ngIf="config.action.button.view.enable && config.action.button.view.modal"><a data-toggle="modal" [attr.data-target] = "'#' + config.action.button.view.modal.id">View</a></li>
-              <li *ngIf="config.action.button.edit.enable && config.action.button.edit.modal"><a data-toggle="modal" [attr.data-target] = "'#' + config.action.button.edit.modal.id">Edit</a></li>
+                <li role="separator" class="divider"></li>
+              <li *ngIf="config.action.button.add.enable  && config.action.button.add.modal" ><a data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" >Add</a></li>
+              <li *ngIf="config.action.button.view.enable && config.action.button.view.modal"><a data-toggle="modal" [attr.data-target] = "'#viewmodal' + datasetId + row">View</a></li>
+              <li *ngIf="config.action.button.edit.enable && config.action.button.edit.modal"><a  data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row">Edit</a></li>
               <li *ngIf="config.action.button.delete.enable"><a data-toggle="modal" [attr.data-target]="'#' + deleteModalId">Delete</a></li>
             </ul>
           </div>
@@ -192,13 +192,21 @@ export class DropdownConfig {
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of dataset; let row = index;" (click)="focusOnRow(row);">
+      <tr *ngFor="let data of dataset; let row = index;">
         <td *ngIf="config.action.enable === true">
-          <input type="checkbox" [checked]="allSelected" [name]="datasetId + row" [value]="row" (click)="selectedRow(data)">
+          
+          <input type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
 
-          <datatable-modal *ngIf="config.action.button.view.enable && config.action.button.view.modal" 
+          <datatable-modal *ngIf="config.action.button.view.enable && config.action.button.view.modal"
+            [id]="'viewmodal' + datasetId + row"
             [datarow]="data"
             [config]= "config.action.button.view.modal"
+          ></datatable-modal>
+
+          <datatable-modal *ngIf="config.action.button.edit.enable && config.action.button.edit.modal"
+            [id]="'editmodal' + datasetId + row"
+            [datarow]="data"
+            [config]= "config.action.button.edit.modal"
             (commit)= "dataset[row] = $event"
           ></datatable-modal>
 
@@ -209,11 +217,12 @@ export class DropdownConfig {
   </table>
 
   <datatable-modal *ngIf="config.action.button.add.enable && config.action.button.add.modal" 
+    [id]="'addmodal' + datasetId"
     [datarow]="{}"
     [config]= "config.action.button.add.modal"
     (commit)= "dataset.push($event)"
   ></datatable-modal>
-
+  
   <div class="modal fade" [id]="deleteModalId" tabindex="-1" role="dialog" aria-labelledby="deleteRowModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
@@ -242,7 +251,7 @@ export class DropdownConfig {
     margin-bottom: 0px;
   }
   `]
-})
+}) // <input type="checkbox" [checked]="allSelected" [name]="datasetId + row" [value]="row" (change)="selectedRow(data); focusOnRow(row);">
 export class DatatableComponent {
   @Input() config: DatatableConfig = {
     headers: [], action: { enable: false }
@@ -277,7 +286,7 @@ export class DatatableComponent {
  * This property will contain the 
  * row. Can only be set when the 
  * user clicks on the row
- */private row: number = 1;  
+ */private row: number;
 
 /**
  * This property is an array 
@@ -288,8 +297,15 @@ export class DatatableComponent {
  * This method sets the row in focus to 
  * view, edit or delete from the dataset
  * @param row: is initialized on click
- */focusOnRow(row: number) {
-    this.row = row;
+ */rowSelectionChange(row: number, state: boolean ) {
+    var data = this.dataset[row];
+    this.selectedRow(data);
+    
+    if(state) {
+      this.row = row;
+    } else {
+      this.row = null;
+    }
   };
 
 /**
@@ -335,7 +351,7 @@ export class DatatableConfig {
 @Component({  
   selector: 'datatable-modal',
   template: `
-  <div class="modal fade" [id]="config.id" tabindex="-1" role="dialog" [attr.aria-labelledby]="config.labelBy">
+  <div class="modal fade" [id]="id" tabindex="-1" role="dialog" [attr.aria-labelledby]="config.labelBy">
     <div [ngClass]="(!config.size)? 'modal-dialog': { 'small' : 'modal-dialog modal-sm', 'large' : 'modal-dialog modal-lg'}" role="document">
       <div class="modal-content">
         <div *ngIf="config.header.enable" class="modal-header">
@@ -343,30 +359,34 @@ export class DatatableConfig {
           <h4 class="modal-title" [id]="config.labelBy" [innerHtml]="config.header.text"></h4>
         </div>
         <div class="modal-body">
+          <div *ngIf="config.form.message">
+            <h3 [innerHtml]="config.form.message.heading"></h3>
+            <p [innerHtml]="config.form.message.text"></p>
+          </div>
           <div class="form-horizontal">
             <div *ngFor="let element of config.form.elements">
 
               <textbox  *ngIf="element.type === 'textbox'"  
                 [config]="element[element.type].config" 
-                [bind]="updatedDatarow[element[element.type].bind]" 
-                (propertyUpdate)="updatedDatarow[element[element.type].bind] = $event"
+                [bind]="editableDatarow[element[element.type].bind]" 
+                (propertyUpdate)="editableDatarow[element[element.type].bind] = $event"
               ></textbox>
 
               <checkbox *ngIf="element.type === 'checkbox'" 
                 [config]="element[element.type].config" 
-                [bind]="updatedDatarow[element[element.type].bind]"
+                [bind]="editableDatarow[element[element.type].bind]"
               ></checkbox>
 
               <radio *ngIf="element.type === 'radio'"    
                 [config]="element[element.type].config" 
-                [bind]="updatedDatarow[element[element.type].bind]" 
-                (propertyUpdate)="updatedDatarow[element[element.type].bind] = $event"
+                [bind]="editableDatarow[element[element.type].bind]" 
+                (propertyUpdate)="editableDatarow[element[element.type].bind] = $event"
               ></radio>
 
               <dropdown *ngIf="element.type === 'dropdown'" 
                 [config]="element[element.type].config" 
-                [bind]="updatedDatarow[element[element.type].bind]" 
-                (propertyUpdate)="updatedDatarow[element[element.type].bind] = $event"
+                [bind]="editableDatarow[element[element.type].bind]" 
+                (propertyUpdate)="editableDatarow[element[element.type].bind] = $event"
               ></dropdown>
 
             </div>
@@ -374,7 +394,7 @@ export class DatatableConfig {
         </div>
         <div *ngIf="config.footer.enable" class="modal-footer">
           <button (click)="cancelChange()" type="button" class="btn btn-default btn-action" data-dismiss="modal">Cancel</button>
-          <button *ngIf="config.footer.enable" (click)="commit.emit(updatedDatarow)" type="button" class="btn btn-warning btn-action" data-dismiss="modal" [innerHtml]="config.footer.commit.text"></button>
+          <button *ngIf="config.footer.enable" (click)="commit.emit(editableDatarow)" type="button" class="btn btn-warning btn-action" data-dismiss="modal" [innerHtml]="config.footer.commit.text"></button>
         </div>
       </div>
     </div>
@@ -382,39 +402,46 @@ export class DatatableConfig {
   `
 })
 export class DatatableModal implements OnInit {
+  @Input() id: string;
   @Input() datarow: any;
   @Input() config: DatatableModalConfig;
   @Output() commit = new EventEmitter();
 /**
  * Will contain the updated object
- */private updatedDatarow: {} = {};
+ */private editableDatarow: {} = {};
 
+   private setEditableDatarow() {
+     this.editableDatarow = JSON.parse(JSON.stringify(this.datarow));
+   }
 /**
  * If the user cancels the change we 
  * need to reset the updateDatarow object 
  * back to it's unchanged state
  */private cancelChange() {
-    this.updatedDatarow = JSON.parse(JSON.stringify(this.datarow));
- }
+    this.setEditableDatarow();
+  }
 
 /**
  * On init make a copy of the datarow 
  * property to prevent update if user 
  * cancels change.
  */ngOnInit() {
-    this.updatedDatarow= JSON.parse(JSON.stringify(this.datarow));
+    this.setEditableDatarow();
   }
 };
 
 export class DatatableModalConfig {
-  id: string;
-  labelBy: string;
+  labelBy?: string;
   size?: string;
   header: {
     enable: boolean;
     text: string;
   };
   form: {
+    message?: {
+      heading?: string;
+      test?: string;
+    },
     elements: {
       type: string; 
       bind: string;

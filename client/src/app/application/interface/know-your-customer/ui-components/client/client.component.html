@@ -10,169 +10,42 @@
        -->
       <div class="col-sm-12">
         <!-- TODO: Add a button to perform and advance search -->
-        <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name', size: '6' }}"></textbox>
-        <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin', size: 'small' }}"></textbox>
+        <textbox 
+          [config]="form.individual.name.config"
+        ></textbox>
+
+        <textbox 
+          [config]="form.individual.tin.config"
+        ></textbox>
         
         <div class="row">
           <div class="col-sm-4 col-sm-offset-4">
-            <!-- TODO: Create a contact module template and place it here -->
             <datatable 
               [dataset]="contactdata"
-              [config]="{
-                headers: [
-                  { key: 'type', text: 'Type' },
-                  { key: 'description', text: 'Description' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { 
-                      enable: true,
-                      modal: {
-                        id: 'contactAddModal',
-                        labelBy: 'contactAddModalLabel',
-                        header: {
-                          enable: true,
-                          text: 'Contact Information'
-                        },
-                        form: {
-                          elements: [
-                            {
-                              type: 'dropdown',
-                              dropdown: {
-                                bind: 'type',
-                                config: {
-                                  label: { text: 'Type' },
-                                  input: { 
-                                    size: 'medium', 
-                                    name: 'contactModalType', 
-                                    options: [
-                                      { value: 'Email', text: 'Email' },
-                                      { value: 'Mobile Number', text: 'Mobile Number' },
-                                      { value: 'Home Number', text: 'Home Number' }
-                                    ] 
-                                  }
-                                }
-                              }
-                            },
-                            {
-                              type: 'textbox',
-                              textbox: {
-                                bind: 'description',
-                                config: {
-                                  label: { text: 'Description' }, 
-                                  input: { name: 'contactModalDescription', size: '6' }}
-                              }
-                            }
-                          ]
-                        },
-                        footer: {
-                          enable: true,
-                          commit: {
-                            text: 'Save',
-                            enable: true
-                          }
-                        }
-                      }
-                    },
-                    view: { 
-                      enable: true,
-                      modal: {
-                        id: 'contactViewModal',
-                        labelBy: 'contactViewModalLabel',
-                        header: {
-                          enable: true,
-                          text: 'Contact Information'
-                        },
-                        form: {
-                          elements: [
-                            {
-                              type: 'dropdown',
-                              dropdown: {
-                                bind: 'type',
-                                config: {
-                                  label: { text: 'Type' },
-                                  input: { 
-                                    size: 'medium', 
-                                    name: 'contactModalType', 
-                                    options: [
-                                      { value: 'Email', text: 'Email' },
-                                      { value: 'Mobile Number', text: 'Mobile Number' },
-                                      { value: 'Home Number', text: 'Home Number' }
-                                    ] 
-                                  }
-                                }
-                              }
-                            },
-                            {
-                              type: 'textbox',
-                              textbox: {
-                                bind: 'description',
-                                config: {
-                                  label: { text: 'Description' }, 
-                                  input: { name: 'contactModalDescription', size: '6' }}
-                              }
-                            }
-                          ]
-                        },
-                        footer: {
-                          enable: true,
-                          commit: {
-                            text: 'Save',
-                            enable: true
-                          }
-                        }
-                      }
-                    },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.individual.contact.config"
             ></datatable>
           </div>
         </div>
 
-        <textbox [config]="{label: { text: 'Date of Birth' }, input: { name: 'dob', size: 'small' }}"></textbox>
+        <textbox 
+          [config]="form.individual.dob.config"
+        ></textbox>
         
-        <checkbox [bind]="[]" [config]="{
-          label: { text: 'Client Classification' },
-          input: { options: [
-            { name: 'type1', value: 'type i', text: 'Type 1' },
-            { name: 'type2', value: 'type ii', text: 'Type 2' }
-          ]}
-        }"></checkbox>
+        <checkbox 
+          [bind]="[]" 
+          [config]="form.individual.classification.config"
+        ></checkbox>
         
         <radio
           [bind]="[]"
-          [config]="{
-            label: { text: 'Is the client a politically involved person?'},
-            input: { name: 'pep', options: [
-              { value: true, text: 'Yes' },
-              { value: false, text: 'No' }
-            ]}
-          }"
+          [config]="form.individual.pep.config"
         ></radio>
 
         <div class="row">
           <div class="col-sm-6 col-sm-offset-4">
             <datatable
-              [dataset]="citizenshipData"
-              [config]="{
-                headers: [
-                  { key: 'country', text: 'Country' },
-                  { key: 'proof', text: 'Proof Obtained' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [dataset]="[]"
+              [config]="form.individual.pepPosition.config"
             ></datatable>
           </div>
         </div>
@@ -181,24 +54,7 @@
           <div class="col-sm-8 col-sm-offset-4">
             <datatable
               [dataset]="identificationData"
-              [config]="{
-                headers: [
-                  { key: 'type', text: 'Type' },
-                  { key: 'number', text: 'Number' },
-                  { key: 'issuer', text: 'Issuer' },
-                  { key: 'expiration', text: 'Expiration Date' },
-                  { key: 'country', text: 'Country' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.individual.identification.config"
             ></datatable>            
           </div>
         </div>
@@ -206,90 +62,61 @@
         <div class="row">
           <div class="col-sm-6 col-sm-offset-4">
             <datatable
-              [dataset]="politicalpositionData"
-              [config]="{
-                headers: [
-                  { key: 'office', text: 'Office' },
-                  { key: 'title', text: 'Title' },
-                  { key: 'country', text: 'Country'}
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [dataset]="[]"
+              [config]="form.individual.citizenship.config"
             ></datatable>
           </div>
         </div>
       </div>
-      
+
+
+
+
+
+
       <!--
         non individuals
        -->
       <div class="col-sm-12">
 
-        <textbox [config]="{label: { text: 'Entity Name' }, input: { name: 'name', size: '6' }}"></textbox>
-        <textbox [config]="{label: { text: 'Tax ID Number' }, input: { name: 'tin', size: 'small' }}"></textbox>
+        <textbox [config]="form.nonindividual.name.config"></textbox>
+        <textbox [config]="form.nonindividual.tin.config"></textbox>
 
-        <checkbox [bind]="[]" [config]="{
-          label: { text: 'Client Classification' },
-          input: { options: [
-            { name: 'type1', value: 'type i', text: 'Type 1' },
-            { name: 'type2', value: 'type ii', text: 'Type 2' }
-          ]}
-        }"></checkbox>
+        <checkbox 
+          [bind]="[]"
+          [config]="form.nonindividual.classification.config"
+        ></checkbox>
 
         <div class="row">
           <div class="col-sm-4 col-sm-offset-4">
             <datatable
               [dataset]="industryData"
-              [config]="{
-                headers: [
-                  { key: 'code', text: 'Industry Code' },
-                  { key: 'description', text: 'Description' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.noninidividual.classification.config"
             ></datatable>
           </div>
         </div>
 
-        <textbox [config]="{label: { text: 'Company Structure' }, input: { name: 'entityStructure', size: '4' }}"></textbox>
-        <textbox [config]="{label: { text: 'Formation Date' }, input: { name: 'formationDate', size: '2' }}"></textbox>
-        <textbox [config]="{label: { text: 'Status' }, input: { name: 'formationStatus', size: '2' }}"></textbox>
-        <textbox [config]="{label: { text: 'Formation Country' }, input: { name: 'formationCountry', size: '1' }}"></textbox>
+        <textbox 
+          [config]="form.nonindividual.entityStructure.config"
+        ></textbox>
+        
+        <textbox 
+          [config]="form.nonindividual.entityFormationDate.config"
+        ></textbox>
+        
+        <textbox 
+          [config]="form.nonindividual.entityStatus.config"
+        ></textbox>
+        
+        <textbox 
+          [config]="form.nonindividual.entityCountry.config"
+        ></textbox>
 
         <div class="row">
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
               [dataset]="agent"
-              [config]="{
-                headers: [
-                  { key: 'firm', text: 'Register Agent' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.nonindividual.entityAgent.config"
             ></datatable>
           </div>
         </div>
@@ -298,20 +125,7 @@
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
               [dataset]="legal"
-              [config]="{
-                headers: [
-                  { key: 'firm', text: 'Legal Service' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.nonindividual.legal.config"
             ></datatable>
           </div>
         </div>
@@ -320,20 +134,7 @@
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
               [dataset]="accounting"
-              [config]="{
-                headers: [
-                  { key: 'firm', text: 'Accounting Firm' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.nonindividual.accounting.config"
             ></datatable>
           </div>
         </div>
@@ -342,54 +143,21 @@
           <div class="col-sm-3 col-sm-offset-4">
             <datatable
               [dataset]="marketing"
-              [config]="{
-                headers: [
-                  { key: 'firm', text: 'Marketing Firm' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.nonindividual.marketing.config"
             ></datatable>
           </div>
         </div>
 
         <radio
           [bind]="[]"
-          [config]="{
-            label: { text: 'Is the company publicly traded?'},
-            input: { name: 'stock', options: [
-              { value: true, text: 'Yes' },
-              { value: false, text: 'No' }
-            ]}
-          }"
+          [config]="form.nonindividual.stock.config"
         ></radio>
 
         <div class="row">
           <div class="col-sm-5 col-sm-offset-4">
             <datatable
               [dataset]="stockInformation"
-              [config]="{
-                headers: [
-                  { key: 'exchange', text: 'Exchange' },
-                  { key: 'symbol', text: 'Symbol' }
-                ],
-                action: {
-                  enable: true,
-                  button: {
-                    add: { enable: true },
-                    view: { enable: false },
-                    edit: { enable: true },
-                    delete: { enable: true }
-                  }
-                }
-              }"
+              [config]="form.nonindividual.dtockData.config"
             ></datatable>
           </div>
         </div>
@@ -397,66 +165,22 @@
       </div>
 
 
-      
-      <!-- panel (2)
-          ================
-          This panel will contain the contect 
-          and address information for the client
-      -->
+
       <div>
         <div class="col-sm-10 col-sm-offset-1">
           <!-- TODO: Create a address module template and place it here -->
           <datatable 
             [dataset]="addressdata"
-            [config]="{
-              headers: [
-                {key: 'line1', text: 'Street Address'},
-                {key: 'city', text: 'City'},
-                {key: 'state', text: 'State'},
-                {key: 'zip', text: 'Postal Code'},
-                {key: 'type', text: 'Type'}
-              ],
-              action: {
-                enable: true,
-                button: {
-                  add: { enable: true },
-                  view: { enable: true },
-                  edit: { enable: true },
-                  delete: { enable: true }
-                }
-              }
-            }"
+            [config]="form.general.address.config"
           ></datatable>            
         </div>
       </div>
       
-
-      <!-- Panel (3)
-          ================
-          This panel contains the products module
-      -->
       <div>
         <div class="col-sm-10 col-sm-offset-1">
-          <!-- TODO: Create a products module template and place it here -->
           <datatable 
             [dataset]="productsdata"
-            [config]="{
-              headers: [
-                {key: 'number', text: 'Account Number'},
-                {key: 'family', text: 'Product Family'},
-                {key: 'name', text: 'Name'},
-                {key: 'relationship', text: 'Relationship'}
-              ],
-              action: {
-                enable: true,
-                button: {
-                  add: { enable: true },
-                  view: { enable: false },
-                  edit: { enable: true },
-                  delete: { enable: true }
-                }
-              }
-            }"
+            [config]="form.general.products.config"
           ></datatable>
         </div>
       </div>
@@ -466,23 +190,7 @@
         <div class="col-sm-10 col-sm-offset-1">
           <datatable 
             [dataset]="branchdata"
-            [config]="{
-              headers: [
-                {key: 'employee', text: 'Employee'},
-                {key: 'relationship', text: 'Relationship'},
-                {key: 'division', text: 'Division'},
-                {key: 'branch', text: 'Branch'}
-              ],
-              action: {
-                enable: true,
-                button: {
-                  add: { enable: true },
-                  view: { enable: false },
-                  edit: { enable: true },
-                  delete: { enable: true }
-                }
-              }
-            }"
+            [config]="form.general.branch.config"
           ></datatable>
         </div>
       </div>
