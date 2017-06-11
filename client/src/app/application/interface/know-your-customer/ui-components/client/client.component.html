@@ -1,201 +1,219 @@
-<div class="ibox float-e-margins">
-  <div class="ibox-title">
-    <h5>Client Information</h5>
-  </div>
-  <div class="ibox-content form-horizontal">
-    <form class="form-horizontal">
-    <div class="row">
-      <!--
-        individuals
-       -->
-      <div class="col-sm-12">
-        <!-- TODO: Add a button to perform and advance search -->
-        <textbox 
-          [config]="form.individual.name.config"
-        ></textbox>
+<form class="form-horizontal">
+  <div class="row">
+    <!--
+      individuals
+      -->
+    <div *ngIf="type === 'individual'" class="col-sm-12">
+      <!-- TODO: Add a button to perform and advance search -->
+      <textbox
+        [bind]="client.name"
+        (update)="client.name = $event"
+        [config]="form.individual.name.config"
+      ></textbox>
 
-        <textbox 
-          [config]="form.individual.tin.config"
-        ></textbox>
-        
-        <div class="row">
-          <div class="col-sm-4 col-sm-offset-4">
-            <datatable 
-              [dataset]="contactdata"
-              [config]="form.individual.contact.config"
-            ></datatable>
-          </div>
-        </div>
-
-        <textbox 
-          [config]="form.individual.dob.config"
-        ></textbox>
-        
-        <checkbox 
-          [bind]="[]" 
-          [config]="form.individual.classification.config"
-        ></checkbox>
-        
-        <radio
-          [bind]="[]"
-          [config]="form.individual.pep.config"
-        ></radio>
-
-        <div class="row">
-          <div class="col-sm-6 col-sm-offset-4">
-            <datatable
-              [dataset]="[]"
-              [config]="form.individual.pepPosition.config"
-            ></datatable>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-8 col-sm-offset-4">
-            <datatable
-              [dataset]="identificationData"
-              [config]="form.individual.identification.config"
-            ></datatable>            
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6 col-sm-offset-4">
-            <datatable
-              [dataset]="[]"
-              [config]="form.individual.citizenship.config"
-            ></datatable>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-
-      <!--
-        non individuals
-       -->
-      <div class="col-sm-12">
-
-        <textbox [config]="form.nonindividual.name.config"></textbox>
-        <textbox [config]="form.nonindividual.tin.config"></textbox>
-
-        <checkbox 
-          [bind]="[]"
-          [config]="form.nonindividual.classification.config"
-        ></checkbox>
-
-        <div class="row">
-          <div class="col-sm-4 col-sm-offset-4">
-            <datatable
-              [dataset]="industryData"
-              [config]="form.noninidividual.classification.config"
-            ></datatable>
-          </div>
-        </div>
-
-        <textbox 
-          [config]="form.nonindividual.entityStructure.config"
-        ></textbox>
-        
-        <textbox 
-          [config]="form.nonindividual.entityFormationDate.config"
-        ></textbox>
-        
-        <textbox 
-          [config]="form.nonindividual.entityStatus.config"
-        ></textbox>
-        
-        <textbox 
-          [config]="form.nonindividual.entityCountry.config"
-        ></textbox>
-
-        <div class="row">
-          <div class="col-sm-3 col-sm-offset-4">
-            <datatable
-              [dataset]="agent"
-              [config]="form.nonindividual.entityAgent.config"
-            ></datatable>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-3 col-sm-offset-4">
-            <datatable
-              [dataset]="legal"
-              [config]="form.nonindividual.legal.config"
-            ></datatable>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-3 col-sm-offset-4">
-            <datatable
-              [dataset]="accounting"
-              [config]="form.nonindividual.accounting.config"
-            ></datatable>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-3 col-sm-offset-4">
-            <datatable
-              [dataset]="marketing"
-              [config]="form.nonindividual.marketing.config"
-            ></datatable>
-          </div>
-        </div>
-
-        <radio
-          [bind]="[]"
-          [config]="form.nonindividual.stock.config"
-        ></radio>
-
-        <div class="row">
-          <div class="col-sm-5 col-sm-offset-4">
-            <datatable
-              [dataset]="stockInformation"
-              [config]="form.nonindividual.dtockData.config"
-            ></datatable>
-          </div>
-        </div>
-
-      </div>
-
-
-
-      <div>
-        <div class="col-sm-10 col-sm-offset-1">
-          <!-- TODO: Create a address module template and place it here -->
+      <textbox 
+        [bind]="client.tin"
+        (update)="client.tin"
+        [config]="form.individual.tin.config"
+      ></textbox>
+      
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
           <datatable 
-            [dataset]="addressdata"
-            [config]="form.general.address.config"
+            [dataset]="client.contacts"
+            [config]="form.individual.contact.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <textbox 
+        [bind]="client.information.individual.dob"
+        (update)="client.information.individual.dob = $event"
+        [config]="form.individual.dob.config"
+      ></textbox>
+      
+      <checkbox 
+        [bind]="client.information.individual.classification" 
+        [config]="form.individual.classification.config"
+      ></checkbox>
+      
+      <radio
+        [bind]="client.information.individual.politician.pep"
+        (update)="client.information.individual.politician.pep = $event"
+        [config]="form.individual.pep.config"
+      ></radio>
+
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.individual.politician.positions"
+            [config]="form.individual.pepPosition.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.individual.identifications"
+            [config]="form.individual.identification.config"
           ></datatable>            
         </div>
       </div>
-      
-      <div>
-        <div class="col-sm-10 col-sm-offset-1">
-          <datatable 
-            [dataset]="productsdata"
-            [config]="form.general.products.config"
+
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.individual.citizenship"
+            [config]="form.individual.citizenship.config"
           ></datatable>
         </div>
       </div>
 
 
-      <div>
+      <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
           <datatable 
-            [dataset]="branchdata"
+            [dataset]="client.addresses"
+            [config]="form.individual.address.config"
+          ></datatable>            
+        </div>
+      </div>
+    
+    </div>
+
+
+
+
+
+
+    <!--
+      non individuals
+      -->
+    <div *ngIf="type === 'nonindividual'" class="col-sm-12">
+
+      <textbox 
+        [bind]="client.name"
+        [config]="form.nonindividual.name.config"
+      ></textbox>
+      
+      <textbox 
+        [bind]="client.tin"
+        [config]="form.nonindividual.tin.config"
+      ></textbox>
+
+      <checkbox 
+        [bind]="client.information.nonindividual.classification"
+        [config]="form.nonindividual.classification.config"
+      ></checkbox>
+
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.nonindividual.industry"
+            [config]="form.nonindividual.industry.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <textbox 
+        [bind]="client.information.nonindividual.entity.structure"
+        [config]="form.nonindividual.entityStructure.config"
+      ></textbox>
+      
+      <textbox 
+        [bind]="client.information.nonindividual.entity.formationDate"
+        [config]="form.nonindividual.entityFormationDate.config"
+      ></textbox>
+      
+      <textbox 
+        [bind]="client.information.nonindividual.entity.status"
+        [config]="form.nonindividual.entityStatus.config"
+      ></textbox>
+      
+      <textbox 
+        [bind]="client.information.nonindividual.entity.country"
+        [config]="form.nonindividual.entityCountry.config"
+      ></textbox>
+
+      <div class="row">
+        <div class="col-sm-3 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.nonindividual.entity.agent"
+            [config]="form.nonindividual.entityAgent.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-3 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.nonindividual.legal"
+            [config]="form.nonindividual.legal.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-3 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.nonindividual.accountant"
+            [config]="form.nonindividual.accountant.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-3 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.nonindividual.marketing"
+            [config]="form.nonindividual.marketing.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <radio
+        [bind]="client.information.nonindividual.stock.traded"
+        [config]="form.nonindividual.stock.config"
+      ></radio>
+
+      <div class="row">
+        <div class="col-sm-5 col-sm-offset-4">
+          <datatable
+            [dataset]="client.information.nonindividual.stock.information"
+            [config]="form.nonindividual.stockData.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <datatable 
+            [dataset]="client.addresses"
+            [config]="form.general.address.config"
+          ></datatable>            
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <datatable 
+            [dataset]="client.products"
+            [config]="form.general.products.config"
+          ></datatable>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <datatable 
+            [dataset]="client.branch"
             [config]="form.general.branch.config"
           ></datatable>
         </div>
       </div>
 
     </div>
-    </form>
+
   </div>
-</div>
+</form>

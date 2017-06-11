@@ -29,12 +29,13 @@ import {
   DropdownComponent,
   DatatableComponent,
   DatatableModal
-} from './application/interface/element-template/templates.component';
-
+} from './application/interface/templates.component';
+import { InterfaceComponent } from './application/interface/interface.component';
 /**
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
+import { InterfaceService } from './application/interface/interface.service';
 
 
 @NgModule({
@@ -55,18 +56,20 @@ import { SidebarService } from './application/sidebar/sidebar.service';
     DropdownComponent,
     DatatableComponent,
     ClientComponent,
-    DatatableModal
+    DatatableModal,
+    InterfaceComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-        {path: '', component: KycOnboarding},
+        {path: '', component: InterfaceComponent},
     ])
   ],
   providers: [
     SidebarService,
+    InterfaceService
   ],
   bootstrap: [AppComponent]
 })
