@@ -154,7 +154,7 @@ const addressModal = {
 const productModal = {
   header: {
     enable: true,
-    text: 'Products and Services'
+    text: 'Account/Product Information'
   },
   form: {
     elements: [
@@ -165,16 +165,6 @@ const productModal = {
           config: {
             label: { text: 'Number' },
             input: { name: 'modal.products.number', size: '6' }
-          }
-        }
-      },
-      {
-        type: 'textbox',
-        textbox: {
-          bind: 'name',
-          config: {
-            label: { text: 'Product Name' },
-            input: { name: 'modal.products.name', size: '6' }
           }
         }
       },
@@ -209,6 +199,16 @@ const productModal = {
                 { value: 'Secondary', text: 'Secondary Signor' }
               ]
             }
+          }
+        }
+      },
+      {
+        type: 'textbox',
+        textbox: {
+          bind: 'purpose',
+          config: {
+            label: { text: 'Purpose' },
+            input: { name: 'modal.products.purpose', size: '6' }
           }
         }
       }
@@ -296,14 +296,151 @@ const branchModal = {
   }
 };
 
+const identificationModal = {
+  header: {
+    enable: true,
+    text: 'Identification Information'
+  },
+  form: {
+    elements: [
+      {
+        type: 'dropdown',
+        dropdown: {
+          bind: 'type',
+          config: {
+            label: { text: 'Identification Type' },
+            input: {
+              size: 'medium',
+              name: 'modal.identification.type',
+              options: [
+                { value: 'Drivers License', text: 'Drivers License' },
+                { value: 'State Issued ID', text: 'State Issued ID' },
+                { value: 'Passport', text: 'Passport' }
+              ]
+            }
+          }
+        }
+      },
+      {
+        type: 'textbox',
+        textbox: {
+          bind: 'number',
+          config: {
+            label: { text: 'ID Number' },
+            input: { name: 'modal.identification.number', size: '6' }
+          }
+        }
+      },
+      {
+        type: 'textbox',
+        textbox: {
+          bind: 'issuer',
+          config: {
+            label: { text: 'Issuer' },
+            input: { name: 'modal.identification.issuer', size: '6' }
+          }
+        }
+      },
+      {
+        type: 'dropdown',
+        dropdown: {
+          bind: 'country',
+          config: {
+            label: { text: 'Country' },
+            input: {
+              size: 'medium',
+              name: 'modal.identification.country',
+              options: [
+                { value: 'USA', text: 'United States' },
+                { value: 'Other', text: 'Other' }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  footer: {
+    enable: true,
+    commit: {
+      text: 'Save',
+      enable: true
+    }
+  }
+};
+
+const citizenshipModal = {
+  header: {
+    enable: true,
+    text: 'Country of Citizenship'
+  },
+  form: {
+    elements: [
+      {
+        type: 'dropdown',
+        dropdown: {
+          bind: 'country',
+          config: {
+            label: { text: 'Country' },
+            input: {
+              size: 'medium',
+              name: 'modal.citizenship.country',
+              options: [
+                { value: 'USA', text: 'United States' },
+                { value: 'Other', text: 'Other' }
+              ]
+            }
+          }
+        }
+      },
+      {
+        type: 'textbox',
+        textbox: {
+          bind: 'proof',
+          config: {
+            label: { text: 'Proof of Citizenship' },
+            input: { name: 'modal.citizenship.proof', size: '6' }
+          }
+        }
+      }
+    ]
+  },
+  footer: {
+    enable: true,
+    commit: {
+      text: 'Save',
+      enable: true
+    }
+  }
+};
+
 export const KYC = {
   name: 'Know Your Customer',
   description: null,
-  url: null,
+  workflow: {
+    enable: true,
+    id: '1',
+    statuses: [
+      {
+        id: '1',
+        name: 'Start',
+        next: [
+          {
+            id: '2',
+            name: 'In Progress'
+          },
+          {
+            id: '3',
+            name: 'End'
+          }
+        ]
+      }
+    ]
+  },
   panels: [
     {
-      id: '001',
-      name: 'General Information',
+      id: '005',
+      name: 'Individual (CIP)',
       containers: [
         {
           elements: [
@@ -340,9 +477,35 @@ export const KYC = {
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
               datatable: {
+                bind: 'identification',
+                config: {
+                  size: 'large',
+                  label: { text: 'Identification' },
+                  headers: [
+                    { key: 'type', text: 'Type' },
+                    { key: 'number', text: 'Number' },
+                    { key: 'issuer', text: 'Issuer' },
+                    { key: 'country', text: 'Country' }
+                  ],
+                  action: {
+                    enable: true,
+                    button: {
+                      add: { enable: true, modal: identificationModal },
+                      view: { enable: false },
+                      edit: { enable: true, modal: identificationModal },
+                      delete: { enable: true }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              datatable: {
                 bind: 'contact',
                 config: {
-                  size: 'small',
+                  size: 'medium',
+                  label: { text: 'Contact Information' },
                   headers: [
                     { key: 'type', text: 'Type' },
                     { key: 'description', text: 'Description' }
@@ -358,20 +521,9 @@ export const KYC = {
                   }
                 }
               }
-            }
+            },
           ]
-        }
-      ] // end interface
-    },
-    {
-      id: '002',
-      name: 'Addresses',
-      header: {
-        align: 'left',
-        text: 'Client Addresses',
-        subtext: 'List all client addresses below'
-      },
-      containers: [
+        },
         {
           elements: [
             {
@@ -379,10 +531,10 @@ export const KYC = {
               datatable: {
                 bind: 'addresses',
                 config: {
+                  size: 'large',
+                  label: { text: 'Address' },
                   headers: [
                     { key: 'line1', text: 'Address' },
-                    { key: 'city', text: 'City' },
-                    { key: 'state', text: 'State' },
                     { key: 'zip', text: 'Postal Code' },
                     { key: 'country', text: 'Country' },
                     { key: 'type', text: 'Type' }
@@ -403,14 +555,73 @@ export const KYC = {
         }
       ]
     },
+    { // this panel will have an array of containers with cdd input fields
+      id: '006',
+      name: 'Customer Due Diligence',
+      containers: [
+        {
+          elements: [
+            {
+              type: 'radio',
+              radio: {
+                bind: 'citizenship',
+                config: {
+                  label: { text: 'Citizenship Status' },
+                  input: {
+                    name: 'client.individual.citizenship',
+                    options: [
+                      { value: 'US Citizen', text: 'US Citizen' },
+                      { value: 'US Resident', text: 'US Resident' },
+                      { value: 'NRA', text: 'Non-Resident Alien' }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              datatable: {
+                bind: 'citizenshipCountry',
+                config: {
+                  size: 'medium',
+                  label: { text: 'Country of Citizenship' },
+                  headers: [
+                    { key: 'country', text: 'Country' },
+                    { key: 'proof', text: 'Proof' }
+                  ],
+                  action: {
+                    enable: true,
+                    button: {
+                      add: { enable: true, modal: citizenshipModal },
+                      view: { enable: false },
+                      edit: { enable: true, modal: citizenshipModal },
+                      delete: { enable: true }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'textbox',
+              textbox: {
+                bind: 'occupation',
+                config: {
+                  label: { text: 'Primary Occupation' },
+                  input: { name: 'client.occupation', size: 'medium' }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
     {
       id: '003',
-      name: 'Products',
-      header: {
-        align: 'left',
-        text: 'Products and Services',
-        subtext: 'List all client products'
-      },
+      name: 'Accounts',
       containers: [
         {
           elements: [
@@ -419,11 +630,13 @@ export const KYC = {
               datatable: {
                 bind: 'products',
                 config: {
+                  size: 'large',
+                  label: { text: 'List all accounts' },
                   headers: [
                     { key: 'number', text: 'Number' },
                     { key: 'type', text: 'Type' },
-                    { key: 'name', text: 'Product Name' },
-                    { key: 'relationship', text: 'Relationship' }
+                    { key: 'relationship', text: 'Relationship' },
+                    { key: 'purpose', text: 'Purpose' }
                   ],
                   action: {
                     enable: true,
@@ -443,11 +656,10 @@ export const KYC = {
     },
     {
       id: '004',
-      name: 'Relationship Managers',
+      name: 'Internal Contacts',
       header: {
         align: 'left',
-        text: 'Relationship Managers',
-        subtext: 'List all employees in charge maintaining contact with the client'
+        text: 'Relationship Managers'
       },
       containers: [
         {
@@ -477,15 +689,30 @@ export const KYC = {
           ]
         }
       ]
-    }
+    },
   ], // end panels
   data: {
-    name: null,
-    tin: null,
-    dob: null,
-    contact: [],
-    addresses: [],
-    products: [],
-    branches: []
+    workitem: {
+      id: '122323',
+      name: null,
+      type: null,
+      created: null,
+      status: 'Start',
+      entity: null,
+      source: null
+    },
+    subject: {
+      name: null,
+      tin: null,
+      dob: null,
+      license: [],
+      contact: [],
+      addresses: [],
+      products: [],
+      branches: [],
+      identification: [],
+      citizenship: null,
+      citizenshipCountry: []
+    }
   }
 };
