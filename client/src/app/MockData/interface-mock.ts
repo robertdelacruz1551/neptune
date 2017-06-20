@@ -699,7 +699,8 @@ export const KYC = {
       created: null,
       status: 'Start',
       entity: null,
-      source: null
+      source: null,
+      createdBy: null,
     },
     subject: {
       name: null,
