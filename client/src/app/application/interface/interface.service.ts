@@ -3,25 +3,46 @@ import { TextBoxConfig, CheckboxConfig, RadioConfig, DropdownConfig, DatatableCo
 import { KYC } from '../../MockData/interface-mock';
 
 export class Interfaces {
+  id: string;
   name: string;
   description?: string;
-  url?: string;
+  workflow?: Workflow;
   panels: Panels [];
-  data: any;
+  data: {
+    workitem?: Workitem;
+    subject: any;
+  };
 };
+
+export class Workflow {
+  enable: boolean;
+  id: string;
+  statuses: {
+    id: string;
+    name: string;
+    next: { id: string; name: string } [];
+  } [];
+}
+
+class Workitem {
+  id: string;
+  name: string;
+  type: string;
+  created: Date;
+  status: string;
+  entity: string;
+  source: string;
+}
 
 class Panels {
   id: string;
   name: string;
-  header?: {
-    align: string;
-    text?: string;
-    subtext?: string;
-  };
+  header?: Header;
   containers: Containers [];
 }
 
 class Containers {
+  header?: Header;
   elements: Elements [];
 }
 
@@ -32,6 +53,12 @@ class Elements {
   radio?: { bind: string; config: RadioConfig };
   dropdown?: { bind: string; config: DropdownConfig };
   datatable?: { bind: string; config: DatatableConfig };
+}
+
+class Header {
+  align: string;
+  text?: string;
+  subtext?: string;
 }
 
 @Injectable()
