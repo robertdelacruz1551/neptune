@@ -30,7 +30,7 @@ import {
   DatatableComponent,
   DatatableModal
 } from './application/interface/templates.component';
-import { InterfaceComponent } from './application/interface/interface.component';
+import { InterfaceComponent, WorkflowComponent } from './application/interface/interface.component';
 /**
  * Services
  */
@@ -57,7 +57,8 @@ import { InterfaceService } from './application/interface/interface.service';
     DatatableComponent,
     ClientComponent,
     DatatableModal,
-    InterfaceComponent
+    InterfaceComponent,
+    WorkflowComponent
   ],
   imports: [
     BrowserModule,
