@@ -36,6 +36,7 @@ export class TextboxComponent {
 export class TextBoxConfig {
   label: { text?: string; };
   input: { readonly?: boolean; name: string; placeholder?: string; size?: string; };
+  rules?: { showIf?: string; }
 }
 
 
