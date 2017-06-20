@@ -18,7 +18,13 @@ export class Client {
     individual?: {
       classification: string [];
       dob: Date;
-      identifications: { type: string; number: string; issuer?: string; expiration?: Date; country?: string; } [];
+      identifications: {
+        type: string;
+        number: string;
+        issuer?: string;
+        expiration?: Date;
+        country?: string;
+      } [];
       citizenship: { country: string; proof: string; } [];
       politician: {
         pep: boolean;
