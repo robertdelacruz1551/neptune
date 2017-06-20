@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+//declare var jQuery: any;
 /**
  * The textbox component requires a 
  * configuratoin object passed to it.
@@ -16,9 +17,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
   <div class="form-group">
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div [ngClass]="(!config.input.size || config.input.size == 'large' || config.input.size == '8' )?'col-sm-8': { 'small' : 'col-sm-2', 'medium' : 'col-sm-4', '1' : 'col-sm-1', '2' : 'col-sm-2', '3' : 'col-sm-3', '4' : 'col-sm-4', '5' : 'col-sm-5', '6' : 'col-sm-6', '7' : 'col-sm-7' }[config.input.size]">
-      <input *ngIf="!config.input.readonly && !config.input.placeholder" type="text" class="form-control input-sm" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
-      <input *ngIf="!config.input.readonly && config.input.placeholder" type="text" class="form-control input-sm" [name]="config.input.name"[placeholder]="config.input.placeholder" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
-      <input *ngIf="config.input.readonly" type="text" class="form-control" [id]="config.input.id" [name]="config.input.name" [(ngModel)]="bind" readonly>
+      <input type="text" class="form-control input-sm" [name]="config.input.name"[placeholder]="config.input.placeholder || '' " [attr.readonly]="config.input.readonly" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
     </div>
   </div>
   `,
@@ -42,7 +41,21 @@ export class TextBoxConfig {
 
 
 
-
+/**
+ * ==============
+ * Usage
+ * ==============           
+  config: {
+    label: { text: 'Some label text' },
+    input: {
+      options: [
+        { name: 'opt1', text: 'Option 1' },
+        { name: '{key: "value"}', text: 'Option 2' },
+        { name: 88, text: 'Option 3' }
+      ]
+    }
+  }
+ */
 
 @Component({
   selector: 'checkbox',
@@ -52,7 +65,7 @@ export class TextBoxConfig {
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="checkbox">
         <label>
-          <input type="checkbox" [name]="option.name" [value]="option.value" [checked]="isChecked(option.value)" (change)="updateArray(option.value, $event.target.checked)">
+          <input type="checkbox" [name]="option.name" [value]="option.value || option.text" [checked]="isChecked(option.value || option.text)" (change)="updateArray((option.value || option.text), $event.target.checked)">
           {{option.text}}
         </label>
       </div>
@@ -87,7 +100,7 @@ export class CheckboxComponent {
 
 export class CheckboxConfig {
   label: { text: string; };
-  input: { readonly?: boolean; options: { name?: string; value: any; text: string }[]; };
+  input: { readonly?: boolean; options: { name?: string; value?: any; text: string }[]; };
 }
 
 
@@ -99,7 +112,7 @@ export class CheckboxConfig {
 @Component({
   selector: 'radio',
   template: `
-   <div class="form-horizontal form-group">
+   <div class="form-group">
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="radio">
@@ -193,7 +206,8 @@ export class DropdownConfig {
   selector: 'datatable',
   template: `
   <div class="row">
-    <div [ngClass]="(!config.size)?'col-sm-12':{'small': 'col-sm-offset-4 col-sm-4', 'medium': 'col-sm-offset-4 col-sm-6', 'large': 'col-sm-offset-4 col-sm-8'}[config.size]">
+    <label *ngIf="config.label" class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
+    <div [ngClass]="(!config.size)?'col-sm-12': (config.label)? {'small': 'col-sm-4', 'medium': 'col-sm-6', 'large': 'col-sm-8'}[config.size] : {'small': 'col-sm-offset-4 col-sm-4', 'medium': 'col-sm-offset-4 col-sm-6', 'large': 'col-sm-offset-4 col-sm-8'}[config.size]">
       <table class="table table-hover datatable" [id]="datasetId">
         <thead>
           <tr>
@@ -209,6 +223,7 @@ export class DropdownConfig {
           <tr *ngFor="let data of dataset; let row = index;">
             <td *ngIf="config.action.enable === true">
               <input type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
+              <a class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
 
               <datatable-modal *ngIf="config.action.button.edit.enable && config.action.button.edit.modal"
                 [id]="'editmodal' + datasetId + row"
@@ -218,7 +233,7 @@ export class DropdownConfig {
               ></datatable-modal>
             </td>
 
-            <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]" class="datatable-data" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"></td>
+            <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]" ></td>
           </tr>
         </tbody>
       </table>
@@ -251,7 +266,7 @@ export class DropdownConfig {
   </div>
   `,
   styles: [`
-  .datatable > tbody > tr > td, .datatable > thead > tr > th, .datatable > tbody > tr > th, .datatable > tfoot > tr > th, .datatable > thead > tr > td{
+  .datatable > tbody > tr > td, .datatable > thead > tr > th, .datatable > tbody > tr > th, .datatable > tfoot > tr > th, .datatable > thead > tr > td {
     padding: 5px;
     vertical-align: middle;
     font-size: 11px;
@@ -264,7 +279,10 @@ export class DropdownConfig {
     margin-left: 5px;
   }
   .datatable-data {
-    cursor:pointer
+    cursor:pointer;
+  }
+  .control-label {
+    font-size: 11px;
   }
   `]
 }) // <input type="checkbox" [checked]="allSelected" [name]="datasetId + row" [value]="row" (change)="selectedRow(data); focusOnRow(row);">
@@ -340,6 +358,7 @@ export class DatatableComponent {
 
 export class DatatableConfig {
   size?: string;
+  label?: { text: string; };
   headers: { 
     key: string; 
     text: string; 
@@ -407,7 +426,12 @@ export class DatatableConfig {
       </div>
     </div>
   </div>
-  `
+  `,
+  styles: [`
+    .modal-dialog {
+      margin-top: 75px;
+    }
+  `]
 })
 export class DatatableModal implements OnInit {
   @Input() id: string;
@@ -429,11 +453,11 @@ export class DatatableModal implements OnInit {
     this.setEditableDatarow();
   }
 
-private commits(){
-  let editableDatarow = this.editableDatarow;
-  this.editableDatarow = {};
-  return this.commit.emit(editableDatarow);
-}
+  private commits(){
+    let editableDatarow = this.editableDatarow;
+    this.editableDatarow = {};
+    return this.commit.emit(editableDatarow);
+  }
 
 /**
  * On init make a copy of the datarow 
