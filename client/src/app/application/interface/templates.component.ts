@@ -93,7 +93,6 @@ export class CheckboxComponent implements OnInit{
       let i = this._bind.indexOf(value);
       this._bind.splice(i, 1);
     }
-    console.log(this._bind);
   }
 
   isChecked(value): boolean {
