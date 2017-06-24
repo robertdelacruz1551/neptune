@@ -203,12 +203,17 @@ const productModal = {
         }
       },
       {
-        type: 'textbox',
-        textbox: {
-          bind: 'purpose',
+        type: 'checkbox',
+        checkbox: {
+          bind: 'use',
           config: {
-            label: { text: 'Purpose' },
-            input: { name: 'modal.products.purpose', size: '6' }
+            label: { text: 'Expected activity'},
+            input: { options: [
+              { name: 'modal.product.use', value: 'Wires (International)', text: 'International Wires' },
+              { name: 'modal.product.use', value: 'Wires (Domestic)', text: 'Domestic Wires' },
+              { name: 'modal.product.use', value: 'ACH', text: 'Account Clearing House (ACH)' },
+              { name: 'modal.product.use', value: 'RDC', text: 'Remote Deposit Capture (RDC)' }
+            ]}
           }
         }
       }
@@ -498,7 +503,11 @@ export const KYC = {
                   }
                 }
               }
-            },
+            }
+          ]
+        },
+        {
+          elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
               datatable: {
@@ -521,7 +530,7 @@ export const KYC = {
                   }
                 }
               }
-            },
+            }
           ]
         },
         {
@@ -587,7 +596,7 @@ export const KYC = {
                   label: { text: 'Country of Citizenship' },
                   headers: [
                     { key: 'country', text: 'Country' },
-                    { key: 'proof', text: 'Proof' }
+                    { key: 'proof', text: 'Proof Obtained' }
                   ],
                   action: {
                     enable: true,
@@ -606,6 +615,22 @@ export const KYC = {
         {
           elements: [
             {
+              type: 'radio',
+              radio: {
+                bind: 'employed',
+                config: {
+                  label: { text: 'Employed' },
+                  input: {
+                    name: 'client.employed',
+                    options: [
+                      { value: true, text: 'Yes' },
+                      { value: false, text: 'No' }
+                    ]
+                  }
+                }
+              }
+            },
+            {
               type: 'textbox',
               textbox: {
                 bind: 'occupation',
@@ -616,13 +641,7 @@ export const KYC = {
               }
             }
           ]
-        }
-      ]
-    },
-    {
-      id: '003',
-      name: 'Accounts',
-      containers: [
+        },
         {
           elements: [
             {
@@ -636,7 +655,7 @@ export const KYC = {
                     { key: 'number', text: 'Number' },
                     { key: 'type', text: 'Type' },
                     { key: 'relationship', text: 'Relationship' },
-                    { key: 'purpose', text: 'Purpose' }
+                    { key: 'use', text: 'Expect Use' }
                   ],
                   action: {
                     enable: true,
@@ -706,6 +725,7 @@ export const KYC = {
       name: null,
       tin: null,
       dob: null,
+      employed: false,
       license: [],
       contact: [],
       addresses: [],

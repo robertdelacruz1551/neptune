@@ -66,7 +66,7 @@ export class TextBoxConfig {
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="checkbox">
         <label>
-          <input type="checkbox" [name]="option.name" [value]="option.value || option.text" [checked]="isChecked(option.value || option.text)" (change)="updateArray((option.value || option.text), $event.target.checked)">
+          <input type="checkbox" [name]="option.name" [value]="option.value || option.text" [checked]="isChecked(option.value || option.text)" (change)="updateArray((option.value || option.text), $event.target.checked); update.emit(this._bind)">
           {{option.text}}
         </label>
       </div>
@@ -79,23 +79,31 @@ export class TextBoxConfig {
   }
   `]
 })
-export class CheckboxComponent {
+export class CheckboxComponent implements OnInit{
   @Input() config: CheckboxConfig;
-  @Input() bind: any [];
+  @Input() bind: any [] = [];
+  @Output() update = new EventEmitter();
+
+  private _bind: any [] = [];
 
   updateArray(value, checked) {
     if( checked ) { 
-      this.bind.push(value)
+      this._bind.push(value)
     }else if( !checked ) {
-      let i = this.bind.indexOf(value);
-      this.bind.splice(i, 1);
+      let i = this._bind.indexOf(value);
+      this._bind.splice(i, 1);
     }
+    console.log(this._bind);
   }
 
   isChecked(value): boolean {
-    if(this.bind.indexOf(value) === -1) {
+    if(!this._bind || this._bind.indexOf(value) === -1) {
       return false;
     } else { return true; };
+  }
+
+  ngOnInit() {
+    if(this.bind) this._bind = this.bind;
   }
 }
 
@@ -403,6 +411,7 @@ export class DatatableConfig {
               <checkbox *ngIf="element.type === 'checkbox'" 
                 [config]="element[element.type].config" 
                 [bind]="editableDatarow[element[element.type].bind]"
+                (update)="editableDatarow[element[element.type].bind] = $event"
               ></checkbox>
 
               <radio *ngIf="element.type === 'radio'"    
