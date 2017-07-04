@@ -45,6 +45,45 @@ const contactModal = {
   }
 };
 
+const commentModal = {
+  header: {
+    enable: true,
+    text: 'Add Comment'
+  },
+  form: {
+    elements: [
+      {
+        type: 'textbox',
+        textbox: {
+          bind: 'title',
+          config: {
+            label: { text: 'Title' },
+            input: { name: 'modal.comment.title', size: '6' }
+          }
+        }
+      },
+      {
+        type: 'textblock',
+        textblock: {
+          bind: 'text',
+          config: {
+            label: { text: 'Text' },
+            input: { name: 'modal.comment.text', rows: '6' }
+          }
+        }
+      }
+    ]
+  },
+  footer: {
+    enable: true,
+    commit: {
+      clearFormAfterSubmit: true,
+      text: 'Save',
+      enable: true
+    }
+  }
+};
+
 const addressModal = {
   header: {
     enable: true,
@@ -422,6 +461,11 @@ const citizenshipModal = {
 export const KYC = {
   name: 'Know Your Customer',
   description: null,
+  tools: {
+    comments: {
+      modal: commentModal
+    }
+  },
   workflow: {
     enable: true,
     id: '1',
@@ -720,6 +764,7 @@ export const KYC = {
       entity: null,
       source: null,
       createdBy: null,
+      comments: []
     },
     subject: {
       name: null,

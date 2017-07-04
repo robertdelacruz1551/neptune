@@ -5,11 +5,11 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
  * configuratoin object passed to it.
  * 
  * use:
- *  <textbox 
- *    [config]="configuration" 
- *    [bind]="textProperty" 
- *    (update)="textProperty=$event"
- *  </textbox>
+   <textbox 
+     [config]="configuration" 
+     [bind]="textProperty" 
+     (update)="textProperty=$event"
+   </textbox>
  */
 @Component({
   selector: 'textbox',
@@ -27,10 +27,12 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
   }
   `]
 })
-export class TextboxComponent {
+export class TextboxComponent implements OnInit{
   @Input() config: TextBoxConfig;
   @Input() bind: string;
   @Output() update = new EventEmitter();
+
+  ngOnInit() {}
 }
 
 export class TextBoxConfig {
@@ -40,7 +42,35 @@ export class TextBoxConfig {
 }
 
 
+@Component({
+  selector: 'textblock',
+  template: `
+    <div class="form-group">
+      <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
+      <div [ngClass]="(config.label.text)? 'col-sm-8':'col-sm-12'">
+        <textarea class="form-control" [rows]="config.input.rows || 3" [name]="config.input.name" [placeholder]="config.input.placeholder || '' " [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)"></textarea>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .form-group, .form-control {
+      font-size: 11px;
+    }
+  `]
+})
 
+export class TextblockComponent {
+  @Input() config: TextBlockConfig;
+  @Input() bind: string;
+  @Output() update = new EventEmitter();
+  constructor() { }
+}
+
+export class TextBlockConfig {
+  label: { text?: string; };
+  input: { readonly?: boolean; name: string; placeholder?: string; rows?: number};
+  rules?: { showIf?: string; }
+}
 
 /**
  * ==============
@@ -233,12 +263,12 @@ export class DropdownConfig {
               <input type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
               <a class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
 
-              <datatable-modal *ngIf="config.action.button.edit.enable && config.action.button.edit.modal"
+              <modal *ngIf="config.action.button.edit.enable && config.action.button.edit.modal"
                 [id]="'editmodal' + datasetId + row"
                 [datarow]="data"
                 [config]= "config.action.button.edit.modal"
                 (commit)= "dataset[row] = $event"
-              ></datatable-modal>
+              ></modal>
             </td>
 
             <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]" ></td>
@@ -248,12 +278,12 @@ export class DropdownConfig {
     </div>
   </div>
 
-  <datatable-modal *ngIf="config.action.button.add.enable && config.action.button.add.modal" 
+  <modal *ngIf="config.action.button.add.enable && config.action.button.add.modal" 
     [id]="'addmodal' + datasetId"
     [datarow]="{}"
     [config]= "config.action.button.add.modal"
     (commit)= "dataset.push($event)"
-  ></datatable-modal>
+  ></modal>
   
   <div class="modal fade" [id]="deleteModalId" tabindex="-1" role="dialog" aria-labelledby="deleteRowModalLabel">
     <div class="modal-dialog modal-sm" role="document">
@@ -363,7 +393,6 @@ export class DatatableComponent {
   };
 }
 
-
 export class DatatableConfig {
   size?: string;
   label?: { text: string; };
@@ -374,9 +403,9 @@ export class DatatableConfig {
   action: {
     enable: boolean;
     button?: {
-      add?:  { enable: boolean; modal: DatatableModalConfig; };
-      view?: { enable: boolean; modal: DatatableModalConfig; };
-      edit?: { enable: boolean; modal: DatatableModalConfig; };
+      add?:  { enable: boolean; modal: ModalConfig; };
+      //view?: { enable: boolean; modal: ModalConfig; };
+      edit?: { enable: boolean; modal: ModalConfig; };
       delete?: { enable: boolean; message?: string; };
     }
   };
@@ -384,7 +413,7 @@ export class DatatableConfig {
 
 
 @Component({  
-  selector: 'datatable-modal',
+  selector: 'modal',
   template: `
   <div class="modal fade" [id]="id" tabindex="-1" role="dialog" [attr.aria-labelledby]="config.labelBy">
     <div [ngClass]="(!config.size)? 'modal-dialog': { 'small' : 'modal-dialog modal-sm', 'large' : 'modal-dialog modal-lg'}" role="document">
@@ -425,6 +454,17 @@ export class DatatableConfig {
                 (update)="editableDatarow[element[element.type].bind] = $event"
               ></dropdown>
 
+              <textblock *ngIf="element.type === 'textblock'"
+                [config]="element[element.type].config"
+                [bind]="editableDatarow[element[element.type].bind]"
+                (update)="editableDatarow[element[element.type].bind] = $event"
+              ></textblock>
+
+              <datatable *ngIf="element.type === 'datatable'"
+                [config]="element[element.type].config"
+                [dataset]="editableDatarow[element[element.type].bind]"
+              ></datatable>
+
             </div>
           </div>
         </div>
@@ -442,10 +482,10 @@ export class DatatableConfig {
     }
   `]
 })
-export class DatatableModal implements OnInit {
+export class ModalComponent implements OnInit {
   @Input() id: string;
   @Input() datarow: any;
-  @Input() config: DatatableModalConfig;
+  @Input() config: ModalConfig;
   @Output() commit = new EventEmitter();
 /**
  * Will contain the updated object
@@ -477,7 +517,7 @@ export class DatatableModal implements OnInit {
   }
 };
 
-export class DatatableModalConfig {
+export class ModalConfig {
   labelBy?: string;
   size?: string;
   header: {
@@ -496,6 +536,8 @@ export class DatatableModalConfig {
       checkbox?: { config: CheckboxConfig };
       radio?: { config: RadioConfig };
       dropdown?: { config: DropdownConfig };
+      datatable?: { config: DatatableConfig };
+      textblock?: { config: TextBlockConfig };
     } [];
   };
   footer: {

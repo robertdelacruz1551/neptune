@@ -27,16 +27,48 @@ const InterfaceDefault: Interfaces = {
         <div class="navbar navbar-default ibox-toolstrip">
           <div class="ibox-container-fluid">
             <ul class="nav navbar-nav">
-              <li><a (click)="save()">Save</a></li>
-              <li><a>Attachments</a></li>
-              <li><a>Comments</a></li>
+              <li>
+                <a (click)="save()"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a>
+              </li>
+              <li>
+                <a data-toggle="modal" data-target="#modal-attachments"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></a>
+              </li>
+              <li>
+                <a data-toggle="modal" data-target="#social-modal"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a>
+                <social-modal
+                  [comments] = "interface.data.workitem.comments"
+                  [user] = "{name:'Robert De La Cruz', img: '#'}"
+                ></social-modal>
+              </li>
+              <li>
+                <a data-toggle="modal" data-target="#modal-share"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></a>
+              </li>
+              <li>
+                <a data-toggle="modal" data-target="#modal-add-notification"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a>
+              </li>
+              <li>
+                <a><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a>
+              </li>
             </ul>
-
             <workflow 
               [config]="interface.workflow"
               [status]="interface.data.workitem.status"
             ></workflow>
-
+          </div>
+        </div>
+        <div class="navbar navbar-default ibox-toolstrip collapse" id="comments-sash">
+          <div class="pane-container">
+            <div class="col-sm-12">
+              <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-comment">New</a>
+              <modal
+                [id]="'modal-comment'"
+                [datarow]="{}"
+                [config]= "interface.tools.comments.modal"
+                (commit)= "interface.data.workitem.comments.push($event)"
+              ></modal>
+              <div class="well">
+              </div>
+            </div>
           </div>
         </div>
         <div class="ibox-content">
@@ -87,6 +119,12 @@ const InterfaceDefault: Interfaces = {
                         [dataset]="interface.data.subject[element[element.type].bind]"
                       ></datatable>
 
+                      <textblock *ngIf="element.type === 'textblock'"
+                        [config]="element[element.type].config"
+                        [bind]="element[element[element.type].bind]"
+                        (update)="element[element[element.type].bind] = $event"
+                      ></textblock>
+
                     </div> 
                   </div>
                 </div>
@@ -105,20 +143,6 @@ const InterfaceDefault: Interfaces = {
     }
     .pane-container {
       padding-top: 25px;
-    }
-    .ibox-toolstrip {
-      background-color: #ffffff;
-      border-color: #e7eaec;
-      border-image: none;
-      border-style: solid solid none;
-      border-width: 1px 0px;
-      color: inherit;
-      margin-bottom: 0;
-      height: 50px;
-    }
-    .ibox-container-fluid {
-      margin-right: auto;
-      margin-left: auto;
     }
     .nav-pills>li>a {
       font-size: 11px; 
@@ -140,6 +164,23 @@ const InterfaceDefault: Interfaces = {
     .nav > li > a {
       padding: 15px 25px 14px 25px;
     }
+    .ibox-toolstrip {
+      background-color: #ffffff;
+      border-color: #e7eaec;
+      border-image: none;
+      border-style: solid solid none;
+      border-width: 1px 0px;
+      color: inherit;
+      margin-bottom: 0;
+      min-height: 50px;
+    }
+    .ibox-toolstrip > .ibox-container-fluid > .nav > li > a {
+      font-size: 16px;
+    }
+    .ibox-container-fluid {
+      margin-right: auto;
+      margin-left: auto;
+    }
   `]
 })
 
@@ -154,7 +195,7 @@ export class InterfaceComponent implements OnInit {
   }
 
   private save() {
-    console.log(this.interface.data.subject);
+    console.log(this.interface.data);
   }
 }
 
@@ -207,5 +248,100 @@ export class WorkflowComponent implements OnInit {
   };
 }
 
+
+
+
+
+
+
+
+@Component({
+  selector: 'social-modal',
+  template: `
+  <div class="modal fade" id="social-modal" tabindex="-1" role="dialog" aria-labelledby="modal.social.feed">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="modal.social.feed" [innerHtml]="'Enter Comment'"></h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-horizontal">
+            <textblock
+              [config]="{
+                label: { },
+                input: { name: 'social.textblock', rows: 6}
+              }"
+              [bind]="text" (update)="text = $event"
+            ></textblock>
+
+            <button type="button" class="btn btn-primary" (click)="commitComment(text)">Submit</button>
+
+            <div class="hr-line-dashed"></div>
+
+            <div *ngFor="let comment of comments">
+              <div class="social-feed-box">
+                <div class="social-avatar">
+                  <a class="pull-left text-muted">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                  </a>
+                  <div class="media-body">
+                    <a class="text-muted" [innerHtml]="comment.user.name"></a><br>
+                    <small class="text-muted" [innerHtml]="comment.time"></small>
+                  </div>
+                </div>
+                <div class="social-body">
+                  <p [innerHtml]="comment.text"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  `,
+  styles: [`
+    .glyphicon-user {
+      font-size: 25px;
+      margin: 5px;
+    }
+    .social-body {
+      margin-top: 5px;
+    }
+  `]
+})
+
+export class SocialFeedComponent {
+  @Input() comments: SocialFeedComment [] = [];
+  @Input() user: {name: string, img?: string}; 
+  private text: string;
+
+  commitComment(text: string) {
+    if(text) {
+      let comment = {
+        user: {
+          name: this.user.name,
+          img: this.user.img
+        },
+        time: new Date(),
+        text: text
+      };
+      this.comments.push(comment);
+      this.text = null;
+    }
+  };
+
+  constructor() { }
+}
+
+export class SocialFeedComment {
+  user: {
+    name?: string;
+    img?: string;
+  };
+  time: Date;
+  text: string;
+}
 
 // tslint:disable-next-line:max-line-length

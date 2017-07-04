@@ -28,9 +28,14 @@ import {
   CheckboxComponent,
   DropdownComponent,
   DatatableComponent,
-  DatatableModal
+  ModalComponent,
+  TextblockComponent
 } from './application/interface/templates.component';
-import { InterfaceComponent, WorkflowComponent } from './application/interface/interface.component';
+import {
+  InterfaceComponent,
+  WorkflowComponent,
+  SocialFeedComponent
+} from './application/interface/interface.component';
 /**
  * Services
  */
@@ -56,9 +61,11 @@ import { InterfaceService } from './application/interface/interface.service';
     DropdownComponent,
     DatatableComponent,
     ClientComponent,
-    DatatableModal,
+    ModalComponent,
     InterfaceComponent,
-    WorkflowComponent
+    WorkflowComponent,
+    TextblockComponent,
+    SocialFeedComponent
   ],
   imports: [
     BrowserModule,
