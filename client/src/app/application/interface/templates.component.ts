@@ -428,44 +428,14 @@ export class DatatableConfig {
             <p [innerHtml]="config.form.message.text"></p>
           </div>
           <div class="form-horizontal">
-            <div *ngFor="let element of config.form.elements">
-
-              <textbox  *ngIf="element.type === 'textbox'"  
-                [config]="element[element.type].config" 
-                [bind]="editableDatarow[element[element.type].bind]" 
-                (update)="editableDatarow[element[element.type].bind] = $event"
-              ></textbox>
-
-              <checkbox *ngIf="element.type === 'checkbox'" 
-                [config]="element[element.type].config" 
-                [bind]="editableDatarow[element[element.type].bind]"
-                (update)="editableDatarow[element[element.type].bind] = $event"
-              ></checkbox>
-
-              <radio *ngIf="element.type === 'radio'"    
-                [config]="element[element.type].config" 
-                [bind]="editableDatarow[element[element.type].bind]" 
-                (update)="editableDatarow[element[element.type].bind] = $event"
-              ></radio>
-
-              <dropdown *ngIf="element.type === 'dropdown'" 
-                [config]="element[element.type].config" 
-                [bind]="editableDatarow[element[element.type].bind]" 
-                (update)="editableDatarow[element[element.type].bind] = $event"
-              ></dropdown>
-
-              <textblock *ngIf="element.type === 'textblock'"
-                [config]="element[element.type].config"
-                [bind]="editableDatarow[element[element.type].bind]"
-                (update)="editableDatarow[element[element.type].bind] = $event"
-              ></textblock>
-
-              <datatable *ngIf="element.type === 'datatable'"
-                [config]="element[element.type].config"
-                [dataset]="editableDatarow[element[element.type].bind]"
-              ></datatable>
-
-            </div>
+            
+            <interface-elements
+              [elements]="config.form.elements"
+              [data]="editableDatarow"
+              [feed]="feed"
+            ></interface-elements>
+            
+            <!-- [feed]="feed" -->
           </div>
         </div>
         <div *ngIf="config.footer.enable" class="modal-footer">
@@ -484,7 +454,8 @@ export class DatatableConfig {
 })
 export class ModalComponent implements OnInit {
   @Input() id: string;
-  @Input() datarow: any;
+  @Input() datarow: any = {};
+  @Input() feed: any [] = []; // used to feed data into a data displaying element like the app-comments element
   @Input() config: ModalConfig;
   @Output() commit = new EventEmitter();
 /**
@@ -551,4 +522,249 @@ export class ModalConfig {
     }
   }
 }
+
+
+
+@Component({
+  selector: 'interface-elements',
+  template: `
+  <div *ngFor="let element of elements">
+    
+    <textbox *ngIf="element.type === 'textbox'"
+      [config]= "element[element.type]"
+      [bind]=   "data[element.bind]"
+      (update)= "data[element.bind] = $event"
+    ></textbox>
+
+    <checkbox *ngIf="element.type === 'checkbox'" 
+      [config]= "element[element.type]" 
+      [bind]=   "data[element.bind]"
+    ></checkbox>
+
+    <radio *ngIf="element.type === 'radio'"    
+      [config]= "element[element.type]" 
+      [bind]=   "data[element.bind]"
+      (update)= "data[element.bind] = $event"
+    ></radio>
+
+    <dropdown *ngIf="element.type === 'dropdown'" 
+      [config]= "element[element.type]"
+      [bind]=   "data[element.bind]"
+      (update)= "data[element.bind] = $event"
+    ></dropdown>
+
+    <textblock *ngIf="element.type === 'textblock'"
+      [config]= "element[element.type]"
+      [bind]=   "data[element.bind]"
+      (update)= "data[element.bind] = $event"
+    ></textblock>
+
+    <datatable *ngIf="element.type === 'datatable'"
+      [config]= "element[element.type]"
+      [dataset]="data[element.bind]"
+    ></datatable>
+
+    <attachment *ngIf="element.type === 'attachment'"
+      [config]= "element[element.type]"
+      [attachments]="feed" 
+    ></attachment>
+
+    <app-comments *ngIf="element.type === 'appcomments'"
+      [user]="{name:'Robert De La Cruz', img: '#'}"
+      [config]="element[element.type]"
+      [comments]="feed"
+    ></app-comments>
+
+  </div> 
+  `
+})
+
+export class InterfaceElementsComponent implements OnInit{
+  @Input() data: any;
+  @Input() feed: any [] = [];
+  @Input() elements: Elements [] = [];
+  constructor() { }
+  ngOnInit() { }
+}
+
+export class Elements {
+  type: string; // textbox/checkbox/radio/dropdown/datatable
+  bind: string;
+  textbox?: TextBoxConfig;
+  checkbox?: CheckboxConfig;
+  radio?: RadioConfig;
+  dropdown?: DropdownConfig;
+  datatable?: DatatableConfig;
+  textblock?: TextBlockConfig;
+  attachment?: AttachmentConfig;
+}
+
+
+@Component({
+  selector: 'attachment',
+  template: `
+  <div class="form-group">
+    <div class="input-group">
+      <input type="file" class="form-control input-sm" [name]="config.input.name" [attr.readonly]="config.input.readonly" (change)="file = $event.target.files">
+      <span class="input-group-btn">
+        <button class="btn btn-primary btn-sm" type="button" (click)="attach()" >Save</button>
+      </span>
+    </div>
+  </div>
+
+  <div class="row">
+    <table class="table table-hover">
+      <tbody>
+        <tr *ngFor="let attachment of attachments">
+          <td>
+            <a class="text-danger" (click)="remove(attachment)"> <span class="glyphicon glyphicon-remove-circle"></span></a>
+            <a href="#" [innerHtml]="attachment.file.name"></a>
+          </td>
+          <td [innerHtml]="attachment.time"></td>
+          <td>Robert De La Cruz</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  `,
+  styles: [`
+  .form-group, .form-control, .table {
+    font-size: 11px;
+  }
+  .glyphicon-remove-circle {
+    margin-right: 7px;
+  }
+  `]
+})
+export class AttachmentComponent implements OnInit{
+  @Input() config: AttachmentConfig;
+  @Input() user: any;
+  @Input() attachments: Attachement [] = [];
+  private file: File;
+
+  attach() {
+    if(this.file) {
+      let attachment = {
+        user: {},
+        time: new Date,
+        file: this.file[0]
+      };
+      this.attachments.push(attachment);
+      this.file = null;
+    }
+  }
+
+  remove(attachment: Attachement) {
+    let index = this.attachments.indexOf(attachment);
+    this.attachments.splice(index, 1);
+  }
+
+  ngOnInit(){ }
+}
+
+export class Attachement {
+  user: {};
+  time: Date;
+  file: File;
+}
+
+export class AttachmentConfig {
+  input: { readonly?: boolean; name: string; };
+  rules?: { showIf?: string; }
+}
+
+
+
+@Component({
+  selector: 'app-comments',
+  template: `
+  <textblock
+    [config]="config.input.message"
+    [bind]="text" (update)="text = $event"
+  ></textblock>
+
+  <button type="button" class="btn btn-primary btn-sm" (click)="comment(text)">Submit</button>
+  <button type="button" class="btn btn-default btn-sm pull-right" data-dismiss="modal" aria-label="Close">Close</button>
+  
+  <div class="hr-line-dashed"></div>
+  
+  <div *ngFor="let comment of comments; let c = index">
+    <div class="social-feed-box">
+      <div class="social-avatar">
+        <span class="pull-left text-muted glyphicon glyphicon-user" aria-hidden="true"></span>
+        <div class="media-body">
+          <p class="text-muted" [innerHtml]="comment.user.name"></p>
+          <small class="text-muted" [innerHtml]="comment.time"></small>
+        </div>
+      </div>
+      <div class="social-body">
+        <p [innerHtml]="comment.text"></p>
+      </div>
+    </div>
+  </div>
+  `,
+  styles: [`
+  .glyphicon-user {
+    font-size: 25px;
+    margin: 5px;
+  }
+  .social-body {
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+  .media-body > p {
+    margin-bottom: 0px;
+  }
+  `]
+})
+
+export class CommentComponent implements OnInit {
+  @Input() config: CommentConfig;
+  @Input() user: {name: string; img?: string}; 
+  @Input() comments: {
+    user: {
+      name?: string;
+      img?: string;
+    };
+    time: Date;
+    text: string;
+  } [] = [];
+
+  private text: string;
+
+  comment(text: string) {
+    if(text) {
+      let comment = {
+        user: {
+          name: this.user.name,
+          img: this.user.img
+        },
+        time: new Date(),
+        text: text
+      };
+
+      this.comments.push(comment);
+      this.text = null;
+    }
+  };
+
+  constructor() { }
+  ngOnInit() {}
+}
+
+export class CommentConfig {
+  input: {
+    message: TextBlockConfig;
+  };
+  comments: {
+    user: {
+      image: boolean;
+      name: boolean;
+      id: boolean;
+    };
+    datetime: boolean;
+  };
+}
+
+
 // tslint:disable-next-line:max-line-length

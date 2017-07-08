@@ -1,17 +1,42 @@
 import { Injectable } from '@angular/core';
-import { TextBoxConfig, CheckboxConfig, RadioConfig, DropdownConfig, DatatableConfig } from './templates.component';
+import { Elements, ModalConfig } from './templates.component';
 import { KYC } from '../../MockData/interface-mock';
 
 export class Interfaces {
   id: string;
   name: string;
   description?: string;
-  workflow?: Workflow;
+  toolstrip: Toolstrip;
   panels: Panels [];
   data: {
     workitem?: Workitem;
     subject: any;
   };
+};
+
+export class Toolstrip {
+  enable: boolean;
+  save?: {
+    enable: boolean;
+  };
+  attachment?: {
+    enable: boolean;
+    model: ModalConfig;
+  };
+  comment?: {
+    enable: boolean;
+    modal: ModalConfig;
+  };
+  share?: {
+    enable: boolean;
+  };
+  reminder?: {
+    enable: boolean;
+  };
+  favorite?: {
+    enable: boolean;
+  };
+  Workflow?: Workflow;
 };
 
 export class Workflow {
@@ -44,15 +69,6 @@ class Panels {
 class Containers {
   header?: Header;
   elements: Elements [];
-}
-
-class Elements {
-  type: string; // textbox/checkbox/radio/dropdown/datatable
-  textbox?: { bind: string; config: TextBoxConfig };
-  checkbox?: { bind: string; config: CheckboxConfig };
-  radio?: { bind: string; config: RadioConfig };
-  dropdown?: { bind: string; config: DropdownConfig };
-  datatable?: { bind: string; config: DatatableConfig };
 }
 
 class Header {

@@ -29,12 +29,15 @@ import {
   DropdownComponent,
   DatatableComponent,
   ModalComponent,
-  TextblockComponent
+  TextblockComponent,
+  InterfaceElementsComponent,
+  AttachmentComponent,
+  CommentComponent
 } from './application/interface/templates.component';
 import {
   InterfaceComponent,
   WorkflowComponent,
-  SocialFeedComponent
+  ToolstripComponent
 } from './application/interface/interface.component';
 /**
  * Services
@@ -65,7 +68,10 @@ import { InterfaceService } from './application/interface/interface.service';
     InterfaceComponent,
     WorkflowComponent,
     TextblockComponent,
-    SocialFeedComponent
+    CommentComponent,
+    InterfaceElementsComponent,
+    AttachmentComponent,
+    ToolstripComponent
   ],
   imports: [
     BrowserModule,
