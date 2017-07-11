@@ -6,7 +6,7 @@ export class Interfaces {
   id: string;
   name: string;
   description?: string;
-  toolstrip: Toolstrip;
+  toolstrip?: Toolstrip;
   panels: Panels [];
   data: {
     workitem?: Workitem;

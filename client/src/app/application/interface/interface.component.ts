@@ -25,41 +25,37 @@ const InterfaceDefault: Interfaces = {
             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </div>
         </div>
-
-        <toolstrip
+        <toolstrip *ngIf="interface.toolstrip && interface.toolstrip.enable"
           [config]="interface.toolstrip"
           [data]="interface.data"
         ></toolstrip>
-
         <div class="ibox-content">
           <ul *ngIf="interface.panels.length > 1" class="nav nav-pills nav-justified" role="tablist">
             <li *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'nav-link active':'nav-link'">
               <a [href]="'#' + panel.id" role="tab" [innerHtml]="panel.name" data-toggle="tab"></a>
             </li>
           </ul>
-          <div class="tab-content">
-            <div *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'tab-pane active':'tab-pane'" [id]="panel.id" role="tabpanel">
-              <div class="row">
-                <div class="form-horizontal">
-
+          <!-- FORM START -->
+          <form class="form-horizontal"> 
+            <div class="tab-content">
+              <div *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'tab-pane active':'tab-pane'" [id]="panel.id" role="tabpanel">
+                <div class="row">
                   <div *ngIf="panel.header" [ngClass]="{'left':'text-left col-sm-12', 'center':'text-center col-sm-12', 'right':'text-right col-sm-12'}[panel.header.align]">
                     <h2 [innerHtml]="panel.header.text"></h2>
                     <p [innerHtml]="panel.header.subtext"></p>
                   </div>
-
                   <div *ngFor="let container of panel.containers; let containerCount = index;" class="col-sm-12 pane-container">
                     <div *ngIf="containerCount !== 0" class="hr-line-dashed"></div>
-                    
                     <interface-elements
                       [elements]="container.elements"
                       [data]="interface.data.subject"
                     ></interface-elements>
-                  
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
+          <!-- FORM END -->
         <div>
       </div>
     </div>

@@ -20,8 +20,6 @@ import { FooterComponent } from './application/footer/footer.component';
 import { SearchComponent } from './application/navigation/search/search.component';
 import { MessageComponent } from './application/navigation/message/message.component';
 import { NotificationComponent } from './application/navigation/notification/notification.component';
-import { KycOnboarding } from './application/interface/know-your-customer/on-boarding/kycOnboarding.component';
-import { ClientComponent } from './application/interface/know-your-customer/ui-components/client/client.component';
 import {
   TextboxComponent,
   RadioComponent,
@@ -57,13 +55,11 @@ import { InterfaceService } from './application/interface/interface.service';
     SearchComponent,
     MessageComponent,
     NotificationComponent,
-    KycOnboarding,
     TextboxComponent,
     RadioComponent,
     CheckboxComponent,
     DropdownComponent,
     DatatableComponent,
-    ClientComponent,
     ModalComponent,
     InterfaceComponent,
     WorkflowComponent,
@@ -79,6 +75,10 @@ import { InterfaceService } from './application/interface/interface.service';
     HttpModule,
     RouterModule.forRoot([
         {path: '', component: InterfaceComponent},
+        {path: 'interface/:interface', component: InterfaceComponent},
+        {path: 'interface/:interface/workitem/:workitem', component: InterfaceComponent},
+        {path: 'interface/:interface/workitem/:workitem/entity/:entity', component: InterfaceComponent},
+        {path: 'interface/:interface/entity/:entity', component: InterfaceComponent},
     ])
   ],
   providers: [

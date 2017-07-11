@@ -532,36 +532,38 @@ export class ModalConfig {
     
     <textbox *ngIf="element.type === 'textbox'"
       [config]= "element[element.type]"
-      [bind]=   "data[element.bind]"
-      (update)= "data[element.bind] = $event"
+      [bind]=   "pair(data, element.bind)"
+      (update)= "pair(data, element.bind, $event)"
     ></textbox>
 
+
     <checkbox *ngIf="element.type === 'checkbox'" 
-      [config]= "element[element.type]" 
-      [bind]=   "data[element.bind]"
+      [config]= "element[element.type]"
+      [bind]=   "pair(data, element.bind)"
+      (update)= "pair(data, element.bind, $event)"
     ></checkbox>
 
     <radio *ngIf="element.type === 'radio'"    
-      [config]= "element[element.type]" 
-      [bind]=   "data[element.bind]"
-      (update)= "data[element.bind] = $event"
+      [config]= "element[element.type]"
+      [bind]=   "pair(data, element.bind)"
+      (update)= "pair(data, element.bind, $event)"
     ></radio>
 
     <dropdown *ngIf="element.type === 'dropdown'" 
       [config]= "element[element.type]"
-      [bind]=   "data[element.bind]"
-      (update)= "data[element.bind] = $event"
+      [bind]=   "pair(data, element.bind)"
+      (update)= "pair(data, element.bind, $event)"
     ></dropdown>
 
     <textblock *ngIf="element.type === 'textblock'"
       [config]= "element[element.type]"
-      [bind]=   "data[element.bind]"
-      (update)= "data[element.bind] = $event"
+      [bind]=   "pair(data, element.bind)"
+      (update)= "pair(data, element.bind, $event)"
     ></textblock>
 
     <datatable *ngIf="element.type === 'datatable'"
       [config]= "element[element.type]"
-      [dataset]="data[element.bind]"
+      [dataset]="pair(data, element.bind)"
     ></datatable>
 
     <attachment *ngIf="element.type === 'attachment'"
@@ -585,6 +587,13 @@ export class InterfaceElementsComponent implements OnInit{
   @Input() elements: Elements [] = [];
   constructor() { }
   ngOnInit() { }
+
+  pair(object, bind, value) {
+    if (typeof bind == 'string') { return this.pair(object, bind.split('.'), value); }
+    else if (bind.length==1 && value!==undefined) { return object[bind[0]] = value; }   
+    else if (bind.length==0) { return object; }   
+    else { return this.pair(object[bind[0]], bind.slice(1), value); }
+  }
 }
 
 export class Elements {
