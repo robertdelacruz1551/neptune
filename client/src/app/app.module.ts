@@ -37,6 +37,9 @@ import {
   WorkflowComponent,
   ToolstripComponent
 } from './application/interface/interface.component';
+import {
+  InterfaceDesignerComponent
+} from './application/interface/designer/designer.component';
 /**
  * Services
  */
@@ -67,18 +70,20 @@ import { InterfaceService } from './application/interface/interface.service';
     CommentComponent,
     InterfaceElementsComponent,
     AttachmentComponent,
-    ToolstripComponent
+    ToolstripComponent,
+    InterfaceDesignerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-        {path: '', component: InterfaceComponent},
-        {path: 'interface/:interface', component: InterfaceComponent},
-        {path: 'interface/:interface/workitem/:workitem', component: InterfaceComponent},
-        {path: 'interface/:interface/workitem/:workitem/entity/:entity', component: InterfaceComponent},
-        {path: 'interface/:interface/entity/:entity', component: InterfaceComponent},
+      {path: '', component: InterfaceComponent},
+      {path: 'interface/:interface', component: InterfaceComponent},
+      {path: 'interface/:interface/workitem/:workitem', component: InterfaceComponent},
+      {path: 'interface/:interface/workitem/:workitem/entity/:entity', component: InterfaceComponent},
+      {path: 'interface/:interface/entity/:entity', component: InterfaceComponent},
+      {path: 'neptune/designer/interface/:interface', component: InterfaceDesignerComponent},
     ])
   ],
   providers: [

@@ -451,7 +451,7 @@ export const KYC = {
     reminder: {
       enable: true
     },
-    favorite: {
+    watch: {
       enable: true
     },
     workflow: {
@@ -484,7 +484,7 @@ export const KYC = {
           elements: [
             {
               type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'name',
+              bind: 'subject.name',
               textbox: {
                 label: { text: 'Name' },
                 input: { name: 'client.name', size: 'medium' }
@@ -492,7 +492,7 @@ export const KYC = {
             },
             {
               type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'tin',
+              bind: 'subject.tin',
               textbox: {
                 label: { text: 'Tax Identification No.' },
                 input: { name: 'client.tin', size: 'small' }
@@ -500,7 +500,7 @@ export const KYC = {
             },
             {
               type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'dob',
+              bind: 'subject.dob',
               textbox: {
                 label: { text: 'Date of Birth' },
                 input: { name: 'client.dob', size: 'small' }
@@ -508,7 +508,7 @@ export const KYC = {
             },
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'identification',
+              bind: 'subject.identification',
               datatable: {
                 size: 'large',
                 label: { text: 'Identification' },
@@ -520,12 +520,9 @@ export const KYC = {
                 ],
                 action: {
                   enable: true,
-                  button: {
-                    add: { enable: true, modal: identificationModal },
-                    view: { enable: false },
-                    edit: { enable: true, modal: identificationModal },
-                    delete: { enable: true }
-                  }
+                  modal: identificationModal,
+                  edit: true,
+                  add: true,
                 }
               }
             }
@@ -535,7 +532,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'contact',
+              bind: 'subject.contact',
               datatable: {
                 size: 'medium',
                 label: { text: 'Contact Information' },
@@ -545,12 +542,9 @@ export const KYC = {
                 ],
                 action: {
                   enable: true,
-                  button: {
-                    add: { enable: true, modal: contactModal },
-                    view: { enable: false },
-                    edit: { enable: true, modal: contactModal },
-                    delete: { enable: true }
-                  }
+                  modal: contactModal,
+                  edit: true,
+                  add: true
                 }
               }
             }
@@ -560,7 +554,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'addresses',
+              bind: 'subject.addresses',
               datatable: {
                 size: 'large',
                 label: { text: 'Address' },
@@ -572,12 +566,9 @@ export const KYC = {
                 ],
                 action: {
                   enable: true,
-                  button: {
-                    add: { enable: true, modal: addressModal },
-                    view: { enable: false },
-                    edit: { enable: true, modal: addressModal },
-                    delete: { enable: true }
-                  }
+                  modal: addressModal,
+                  edit: true,
+                  add: true
                 }
               }
             }
@@ -593,7 +584,7 @@ export const KYC = {
           elements: [
             {
               type: 'radio',
-              bind: 'citizenship',
+              bind: 'subject.citizenship',
               radio: {
                 label: { text: 'Citizenship Status' },
                 input: {
@@ -608,7 +599,7 @@ export const KYC = {
             },
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'citizenshipCountry',
+              bind: 'subject.citizenshipCountry',
               datatable: {
                 size: 'medium',
                 label: { text: 'Country of Citizenship' },
@@ -618,12 +609,9 @@ export const KYC = {
                 ],
                 action: {
                   enable: true,
-                  button: {
-                    add: { enable: true, modal: citizenshipModal },
-                    view: { enable: false },
-                    edit: { enable: true, modal: citizenshipModal },
-                    delete: { enable: true }
-                  }
+                  modal: citizenshipModal,
+                  edit: true,
+                  add: true
                 }
               }
             }
@@ -633,7 +621,7 @@ export const KYC = {
           elements: [
             {
               type: 'radio',
-              bind: 'employed',
+              bind: 'subject.employed',
               radio: {
                 label: { text: 'Employed' },
                 input: {
@@ -647,7 +635,7 @@ export const KYC = {
             },
             {
               type: 'textbox',
-              bind: 'occupation',
+              bind: 'subject.occupation',
               textbox: {
                 label: { text: 'Primary Occupation' },
                 input: { name: 'client.occupation', size: 'medium' }
@@ -659,7 +647,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'products',
+              bind: 'subject.products',
               datatable: {
                 size: 'large',
                 label: { text: 'List all accounts' },
@@ -671,12 +659,9 @@ export const KYC = {
                 ],
                 action: {
                   enable: true,
-                  button: {
-                    add: { enable: true, modal: productModal },
-                    view: { enable: false },
-                    edit: { enable: true, modal: productModal },
-                    delete: { enable: true }
-                  }
+                  modal: productModal,
+                  edit: true,
+                  add: true
                 }
               }
             }
@@ -696,7 +681,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'branches',
+              bind: 'subject.branches',
               datatable: {
                 headers: [
                   { key: 'employee', text: 'Employee' },
@@ -706,11 +691,9 @@ export const KYC = {
                 ],
                 action: {
                   enable: true,
-                  button: {
-                    add: { enable: true, modal: branchModal },
-                    edit: { enable: true, modal: branchModal },
-                    delete: { enable: true }
-                  }
+                  modal: branchModal,
+                  edit: true,
+                  add: true
                 }
               }
             }

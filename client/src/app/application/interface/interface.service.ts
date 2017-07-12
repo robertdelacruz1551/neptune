@@ -6,6 +6,10 @@ export class Interfaces {
   id: string;
   name: string;
   description?: string;
+  sidebar: {
+    enable: boolean;
+    label: string;
+  };
   toolstrip?: Toolstrip;
   panels: Panels [];
   data: {
@@ -33,7 +37,7 @@ export class Toolstrip {
   reminder?: {
     enable: boolean;
   };
-  favorite?: {
+  watch?: {
     enable: boolean;
   };
   Workflow?: Workflow;

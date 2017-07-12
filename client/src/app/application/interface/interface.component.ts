@@ -5,6 +5,7 @@ const InterfaceDefault: Interfaces = {
   id: null,
   name: null,
   description: null,
+  sidebar: { enable: false, label: null },
   toolstrip: { enable: false },
   panels: [],
   data: {
@@ -48,7 +49,7 @@ const InterfaceDefault: Interfaces = {
                     <div *ngIf="containerCount !== 0" class="hr-line-dashed"></div>
                     <interface-elements
                       [elements]="container.elements"
-                      [data]="interface.data.subject"
+                      [data]="interface.data"
                     ></interface-elements>
                   </div>
                 </div>
@@ -167,15 +168,18 @@ export class WorkflowComponent implements OnInit {
         <li *ngIf="config.comment.enable"><a data-toggle="modal" data-target="#modal-comments"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a></li>
         <li *ngIf="config.share.enable"><a data-toggle="modal" data-target="#modal-share"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></li>
         <li *ngIf="config.reminder.enable"><a data-toggle="modal" data-target="#modal-add-notification"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></li>
-        <li *ngIf="config.favorite.enable"><a><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.watch.enable"><a><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a></li>
       </ul>
+      <!--
       <workflow *ngIf="config.workflow.enable"
         [config]="config.workflow"
         [status]="data.workitem.status"
       ></workflow>
+      -->
     </div>
   </div>
 
+  <!--
   <modal *ngIf="config.comment.enable"
     [config]= "config.comment.modal"
     [id]="'modal-comments'"
@@ -187,6 +191,7 @@ export class WorkflowComponent implements OnInit {
     [config]= "config.attachment.modal"
     [feed]="data.workitem.attachments"
   ></modal>
+  -->
   `,
   styles: [`
   .ibox-toolstrip {

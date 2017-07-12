@@ -251,8 +251,8 @@ export class DropdownConfig {
           <tr>
             <th *ngIf="config.action.enable">
               <input type="checkbox" [(ngModel)]="allSelected" (change)="select($event.target.checked)">
-              <a *ngIf="config.action.button.add.enable  && config.action.button.add.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
-              <a *ngIf="config.action.button.delete.enable && rowsSelected.length > 0" class="text-danger datatable-icon" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
+              <a *ngIf="config.action.edit && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
+              <a *ngIf="config.action.edit && rowsSelected.length > 0" class="text-danger datatable-icon" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
             </th>
             <th *ngFor="let header of config.headers"  [innerHtml]="header.text"></th>
           </tr>
@@ -260,13 +260,13 @@ export class DropdownConfig {
         <tbody>
           <tr *ngFor="let data of dataset; let row = index;">
             <td *ngIf="config.action.enable === true">
-              <input type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
-              <a class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
+              <input *ngIf="config.action.edit" type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
+              <a *ngIf="config.action.edit  && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
 
-              <modal *ngIf="config.action.button.edit.enable && config.action.button.edit.modal"
+              <modal *ngIf="config.action.edit && config.action.modal"
                 [id]="'editmodal' + datasetId + row"
                 [datarow]="data"
-                [config]= "config.action.button.edit.modal"
+                [config]= "config.action.modal"
                 (commit)= "dataset[row] = $event"
               ></modal>
             </td>
@@ -278,10 +278,10 @@ export class DropdownConfig {
     </div>
   </div>
 
-  <modal *ngIf="config.action.button.add.enable && config.action.button.add.modal" 
+  <modal *ngIf="config.action.add && config.action.modal" 
     [id]="'addmodal' + datasetId"
     [datarow]="{}"
-    [config]= "config.action.button.add.modal"
+    [config]= "config.action.modal"
     (commit)= "dataset.push($event)"
   ></modal>
   
@@ -325,9 +325,7 @@ export class DropdownConfig {
   `]
 }) // <input type="checkbox" [checked]="allSelected" [name]="datasetId + row" [value]="row" (change)="selectedRow(data); focusOnRow(row);">
 export class DatatableComponent {
-  @Input() config: DatatableConfig = {
-    headers: [], action: { enable: false }
-  };
+  @Input() config: DatatableConfig;
   @Input() dataset: any [];
 /**
  * if the user clicks on selected all then set all 
@@ -402,9 +400,11 @@ export class DatatableConfig {
   } [];
   action: {
     enable: boolean;
+    modal?: ModalConfig;
+    edit: boolean;
+    add: boolean;
     button?: {
       add?:  { enable: boolean; modal: ModalConfig; };
-      //view?: { enable: boolean; modal: ModalConfig; };
       edit?: { enable: boolean; modal: ModalConfig; };
       delete?: { enable: boolean; message?: string; };
     }
