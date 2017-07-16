@@ -12,9 +12,8 @@ export class Interfaces {
   };
   toolstrip?: Toolstrip;
   panels: Panels [];
-  data: {
+  data?: {
     workitem?: Workitem;
-    subject: any;
   };
 };
 
@@ -40,7 +39,13 @@ export class Toolstrip {
   watch?: {
     enable: boolean;
   };
-  Workflow?: Workflow;
+  history?: {
+    enable: boolean
+  };
+  Workflow?: {
+    enable: boolean;
+    config: Workflow;
+  };
 };
 
 export class Workflow {
@@ -55,12 +60,15 @@ export class Workflow {
 
 class Workitem {
   id: string;
-  name: string;
   type: string;
   created: Date;
   status: string;
-  entity: string;
   source: string;
+  creator: string;
+  comments: any [];
+  attachments: any [];
+  history: any [];
+  subjects: any [];
 }
 
 class Panels {

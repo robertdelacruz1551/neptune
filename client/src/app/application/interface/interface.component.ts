@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { InterfaceService, Interfaces, Workflow } from './interface.service';
+declare var jQuery: any;
 
 const InterfaceDefault: Interfaces = {
   id: null,
@@ -9,8 +10,18 @@ const InterfaceDefault: Interfaces = {
   toolstrip: { enable: false },
   panels: [],
   data: {
-    workitem: null,
-    subject: {}
+    workitem: {
+      id: null,
+      type: null,
+      created: null,
+      status: null,
+      source: null,
+      creator: null,
+      comments: [],
+      attachments: [],
+      history: [],
+      subjects: []
+    }
   }
 };
 
@@ -31,33 +42,50 @@ const InterfaceDefault: Interfaces = {
           [data]="interface.data"
         ></toolstrip>
         <div class="ibox-content">
-          <ul *ngIf="interface.panels.length > 1" class="nav nav-pills nav-justified" role="tablist">
-            <li *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'nav-link active':'nav-link'">
-              <a [href]="'#' + panel.id" role="tab" [innerHtml]="panel.name" data-toggle="tab"></a>
-            </li>
-          </ul>
           <!-- FORM START -->
-          <form class="form-horizontal"> 
-            <div class="tab-content">
-              <div *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'tab-pane active':'tab-pane'" [id]="panel.id" role="tabpanel">
-                <div class="row">
-                  <div *ngIf="panel.header" [ngClass]="{'left':'text-left col-sm-12', 'center':'text-center col-sm-12', 'right':'text-right col-sm-12'}[panel.header.align]">
-                    <h2 [innerHtml]="panel.header.text"></h2>
-                    <p [innerHtml]="panel.header.subtext"></p>
-                  </div>
-                  <div *ngFor="let container of panel.containers; let containerCount = index;" class="col-sm-12 pane-container">
-                    <div *ngIf="containerCount !== 0" class="hr-line-dashed"></div>
-                    <interface-elements
-                      [elements]="container.elements"
-                      [data]="interface.data"
-                    ></interface-elements>
-                  </div>
-                </div>
+          <div class="form-horizontal"> 
+<div *ngFor="let subject of interface.data.workitem.subjects; let s = index" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        Subject Id: 
+        <a role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#' + subject.id" aria-expanded="true" [attr.aria-controls]="subject.id" [innerHtml]="subject.id"></a>
+        <a class="pull-right" role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#' + subject.id" aria-expanded="true" [attr.aria-controls]="subject.id" [innerHtml]="subject.name"></a>
+      </h4>
+    </div>
+    <div [id]="subject.id" [ngClass]="(s === 0)?'panel-collapse collapse in':'panel-collapse collapse'" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <!-- INDIVIDUAL SUBJECT FORM START -->
+        <ul *ngIf="interface.panels.length > 1" class="nav nav-pills nav-justified" role="tablist">
+          <li *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'nav-link active':'nav-link'">
+            <a [href]="'#' + subject.id + panel.id" role="tab" [innerHtml]="panel.name" data-toggle="tab"></a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'tab-pane active':'tab-pane'" [id]="+ subject.id + panel.id" role="tabpanel">
+            <div class="row">
+              <div *ngIf="panel.header" [ngClass]="{'left':'text-left col-sm-12', 'center':'text-center col-sm-12', 'right':'text-right col-sm-12'}[panel.header.align]">
+                <h2 [innerHtml]="panel.header.text"></h2>
+                <p [innerHtml]="panel.header.subtext"></p>
+              </div>
+              <div *ngFor="let container of panel.containers; let containerCount = index;" class="col-sm-12 pane-container">
+                <div *ngIf="containerCount !== 0" class="hr-line-dashed"></div>
+                <interface-elements
+                  [elements]="container.elements"
+                  [data]="subject"
+                ></interface-elements>
               </div>
             </div>
-          </form>
+          </div>
+        </div> 
+        <!-- INDIVIDUAL SUBJECT FORM END -->
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
           <!-- FORM END -->
-        <div>
+        </div>
       </div>
     </div>
   </div>
@@ -97,7 +125,7 @@ export class InterfaceComponent implements OnInit {
 
   ngOnInit() {
     this.interface = this.service.interface || InterfaceDefault;
-  }
+  };
 
   private save() {
     console.log(this.interface.data);
@@ -163,23 +191,21 @@ export class WorkflowComponent implements OnInit {
   <div class="navbar navbar-default ibox-toolstrip">
     <div class="ibox-container-fluid">
       <ul class="nav navbar-nav">
-        <li *ngIf="config.save.enable"><a (click)="save()"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a></li>
-        <li *ngIf="config.attachment.enable"><a data-toggle="modal" data-target="#modal-attachments"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></a></li>
-        <li *ngIf="config.comment.enable"><a data-toggle="modal" data-target="#modal-comments"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a></li>
-        <li *ngIf="config.share.enable"><a data-toggle="modal" data-target="#modal-share"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></li>
-        <li *ngIf="config.reminder.enable"><a data-toggle="modal" data-target="#modal-add-notification"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></li>
-        <li *ngIf="config.watch.enable"><a><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.save.enable" data-toggle="tooltip" data-placement="top" title="Save progress"><a (click)="save()"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.attachment.enable" data-toggle="tooltip" data-placement="top" title="Add attachment"><a data-toggle="modal" data-target="#modal-attachments"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.comment.enable" data-toggle="tooltip" data-placement="top" title="Enter notes"><a data-toggle="modal" data-target="#modal-comments"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.share.enable" data-toggle="tooltip" data-placement="top" title="Share with others"><a data-toggle="modal" data-target="#modal-share"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.reminder.enable" data-toggle="tooltip" data-placement="top" title="Add a reminder"><a data-toggle="modal" data-target="#modal-add-notification"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.watch.enable" data-toggle="tooltip" data-placement="top" title="Monitor"><a ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li>
+        <li *ngIf="config.history.enable" data-toggle="tooltip" data-placement="top" title="View History"><a ><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a></li>
       </ul>
-      <!--
       <workflow *ngIf="config.workflow.enable"
-        [config]="config.workflow"
+        [config]="config.workflow.config"
         [status]="data.workitem.status"
       ></workflow>
-      -->
     </div>
   </div>
 
-  <!--
   <modal *ngIf="config.comment.enable"
     [config]= "config.comment.modal"
     [id]="'modal-comments'"
@@ -191,7 +217,6 @@ export class WorkflowComponent implements OnInit {
     [config]= "config.attachment.modal"
     [feed]="data.workitem.attachments"
   ></modal>
-  -->
   `,
   styles: [`
   .ibox-toolstrip {
@@ -229,9 +254,10 @@ export class ToolstripComponent {
   save() {
     console.log(this.data);
   }
+
+  
   constructor() { }
   ngOnInit() {
-    //console.log(this.data.comments);
   }
 }
 

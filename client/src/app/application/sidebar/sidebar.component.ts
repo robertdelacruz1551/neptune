@@ -23,7 +23,6 @@ export class SidebarComponent implements OnInit {
     this.title = this.sidebar.operator.title;
     this.home = this.sidebar.operator.home;
     this.username = this.sidebar.operator.username;
-
     this.applications = this.sidebar.applications;
   }
 

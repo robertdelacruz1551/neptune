@@ -37,9 +37,6 @@ import {
   WorkflowComponent,
   ToolstripComponent
 } from './application/interface/interface.component';
-import {
-  InterfaceDesignerComponent
-} from './application/interface/designer/designer.component';
 /**
  * Services
  */
@@ -70,8 +67,7 @@ import { InterfaceService } from './application/interface/interface.service';
     CommentComponent,
     InterfaceElementsComponent,
     AttachmentComponent,
-    ToolstripComponent,
-    InterfaceDesignerComponent
+    ToolstripComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +79,7 @@ import { InterfaceService } from './application/interface/interface.service';
       {path: 'interface/:interface/workitem/:workitem', component: InterfaceComponent},
       {path: 'interface/:interface/workitem/:workitem/entity/:entity', component: InterfaceComponent},
       {path: 'interface/:interface/entity/:entity', component: InterfaceComponent},
-      {path: 'neptune/designer/interface/:interface', component: InterfaceDesignerComponent},
+      {path: 'interface/:interface/entity/:entity/workitem/:workitem', component: InterfaceComponent}
     ])
   ],
   providers: [

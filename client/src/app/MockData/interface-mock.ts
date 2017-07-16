@@ -454,25 +454,30 @@ export const KYC = {
     watch: {
       enable: true
     },
+    history: {
+      enable: true
+    },
     workflow: {
       enable: true,
-      id: '1',
-      statuses: [
-        {
-          id: '1',
-          name: 'Start',
-          next: [
-            {
-              id: '2',
-              name: 'In Progress'
-            },
-            {
-              id: '3',
-              name: 'End'
-            }
-          ]
-        }
-      ]
+      config: {
+        id: '1',
+        statuses: [
+          {
+            id: '1',
+            name: 'Start',
+            next: [
+              {
+                id: '2',
+                name: 'In Progress'
+              },
+              {
+                id: '3',
+                name: 'End'
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   panels: [
@@ -484,7 +489,7 @@ export const KYC = {
           elements: [
             {
               type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.name',
+              bind: 'name',
               textbox: {
                 label: { text: 'Name' },
                 input: { name: 'client.name', size: 'medium' }
@@ -492,7 +497,7 @@ export const KYC = {
             },
             {
               type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.tin',
+              bind: 'tin',
               textbox: {
                 label: { text: 'Tax Identification No.' },
                 input: { name: 'client.tin', size: 'small' }
@@ -500,7 +505,7 @@ export const KYC = {
             },
             {
               type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.dob',
+              bind: 'dob',
               textbox: {
                 label: { text: 'Date of Birth' },
                 input: { name: 'client.dob', size: 'small' }
@@ -508,7 +513,7 @@ export const KYC = {
             },
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.identification',
+              bind: 'identification',
               datatable: {
                 size: 'large',
                 label: { text: 'Identification' },
@@ -532,7 +537,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.contact',
+              bind: 'contact',
               datatable: {
                 size: 'medium',
                 label: { text: 'Contact Information' },
@@ -554,7 +559,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.addresses',
+              bind: 'addresses',
               datatable: {
                 size: 'large',
                 label: { text: 'Address' },
@@ -584,7 +589,7 @@ export const KYC = {
           elements: [
             {
               type: 'radio',
-              bind: 'subject.citizenship',
+              bind: 'citizenship',
               radio: {
                 label: { text: 'Citizenship Status' },
                 input: {
@@ -599,7 +604,7 @@ export const KYC = {
             },
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.citizenshipCountry',
+              bind: 'citizenshipCountry',
               datatable: {
                 size: 'medium',
                 label: { text: 'Country of Citizenship' },
@@ -621,7 +626,7 @@ export const KYC = {
           elements: [
             {
               type: 'radio',
-              bind: 'subject.employed',
+              bind: 'employed',
               radio: {
                 label: { text: 'Employed' },
                 input: {
@@ -635,7 +640,7 @@ export const KYC = {
             },
             {
               type: 'textbox',
-              bind: 'subject.occupation',
+              bind: 'occupation',
               textbox: {
                 label: { text: 'Primary Occupation' },
                 input: { name: 'client.occupation', size: 'medium' }
@@ -647,7 +652,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.products',
+              bind: 'products',
               datatable: {
                 size: 'large',
                 label: { text: 'List all accounts' },
@@ -681,7 +686,7 @@ export const KYC = {
           elements: [
             {
               type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'subject.branches',
+              bind: 'branches',
               datatable: {
                 headers: [
                   { key: 'employee', text: 'Employee' },
@@ -705,29 +710,357 @@ export const KYC = {
   data: {
     workitem: {
       id: '122323',
-      name: null,
       type: null,
       created: null,
       status: 'Start',
-      entity: null,
       source: null,
-      createdBy: null,
+      creator: null,
       comments: [],
       attachments: [],
+      history: [],
+      subjects: [
+        {
+          id: '092c826d528339238',
+          name: null,
+          tin: null,
+          dob: null,
+          employed: false,
+          license: [],
+          contact: [],
+          addresses: [],
+          products: [],
+          branches: [],
+          identification: [],
+          citizenship: null,
+          citizenshipCountry: []
+        },
+        {
+          id: '092c826d528339239',
+          name: null,
+          tin: null,
+          dob: null,
+          employed: false,
+          license: [],
+          contact: [],
+          addresses: [],
+          products: [],
+          branches: [],
+          identification: [],
+          citizenship: null,
+          citizenshipCountry: []
+        }
+      ]
+    }
+  }
+};
+
+
+export const KYC2 = {
+  name: 'Know Your Customer',
+  description: null,
+  toolstrip: {
+    enable: true,
+    save: {
+      enable: true
     },
-    subject: {
-      name: null,
-      tin: null,
-      dob: null,
-      employed: false,
-      license: [],
-      contact: [],
-      addresses: [],
-      products: [],
-      branches: [],
-      identification: [],
-      citizenship: null,
-      citizenshipCountry: []
+    attachment: {
+      enable: true,
+      modal: attachmentModal
+    },
+    comment: {
+      enable: true,
+      modal: commentModal
+    },
+    share: {
+      enable: true
+    },
+    reminder: {
+      enable: true
+    },
+    watch: {
+      enable: true
+    },
+    history: {
+      enable: true
+    },
+    workflow: {
+      enable: true,
+      config: {
+        id: '1',
+        statuses: [
+          {
+            id: '1',
+            name: 'Start',
+            next: [
+              {
+                id: '2',
+                name: 'In Progress'
+              },
+              {
+                id: '3',
+                name: 'End'
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  panels: [
+    {
+      id: '005',
+      name: 'Individual (CIP)',
+      containers: [
+        {
+          elements: [
+            {
+              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.name',
+              textbox: {
+                label: { text: 'Name' },
+                input: { name: 'client.name', size: 'medium' }
+              }
+            },
+            {
+              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.tin',
+              textbox: {
+                label: { text: 'Tax Identification No.' },
+                input: { name: 'client.tin', size: 'small' }
+              }
+            },
+            {
+              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.dob',
+              textbox: {
+                label: { text: 'Date of Birth' },
+                input: { name: 'client.dob', size: 'small' }
+              }
+            },
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.identification',
+              datatable: {
+                size: 'large',
+                label: { text: 'Identification' },
+                headers: [
+                  { key: 'type', text: 'Type' },
+                  { key: 'number', text: 'Number' },
+                  { key: 'issuer', text: 'Issuer' },
+                  { key: 'country', text: 'Country' }
+                ],
+                action: {
+                  enable: true,
+                  modal: identificationModal,
+                  edit: true,
+                  add: true,
+                }
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.contact',
+              datatable: {
+                size: 'medium',
+                label: { text: 'Contact Information' },
+                headers: [
+                  { key: 'type', text: 'Type' },
+                  { key: 'description', text: 'Description' }
+                ],
+                action: {
+                  enable: true,
+                  modal: contactModal,
+                  edit: true,
+                  add: true
+                }
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.addresses',
+              datatable: {
+                size: 'large',
+                label: { text: 'Address' },
+                headers: [
+                  { key: 'line1', text: 'Address' },
+                  { key: 'zip', text: 'Postal Code' },
+                  { key: 'country', text: 'Country' },
+                  { key: 'type', text: 'Type' }
+                ],
+                action: {
+                  enable: true,
+                  modal: addressModal,
+                  edit: true,
+                  add: true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    { // this panel will have an array of containers with cdd input fields
+      id: '006',
+      name: 'Customer Due Diligence',
+      containers: [
+        {
+          elements: [
+            {
+              type: 'radio',
+              bind: 'workitem.subjects.citizenship',
+              radio: {
+                label: { text: 'Citizenship Status' },
+                input: {
+                  name: 'client.individual.citizenship',
+                  options: [
+                    { value: 'US Citizen', text: 'US Citizen' },
+                    { value: 'US Resident', text: 'US Resident' },
+                    { value: 'NRA', text: 'Non-Resident Alien' }
+                  ]
+                }
+              }
+            },
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.citizenshipCountry',
+              datatable: {
+                size: 'medium',
+                label: { text: 'Country of Citizenship' },
+                headers: [
+                  { key: 'country', text: 'Country' },
+                  { key: 'proof', text: 'Proof Obtained' }
+                ],
+                action: {
+                  enable: true,
+                  modal: citizenshipModal,
+                  edit: true,
+                  add: true
+                }
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'radio',
+              bind: 'workitem.subjects.employed',
+              radio: {
+                label: { text: 'Employed' },
+                input: {
+                  name: 'client.employed',
+                  options: [
+                    { value: true, text: 'Yes' },
+                    { value: false, text: 'No' }
+                  ]
+                }
+              }
+            },
+            {
+              type: 'textbox',
+              bind: 'workitem.subjects.occupation',
+              textbox: {
+                label: { text: 'Primary Occupation' },
+                input: { name: 'client.occupation', size: 'medium' }
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.products',
+              datatable: {
+                size: 'large',
+                label: { text: 'List all accounts' },
+                headers: [
+                  { key: 'number', text: 'Number' },
+                  { key: 'type', text: 'Type' },
+                  { key: 'relationship', text: 'Relationship' },
+                  { key: 'use', text: 'Expect Use' }
+                ],
+                action: {
+                  enable: true,
+                  modal: productModal,
+                  edit: true,
+                  add: true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: '004',
+      name: 'Internal Contacts',
+      header: {
+        align: 'left',
+        text: 'Relationship Managers'
+      },
+      containers: [
+        {
+          elements: [
+            {
+              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+              bind: 'workitem.subjects.branches',
+              datatable: {
+                headers: [
+                  { key: 'employee', text: 'Employee' },
+                  { key: 'relationship', text: 'Relationship' },
+                  { key: 'division', text: 'Division' },
+                  { key: 'branch', text: 'Branch' }
+                ],
+                action: {
+                  enable: true,
+                  modal: branchModal,
+                  edit: true,
+                  add: true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+  ], // end panels
+  data: {
+    workitem: {
+      id: '122323',
+      type: null,
+      created: null,
+      status: 'Start',
+      source: null,
+      creator: null,
+      comments: [],
+      attachments: [],
+      history: [],
+      subjects: [
+        {
+          id: '092c826d528339238',
+          name: null,
+          tin: null,
+          dob: null,
+          employed: false,
+          license: [],
+          contact: [],
+          addresses: [],
+          products: [],
+          branches: [],
+          identification: [],
+          citizenship: null,
+          citizenshipCountry: []
+        }
+      ]
     }
   }
 };
