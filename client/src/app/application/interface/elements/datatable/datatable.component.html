@@ -1,3 +1,59 @@
-<p>
-  datatable works!
-</p>
+  <div class="row">
+    <label *ngIf="config.label" class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
+    <div [ngClass]="(!config.size)?'col-sm-12': (config.label)? {'small': 'col-sm-4', 'medium': 'col-sm-6', 'large': 'col-sm-8'}[config.size] : {'small': 'col-sm-offset-4 col-sm-4', 'medium': 'col-sm-offset-4 col-sm-6', 'large': 'col-sm-offset-4 col-sm-8'}[config.size]">
+      <table class="table table-hover datatable" [id]="datasetId">
+        <thead>
+          <tr>
+            <th *ngIf="config.action.enable">
+              <input type="checkbox" [(ngModel)]="allSelected" (change)="select($event.target.checked)">
+              <a *ngIf="config.action.edit && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
+              <a *ngIf="config.action.edit && rowsSelected.length > 0" class="text-danger datatable-icon" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
+            </th>
+            <th *ngFor="let header of config.headers"  [innerHtml]="header.text"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of dataset; let row = index;">
+            <td *ngIf="config.action.enable === true">
+              <input *ngIf="config.action.edit" type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
+              <a *ngIf="config.action.edit  && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
+
+              <modal *ngIf="config.action.edit && config.action.modal"
+                [id]="'editmodal' + datasetId + row"
+                [datarow]="data"
+                [config]= "config.action.modal"
+                (commit)= "dataset[row] = $event"
+              ></modal>
+            </td>
+
+            <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]" ></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <modal *ngIf="config.action.add && config.action.modal" 
+    [id]="'addmodal' + datasetId"
+    [datarow]="{}"
+    [config]= "config.action.modal"
+    (commit)= "dataset.push($event)"
+  ></modal>
+  
+  <div class="modal fade" [id]="deleteModalId" tabindex="-1" role="dialog" aria-labelledby="deleteRowModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="deleteRowModalLabel">Warning</h4>
+        </div>
+        <div class="modal-body">
+          <p>Delete the selected records?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-action" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-warning btn-action" data-dismiss="modal" (click)="deleteRow()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>

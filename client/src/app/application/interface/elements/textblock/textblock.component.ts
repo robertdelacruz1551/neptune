@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-textblock',
@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./textblock.component.css']
 })
 export class TextblockComponent implements OnInit {
-
+  @Input() config: TextBlockConfig;
+  @Input() bind: string;
+  @Input() readonly: boolean;
+  @Output() update = new EventEmitter();
   constructor() { }
-
   ngOnInit() {
   }
-
 }
+export class TextBlockConfig {
+  label: { text?: string; };
+  input: { readonly?: boolean; name: string; placeholder?: string; rows?: number};
+  rules?: { showIf?: string; };
+};

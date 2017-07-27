@@ -1,3 +1,10 @@
-<p>
-  dropdown works!
-</p>
+<div class="form-group">
+  <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
+  <div [ngClass]="(!config.input.size || config.input.size == 'large' || config.input.size == '8' )?'col-sm-8': { 'small' : 'col-sm-2', 'medium' : 'col-sm-4', '1' : 'col-sm-1', '2' : 'col-sm-2', '3' : 'col-sm-3', '4' : 'col-sm-4', '5' : 'col-sm-5', '6' : 'col-sm-6', '7' : 'col-sm-7' }[config.input.size]">
+    <select *ngIf="!config.input.readonly" class="form-control input-sm" [name]="config.input.name + id" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
+      <option *ngIf="config.input.emptyOption" value=""></option>
+      <option *ngFor="let option of config.input.options" [value]="option.value" [innerHtml]="option.text"></option>
+      <option *ngIf="config.input.otherOption" value="other">Other</option>
+    </select>
+  </div>
+</div>

@@ -1,3 +1,11 @@
-<p>
-  radio works!
-</p>
+<div class="form-group">
+  <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
+  <div class="col-sm-8">
+    <div *ngFor="let option of config.input.options" class="radio">
+      <label>
+        <input type="radio" [name]="config.input.name + id" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)" [value]="option.value"> 
+        {{option.text}}
+      </label>
+    </div>
+  </div>
+</div>

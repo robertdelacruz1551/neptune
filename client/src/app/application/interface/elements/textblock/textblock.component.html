@@ -1,3 +1,6 @@
-<p>
-  textblock works!
-</p>
+<div class="form-group">
+  <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
+  <div [ngClass]="(config.label.text)? 'col-sm-8':'col-sm-12'">
+    <textarea class="form-control" [rows]="config.input.rows || 3" [name]="config.input.name" [placeholder]="config.input.placeholder || '' " [(ngModel)]="bind" [attr.readonly]="readonly" (ngModelChange)="update.emit(this.bind)"></textarea>
+  </div>
+</div>

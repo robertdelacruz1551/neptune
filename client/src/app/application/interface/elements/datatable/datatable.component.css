@@ -1,0 +1,18 @@
+.datatable > tbody > tr > td, .datatable > thead > tr > th, .datatable > tbody > tr > th, .datatable > tfoot > tr > th, .datatable > thead > tr > td {
+  padding: 5px;
+  vertical-align: middle;
+  font-size: 11px;
+}
+.datatable .btn{
+  margin-bottom: 0px;
+}
+.datatable-icon {
+  font-size: 13px;
+  margin-left: 5px;
+}
+.datatable-data {
+  cursor:pointer;
+}
+.control-label {
+  font-size: 11px;
+}
