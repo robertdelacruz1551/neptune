@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Toolstrip } from '../ibox.service';
 
 @Component({
   selector: 'ibox-toolstrip',
@@ -6,10 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ibox-toolstrip.component.css']
 })
 export class IboxToolstripComponent implements OnInit {
-
+  @Input() toolstring: Toolstrip;
   constructor() { }
-
   ngOnInit() {
   }
-
 }

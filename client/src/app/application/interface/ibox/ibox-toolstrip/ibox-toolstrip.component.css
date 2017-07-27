@@ -1,0 +1,27 @@
+  .ibox-toolstrip {
+    background-color: #ffffff;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0px;
+    color: inherit;
+    margin-bottom: 0;
+    min-height: 50px;
+  }
+  .ibox-toolstrip > .ibox-container-fluid > .nav > li > a {
+    font-size: 16px;
+  }
+  .ibox-container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .navbar-default .nav > li > a:hover, .navbar-default .nav > li > a:focus {
+    background-color: #e7eaec;;
+    color: #2f4050;
+  }
+  .nav > li > a {
+    padding: 15px 25px 14px 25px;
+  }
+  .navbar {
+    border-radius: 0px;
+  }

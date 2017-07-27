@@ -6,10 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ibox-content.component.css']
 })
 export class IboxContentComponent implements OnInit {
-
   constructor() { }
-
   ngOnInit() {
   }
-
 }

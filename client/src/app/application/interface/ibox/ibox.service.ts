@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Elements, ModalConfig } from './ui-elements.component';
-import { CUSTOMFORM } from '../../MockData/interface-mock';
-import { USERMANAGER } from '../../MockData/user-management';
+import { ModalConfig } from '../ibox-modal/ibox-modal.component';
 
 export class Interfaces {
   id: string;
+  version: string;
   name: string;
   description?: string;
-  subject: {
-    add: boolean;
-    modal: any | ModalConfig;
-    id: string;
-    object: any;
-  };
   toolstrip?: Toolstrip;
   panels: Panels [];
   data?: {
@@ -85,7 +78,7 @@ export class Panels {
 
 export class Containers {
   header?: Header;
-  elements: Elements [];
+  elements: any []; // Elements [];
 };
 
 export class Header {
@@ -95,7 +88,6 @@ export class Header {
 }
 
 @Injectable()
-export class InterfaceService {
-  interface = CUSTOMFORM;
+export class IboxService {
   constructor() { }
 }

@@ -20,36 +20,27 @@ import { FooterComponent } from './application/footer/footer.component';
 import { SearchComponent } from './application/navigation/search/search.component';
 import { MessageComponent } from './application/navigation/message/message.component';
 import { NotificationComponent } from './application/navigation/notification/notification.component';
-import {
-  TextboxComponent,
-  RadioComponent,
-  CheckboxComponent,
-  DropdownComponent,
-  DatatableComponent,
-  ModalComponent,
-  TextblockComponent,
-  InterfaceElementsComponent,
-  AttachmentComponent,
-  CommentComponent
-} from './application/interface/ui-elements.component';
-import {
-  InterfaceComponent,
-  WorkflowComponent,
-  ToolstripComponent,
-  FormPanelComponent
-} from './application/interface/interface.component';
+import { IboxComponent } from './application/interface/ibox/ibox.component';
+import { IboxTitleComponent } from './application/interface/ibox/ibox-title/ibox-title.component';
+import { IboxToolstripComponent } from './application/interface/ibox/ibox-toolstrip/ibox-toolstrip.component';
+import { IboxMetadataComponent } from './application/interface/ibox/ibox-metadata/ibox-metadata.component';
+import { IboxContentComponent } from './application/interface/ibox/ibox-content/ibox-content.component';
+import { WizardComponent } from './application/interface/elements/wizard/wizard.component';
+import { PanelComponent } from './application/interface/elements/wizard/panel/panel.component';
+import { ContainerComponent } from './application/interface/elements/wizard/panel/container/container.component';
+import { ElementsComponent } from './application/interface/elements/wizard/panel/container/elements/elements.component';
+import { ModalComponent } from './application/interface/elements/modal/modal.component';
+
 /**
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
 import { InterfaceService } from './application/interface/interface.service';
-import { GuiComponent } from './application/interface/gui/gui.component';
-import { NeptuneIboxComponent } from './application/interface/neptune-ibox/neptune-ibox.component';
-import { IboxTitleComponent } from './application/interface/neptune-ibox/ibox-title/ibox-title.component';
-import { IboxToolstripComponent } from './application/interface/neptune-ibox/ibox-toolstrip/ibox-toolstrip.component';
-import { IboxMetadataComponent } from './application/interface/neptune-ibox/ibox-metadata/ibox-metadata.component';
-import { IboxContentComponent } from './application/interface/neptune-ibox/ibox-content/ibox-content.component';
-
+import { TextboxComponent } from './application/interface/elements/textbox/textbox.component';
+import { CheckboxComponent } from './application/interface/elements/checkbox/checkbox.component';
+import { RadioComponent } from './application/interface/elements/radio/radio.component';
+import { DropdownComponent } from './application/interface/elements/dropdown/dropdown.component';
+import { DatatableComponent } from './application/interface/elements/datatable/datatable.component';
 
 @NgModule({
   declarations: [
@@ -68,32 +59,33 @@ import { IboxContentComponent } from './application/interface/neptune-ibox/ibox-
     DropdownComponent,
     DatatableComponent,
     ModalComponent,
-    InterfaceComponent,
-    WorkflowComponent,
-    TextblockComponent,
-    CommentComponent,
-    InterfaceElementsComponent,
-    AttachmentComponent,
-    ToolstripComponent,
-    FormPanelComponent,
-    GuiComponent,
-    NeptuneIboxComponent,
+    IboxComponent,
     IboxTitleComponent,
     IboxToolstripComponent,
     IboxMetadataComponent,
-    IboxContentComponent
+    IboxContentComponent,
+    PanelComponent,
+    WizardComponent,
+    ContainerComponent,
+    ElementsComponent,
+    ModalComponent,
+    TextboxComponent,
+    CheckboxComponent,
+    RadioComponent,
+    DropdownComponent,
+    DatatableComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-      {path: '', component: InterfaceComponent},
-      {path: 'interface/:interface', component: InterfaceComponent},
-      {path: 'interface/:interface/workitem/:workitem', component: InterfaceComponent},
-      {path: 'interface/:interface/workitem/:workitem/entity/:entity', component: InterfaceComponent},
-      {path: 'interface/:interface/entity/:entity', component: InterfaceComponent},
-      {path: 'interface/:interface/entity/:entity/workitem/:workitem', component: InterfaceComponent}
+      {path: '', component: IboxComponent},
+      {path: 'interface/:interface', component: IboxComponent},
+      {path: 'interface/:interface/workitem/:workitem', component: IboxComponent},
+      {path: 'interface/:interface/workitem/:workitem/entity/:entity', component: IboxComponent},
+      {path: 'interface/:interface/entity/:entity', component: IboxComponent},
+      {path: 'interface/:interface/entity/:entity/workitem/:workitem', component: IboxComponent}
     ])
   ],
   providers: [
@@ -103,3 +95,6 @@ import { IboxContentComponent } from './application/interface/neptune-ibox/ibox-
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+// tslint:disable-next-line:max-line-length

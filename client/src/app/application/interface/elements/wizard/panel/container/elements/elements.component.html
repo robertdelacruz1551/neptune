@@ -1,0 +1,24 @@
+<textbox *ngIf="element.type === 'textbox'" 
+  [config]= "element[element.type]"
+  [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
+></textbox>
+<checkbox *ngIf="element.type === 'checkbox'" 
+  [config]= "element[element.type]"
+  [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
+></checkbox>
+<radio *ngIf="element.type === 'radio'"    
+  [config]= "element[element.type]"
+  [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
+></radio>
+<dropdown *ngIf="element.type === 'dropdown'" 
+  [config]= "element[element.type]"
+  [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
+></dropdown>
+<textblock *ngIf="element.type === 'textblock'"
+  [config]= "element[element.type]"
+  [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
+></textblock>
+<datatable *ngIf="element.type === 'datatable'"
+  [config]= "element[element.type]"
+  [dataset]="pair(data, element.bind)"
+></datatable>

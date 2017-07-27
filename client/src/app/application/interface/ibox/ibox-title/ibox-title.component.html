@@ -1,5 +1,7 @@
 <div class="ibox-title">
-  <h5 [innerHtml]="interface.name"></h5>
+  <h5>{{title}}
+    <small *ngIf="version"> v.{{version}}</small>
+  </h5>
   <div class="ibox-tools">
     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
   </div>

@@ -1,0 +1,11 @@
+<ul *ngIf="panels.length > 1" class="nav nav-pills nav-justified" role="tablist">
+  <li *ngFor="let panel of panels; let i = index;" [ngClass]="(i === 0)?'nav-link active':'nav-link'">
+    <a [href]="'#' + i" role="tab" [innerHtml]="panel.name" data-toggle="tab"></a>
+  </li>
+</ul>
+<div class="tab-content">
+  <panel *ngFor="let panel of panels; let i = index;" 
+    [id]="i"
+    [panel]="panel" >
+  </panel>
+</div>
