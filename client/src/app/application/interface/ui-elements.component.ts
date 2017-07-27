@@ -17,7 +17,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
   <div class="form-group">
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div [ngClass]="(!config.input.size || config.input.size == 'large' || config.input.size == '8' )?'col-sm-8': { 'small' : 'col-sm-2', 'medium' : 'col-sm-4', '1' : 'col-sm-1', '2' : 'col-sm-2', '3' : 'col-sm-3', '4' : 'col-sm-4', '5' : 'col-sm-5', '6' : 'col-sm-6', '7' : 'col-sm-7' }[config.input.size]">
-      <input type="text" class="form-control input-sm" [name]="config.input.name"[placeholder]="config.input.placeholder || '' " [attr.readonly]="config.input.readonly" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
+      <input type="text" class="form-control input-sm" [name]="config.input.name"[placeholder]="config.input.placeholder || '' " [attr.readonly]="readonly" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
     </div>
   </div>
   `,
@@ -30,6 +30,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
 export class TextboxComponent implements OnInit{
   @Input() config: TextBoxConfig;
   @Input() bind: string;
+  @Input() readonly: boolean;
   @Output() update = new EventEmitter();
 
   ngOnInit() {}
@@ -37,7 +38,7 @@ export class TextboxComponent implements OnInit{
 
 export class TextBoxConfig {
   label: { text?: string; };
-  input: { readonly?: boolean; name: string; placeholder?: string; size?: string; };
+  input: { name: string; placeholder?: string; size?: string; };
   rules?: { showIf?: string; }
 }
 
@@ -48,7 +49,7 @@ export class TextBoxConfig {
     <div class="form-group">
       <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
       <div [ngClass]="(config.label.text)? 'col-sm-8':'col-sm-12'">
-        <textarea class="form-control" [rows]="config.input.rows || 3" [name]="config.input.name" [placeholder]="config.input.placeholder || '' " [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)"></textarea>
+        <textarea class="form-control" [rows]="config.input.rows || 3" [name]="config.input.name" [placeholder]="config.input.placeholder || '' " [(ngModel)]="bind" [attr.readonly]="readonly" (ngModelChange)="update.emit(this.bind)"></textarea>
       </div>
     </div>
   `,
@@ -62,6 +63,7 @@ export class TextBoxConfig {
 export class TextblockComponent {
   @Input() config: TextBlockConfig;
   @Input() bind: string;
+  @Input() readonly: boolean;
   @Output() update = new EventEmitter();
   constructor() { }
 }
@@ -96,7 +98,7 @@ export class TextBlockConfig {
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="checkbox">
         <label>
-          <input type="checkbox" [name]="option.name" [value]="option.value || option.text" [checked]="isChecked(option.value || option.text)" (change)="updateArray((option.value || option.text), $event.target.checked); update.emit(this._bind)">
+          <input type="checkbox" [name]="option.name + id" [value]="option.value || option.text" [checked]="isChecked(option.value || option.text)" (change)="updateArray((option.value || option.text), $event.target.checked); update.emit(this._bind)">
           {{option.text}}
         </label>
       </div>
@@ -113,7 +115,7 @@ export class CheckboxComponent implements OnInit{
   @Input() config: CheckboxConfig;
   @Input() bind: any [] = [];
   @Output() update = new EventEmitter();
-
+  private id: string;
   private _bind: any [] = [];
 
   updateArray(value, checked) {
@@ -133,7 +135,8 @@ export class CheckboxComponent implements OnInit{
 
   ngOnInit() {
     if(this.bind) this._bind = this.bind;
-  }
+    this.id = Math.random().toString(36).substring(7);
+  };
 }
 
 export class CheckboxConfig {
@@ -155,7 +158,7 @@ export class CheckboxConfig {
     <div class="col-sm-8">
       <div *ngFor="let option of config.input.options" class="radio">
         <label>
-          <input type="radio" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)" [value]="option.value"> 
+          <input type="radio" [name]="config.input.name + id" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)" [value]="option.value"> 
           {{option.text}}
         </label>
       </div>
@@ -168,10 +171,15 @@ export class CheckboxConfig {
   }
   `]
 })
-export class RadioComponent {
+export class RadioComponent implements OnInit {
   @Input() config: RadioConfig;
   @Input() bind: string;
   @Output() update = new EventEmitter();
+  private id: string;
+
+  ngOnInit() {
+    this.id = Math.random().toString(36).substring(7);
+  };
 }
 
 export class RadioConfig {
@@ -190,7 +198,7 @@ export class RadioConfig {
   <div class="form-group">
     <label class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div [ngClass]="(!config.input.size || config.input.size == 'large' || config.input.size == '8' )?'col-sm-8': { 'small' : 'col-sm-2', 'medium' : 'col-sm-4', '1' : 'col-sm-1', '2' : 'col-sm-2', '3' : 'col-sm-3', '4' : 'col-sm-4', '5' : 'col-sm-5', '6' : 'col-sm-6', '7' : 'col-sm-7' }[config.input.size]">
-      <select *ngIf="!config.input.readonly" class="form-control input-sm" [name]="config.input.name" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
+      <select *ngIf="!config.input.readonly" class="form-control input-sm" [name]="config.input.name + id" [(ngModel)]="bind" (ngModelChange)="update.emit(this.bind)">
         <option *ngIf="config.input.emptyOption" value=""></option>
         <option *ngFor="let option of config.input.options" [value]="option.value" [innerHtml]="option.text"></option>
         <option *ngIf="config.input.otherOption" value="other">Other</option>
@@ -204,12 +212,15 @@ export class RadioConfig {
   }
   `]
 })
-export class DropdownComponent {
+export class DropdownComponent implements OnInit {
   @Input() config: DropdownConfig;
   @Input() bind: string;
   @Output() update = new EventEmitter();
-
   otherSelected: boolean;
+  private id: string;
+  ngOnInit() {
+    this.id = Math.random().toString(36).substring(7);
+  };
 }
 
 export class DropdownConfig {
@@ -220,25 +231,8 @@ export class DropdownConfig {
 
 /**
  * Usage:
-   <datatable
-    [config]="{
-      size: 'fill',
-      headers: { 
-        key: string; 
-        text: string; 
-      } [];
-      action: {
-        enable: boolean;
-        button?: {
-          add?:  { enable: boolean; modal: DatatableModalConfig; };
-          view?: { enable: boolean; modal: DatatableModalConfig; };
-          edit?: { enable: boolean; modal: DatatableModalConfig; };
-          delete?: { enable: boolean; message?: string; };
-        }
-      };
-    }"
-    [dataset]="datasource"
-   ></datatable>
+
+ 
  */
 @Component({
   selector: 'datatable',
@@ -416,7 +410,7 @@ export class DatatableConfig {
   selector: 'modal',
   template: `
   <div class="modal fade" [id]="id" tabindex="-1" role="dialog" [attr.aria-labelledby]="config.labelBy">
-    <div [ngClass]="(!config.size)? 'modal-dialog': { 'small' : 'modal-dialog modal-sm', 'large' : 'modal-dialog modal-lg'}" role="document">
+    <div [ngClass]="(!config.size)? 'modal-dialog': { 'small' : 'modal-dialog modal-sm', 'large' : 'modal-dialog modal-lg'}[config.size]" role="document">
       <div class="modal-content">
         <div *ngIf="config.header.enable" class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -435,7 +429,6 @@ export class DatatableConfig {
               [feed]="feed"
             ></interface-elements>
             
-            <!-- [feed]="feed" -->
           </div>
         </div>
         <div *ngIf="config.footer.enable" class="modal-footer">
@@ -500,25 +493,14 @@ export class ModalConfig {
       heading?: string;
       test?: string;
     },
-    elements: {
-      type: string; 
-      bind: string;
-      textbox?: { config: TextBoxConfig };
-      checkbox?: { config: CheckboxConfig };
-      radio?: { config: RadioConfig };
-      dropdown?: { config: DropdownConfig };
-      datatable?: { config: DatatableConfig };
-      textblock?: { config: TextBlockConfig };
-    } [];
+    elements: Elements [];
   };
   footer: {
     enable: boolean;
-    commit: {
+    commit?: {
       enable: boolean;
       text: string;
-      options: {
-        clearFormAfterSubmit?: boolean;
-      }
+      clearFormAfterSubmit?: boolean;
     }
   }
 }
@@ -571,11 +553,11 @@ export class ModalConfig {
       [attachments]="feed" 
     ></attachment>
 
-    <app-comments *ngIf="element.type === 'appcomments'"
+    <comments *ngIf="element.type === 'comment'"
       [user]="{name:'Robert De La Cruz', img: '#'}"
       [config]="element[element.type]"
       [comments]="feed"
-    ></app-comments>
+    ></comments>
 
   </div> 
   `
@@ -598,7 +580,7 @@ export class InterfaceElementsComponent implements OnInit{
 
 export class Elements {
   type: string; // textbox/checkbox/radio/dropdown/datatable
-  bind: string;
+  bind?: string;
   textbox?: TextBoxConfig;
   checkbox?: CheckboxConfig;
   radio?: RadioConfig;
@@ -606,6 +588,7 @@ export class Elements {
   datatable?: DatatableConfig;
   textblock?: TextBlockConfig;
   attachment?: AttachmentConfig;
+  comment?: CommentConfig;
 }
 
 
@@ -685,10 +668,10 @@ export class AttachmentConfig {
 
 
 @Component({
-  selector: 'app-comments',
+  selector: 'comments',
   template: `
   <textblock
-    [config]="config.input.message"
+    [config]="{ label: {}, input: {name: 'modal.comment.text', rows: 6} }"
     [bind]="text" (update)="text = $event"
   ></textblock>
 
@@ -762,9 +745,7 @@ export class CommentComponent implements OnInit {
 }
 
 export class CommentConfig {
-  input: {
-    message: TextBlockConfig;
-  };
+  input: {};
   comments: {
     user: {
       image: boolean;
@@ -774,6 +755,9 @@ export class CommentConfig {
     datetime: boolean;
   };
 }
+
+
+
 
 
 // tslint:disable-next-line:max-line-length

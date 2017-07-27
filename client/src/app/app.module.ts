@@ -31,17 +31,24 @@ import {
   InterfaceElementsComponent,
   AttachmentComponent,
   CommentComponent
-} from './application/interface/templates.component';
+} from './application/interface/ui-elements.component';
 import {
   InterfaceComponent,
   WorkflowComponent,
-  ToolstripComponent
+  ToolstripComponent,
+  FormPanelComponent
 } from './application/interface/interface.component';
 /**
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
 import { InterfaceService } from './application/interface/interface.service';
+import { GuiComponent } from './application/interface/gui/gui.component';
+import { NeptuneIboxComponent } from './application/interface/neptune-ibox/neptune-ibox.component';
+import { IboxTitleComponent } from './application/interface/neptune-ibox/ibox-title/ibox-title.component';
+import { IboxToolstripComponent } from './application/interface/neptune-ibox/ibox-toolstrip/ibox-toolstrip.component';
+import { IboxMetadataComponent } from './application/interface/neptune-ibox/ibox-metadata/ibox-metadata.component';
+import { IboxContentComponent } from './application/interface/neptune-ibox/ibox-content/ibox-content.component';
 
 
 @NgModule({
@@ -67,7 +74,14 @@ import { InterfaceService } from './application/interface/interface.service';
     CommentComponent,
     InterfaceElementsComponent,
     AttachmentComponent,
-    ToolstripComponent
+    ToolstripComponent,
+    FormPanelComponent,
+    GuiComponent,
+    NeptuneIboxComponent,
+    IboxTitleComponent,
+    IboxToolstripComponent,
+    IboxMetadataComponent,
+    IboxContentComponent
   ],
   imports: [
     BrowserModule,

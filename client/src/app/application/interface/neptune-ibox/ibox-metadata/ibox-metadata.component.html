@@ -1,0 +1,29 @@
+<div class="navbar navbar-default ibox-toolstrip">
+  <div class="ibox-container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <dl class="dl-horizontal">
+          <dt>Work Item:</dt><dd [innerHtml]="interface.data.workitem.id"></dd>
+          <dt>Source:</dt><dd [innerHtml]="interface.data.workitem.source"></dd>
+          <dt>Type:</dt><dd [innerHtml]="interface.data.workitem.type"></dd>
+          <dt>Description:</dt><dd [innerHtml]="interface.data.workitem.description"></dd>
+        </dl>
+      </div>
+      <div class="col-sm-6">
+        <dl class="dl-horizontal">
+          <dt>Creator:</dt><dd [innerHtml]="interface.data.workitem.creator"></dd>
+          <dt>Date Created:</dt><dd [innerHtml]="interface.data.workitem.created"></dd>
+        </dl>
+      </div>
+      <div class="col-sm-12">
+        <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-new-subject">Add Subject</button>
+        <modal
+          [id]= "'modal-new-subject'"
+          [config]= "interface.subject.modal"
+          [datarow]= "{}"
+          (commit)= "addSubject($event)"
+        ></modal>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,7 @@
-const contactModal = {
+import { Interfaces } from '../application/interface/interface.service';
+import { ModalConfig } from '../application/interface/ui-elements.component';
+
+const contactModal: ModalConfig = {
   header: {
     enable: true,
     text: 'Contact Information'
@@ -40,11 +43,10 @@ const contactModal = {
     }
   }
 };
-
-const attachmentModal = {
+const attachmentModal: ModalConfig = {
   header: {
     enable: true,
-    text: 'Add Document'
+    text: 'Attachments'
   },
   form: {
     elements: [
@@ -58,24 +60,18 @@ const attachmentModal = {
   },
   footer: { enable: false }
 };
-
-const commentModal = {
+const commentModal: ModalConfig = {
   header: {
     enable: true,
-    text: 'Contact Information'
+    text: 'Notes'
   },
   form: {
     elements: [
       {
-        type: 'appcomments',
+        type: 'comment',
         bind: 'comments',
-        appcomments: {
-          input: {
-            message: {
-              label: {},
-              input: {name: 'modal.comment.text', rows: 6}
-            }
-          },
+        comment: {
+          input: {},
           comments: {
             user: {
               image: true,
@@ -92,8 +88,7 @@ const commentModal = {
     enable: false
   }
 };
-
-const addressModal = {
+const addressModal: ModalConfig = {
   header: {
     enable: true,
     text: 'Client Address'
@@ -188,8 +183,7 @@ const addressModal = {
     }
   }
 };
-
-const productModal = {
+const productModal: ModalConfig = {
   header: {
     enable: true,
     text: 'Account/Product Information'
@@ -257,8 +251,7 @@ const productModal = {
     }
   }
 };
-
-const branchModal = {
+const branchModal: ModalConfig = {
   header: {
     enable: true,
     text: 'Branches and Relationhsip Managers'
@@ -322,8 +315,7 @@ const branchModal = {
     }
   }
 };
-
-const identificationModal = {
+const identificationModal: ModalConfig = {
   header: {
     enable: true,
     text: 'Identification Information'
@@ -387,8 +379,7 @@ const identificationModal = {
     }
   }
 };
-
-const citizenshipModal = {
+const citizenshipModal: ModalConfig = {
   header: {
     enable: true,
     text: 'Country of Citizenship'
@@ -428,10 +419,83 @@ const citizenshipModal = {
     }
   }
 };
+const newSubjectModal: ModalConfig = {
+  size: 'small',
+  header: {
+    enable: true,
+    text: 'Add subject to work item'
+  },
+  form: {
+    elements: [
+      {
+        type: 'dropdown',
+        bind: 'type',
+        dropdown: {
+          label: { text: 'Type' },
+          input: {
+            size: 'large',
+            name: 'modal.subject.creation.type',
+            options: [
+              { value: 'individual', text: 'Individual' },
+              { value: 'nonindividual', text: 'Non-individual' }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  footer: {
+    enable: true,
+    commit: {
+      text: 'Save',
+      enable: true
+    }
+  }
+};
 
-export const KYC = {
-  name: 'Know Your Customer',
+export const CUSTOMFORM: Interfaces = {
+  id: 'rouge1',
+  name: 'Prospect Engagement Form',
   description: null,
+  subject: {
+    add: true,
+    modal: newSubjectModal,
+    id: 'name',
+    object: {
+      individual: {
+        name: null,
+        type: 'individual',
+        tin: null,
+        dob: null,
+        employed: false,
+        license: [],
+        contact: [],
+        addresses: [],
+        products: [],
+        branches: [],
+        identification: [],
+        citizenship: null,
+        citizenshipCountry: []
+      },
+      nonindividual: {
+        id: '092c826d528339238',
+        name: null,
+        tin: null,
+        type: 'nonindividual',
+        formation: null,
+        sosoffice: null,
+        regulators: [],
+        industry: [],
+        license: [],
+        contact: [],
+        addresses: [],
+        products: [],
+        branches: [],
+        owners: [],
+        operatingCountries: []
+      }
+    }
+  },
   toolstrip: {
     enable: true,
     save: {
@@ -446,13 +510,13 @@ export const KYC = {
       modal: commentModal
     },
     share: {
-      enable: true
+      enable: false
     },
     reminder: {
-      enable: true
+      enable: false
     },
     watch: {
-      enable: true
+      enable: false
     },
     history: {
       enable: true
@@ -483,7 +547,7 @@ export const KYC = {
   panels: [
     {
       id: '005',
-      name: 'Individual (CIP)',
+      name: 'Individual Information',
       containers: [
         {
           elements: [
@@ -581,9 +645,9 @@ export const KYC = {
         }
       ]
     },
-    { // this panel will have an array of containers with cdd input fields
+    {
       id: '006',
-      name: 'Customer Due Diligence',
+      name: 'Due Diligence',
       containers: [
         {
           elements: [
@@ -710,357 +774,18 @@ export const KYC = {
   data: {
     workitem: {
       id: '122323',
-      type: null,
-      created: null,
+      type: 'OPDD',
+      description: 'Onboarding clients requires client risk assessment prior to establishing account relationship',
+      created: new Date(),
+      modified: new Date(),
       status: 'Start',
-      source: null,
-      creator: null,
+      source: 'DRT',
+      creator: 'System',
+      modifier: 'Timothy Blair',
       comments: [],
       attachments: [],
       history: [],
-      subjects: [
-        {
-          id: '092c826d528339238',
-          name: null,
-          tin: null,
-          dob: null,
-          employed: false,
-          license: [],
-          contact: [],
-          addresses: [],
-          products: [],
-          branches: [],
-          identification: [],
-          citizenship: null,
-          citizenshipCountry: []
-        },
-        {
-          id: '092c826d528339239',
-          name: null,
-          tin: null,
-          dob: null,
-          employed: false,
-          license: [],
-          contact: [],
-          addresses: [],
-          products: [],
-          branches: [],
-          identification: [],
-          citizenship: null,
-          citizenshipCountry: []
-        }
-      ]
-    }
-  }
-};
-
-
-export const KYC2 = {
-  name: 'Know Your Customer',
-  description: null,
-  toolstrip: {
-    enable: true,
-    save: {
-      enable: true
-    },
-    attachment: {
-      enable: true,
-      modal: attachmentModal
-    },
-    comment: {
-      enable: true,
-      modal: commentModal
-    },
-    share: {
-      enable: true
-    },
-    reminder: {
-      enable: true
-    },
-    watch: {
-      enable: true
-    },
-    history: {
-      enable: true
-    },
-    workflow: {
-      enable: true,
-      config: {
-        id: '1',
-        statuses: [
-          {
-            id: '1',
-            name: 'Start',
-            next: [
-              {
-                id: '2',
-                name: 'In Progress'
-              },
-              {
-                id: '3',
-                name: 'End'
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
-  panels: [
-    {
-      id: '005',
-      name: 'Individual (CIP)',
-      containers: [
-        {
-          elements: [
-            {
-              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.name',
-              textbox: {
-                label: { text: 'Name' },
-                input: { name: 'client.name', size: 'medium' }
-              }
-            },
-            {
-              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.tin',
-              textbox: {
-                label: { text: 'Tax Identification No.' },
-                input: { name: 'client.tin', size: 'small' }
-              }
-            },
-            {
-              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.dob',
-              textbox: {
-                label: { text: 'Date of Birth' },
-                input: { name: 'client.dob', size: 'small' }
-              }
-            },
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.identification',
-              datatable: {
-                size: 'large',
-                label: { text: 'Identification' },
-                headers: [
-                  { key: 'type', text: 'Type' },
-                  { key: 'number', text: 'Number' },
-                  { key: 'issuer', text: 'Issuer' },
-                  { key: 'country', text: 'Country' }
-                ],
-                action: {
-                  enable: true,
-                  modal: identificationModal,
-                  edit: true,
-                  add: true,
-                }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.contact',
-              datatable: {
-                size: 'medium',
-                label: { text: 'Contact Information' },
-                headers: [
-                  { key: 'type', text: 'Type' },
-                  { key: 'description', text: 'Description' }
-                ],
-                action: {
-                  enable: true,
-                  modal: contactModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.addresses',
-              datatable: {
-                size: 'large',
-                label: { text: 'Address' },
-                headers: [
-                  { key: 'line1', text: 'Address' },
-                  { key: 'zip', text: 'Postal Code' },
-                  { key: 'country', text: 'Country' },
-                  { key: 'type', text: 'Type' }
-                ],
-                action: {
-                  enable: true,
-                  modal: addressModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    { // this panel will have an array of containers with cdd input fields
-      id: '006',
-      name: 'Customer Due Diligence',
-      containers: [
-        {
-          elements: [
-            {
-              type: 'radio',
-              bind: 'workitem.subjects.citizenship',
-              radio: {
-                label: { text: 'Citizenship Status' },
-                input: {
-                  name: 'client.individual.citizenship',
-                  options: [
-                    { value: 'US Citizen', text: 'US Citizen' },
-                    { value: 'US Resident', text: 'US Resident' },
-                    { value: 'NRA', text: 'Non-Resident Alien' }
-                  ]
-                }
-              }
-            },
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.citizenshipCountry',
-              datatable: {
-                size: 'medium',
-                label: { text: 'Country of Citizenship' },
-                headers: [
-                  { key: 'country', text: 'Country' },
-                  { key: 'proof', text: 'Proof Obtained' }
-                ],
-                action: {
-                  enable: true,
-                  modal: citizenshipModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'radio',
-              bind: 'workitem.subjects.employed',
-              radio: {
-                label: { text: 'Employed' },
-                input: {
-                  name: 'client.employed',
-                  options: [
-                    { value: true, text: 'Yes' },
-                    { value: false, text: 'No' }
-                  ]
-                }
-              }
-            },
-            {
-              type: 'textbox',
-              bind: 'workitem.subjects.occupation',
-              textbox: {
-                label: { text: 'Primary Occupation' },
-                input: { name: 'client.occupation', size: 'medium' }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.products',
-              datatable: {
-                size: 'large',
-                label: { text: 'List all accounts' },
-                headers: [
-                  { key: 'number', text: 'Number' },
-                  { key: 'type', text: 'Type' },
-                  { key: 'relationship', text: 'Relationship' },
-                  { key: 'use', text: 'Expect Use' }
-                ],
-                action: {
-                  enable: true,
-                  modal: productModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: '004',
-      name: 'Internal Contacts',
-      header: {
-        align: 'left',
-        text: 'Relationship Managers'
-      },
-      containers: [
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'workitem.subjects.branches',
-              datatable: {
-                headers: [
-                  { key: 'employee', text: 'Employee' },
-                  { key: 'relationship', text: 'Relationship' },
-                  { key: 'division', text: 'Division' },
-                  { key: 'branch', text: 'Branch' }
-                ],
-                action: {
-                  enable: true,
-                  modal: branchModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-  ], // end panels
-  data: {
-    workitem: {
-      id: '122323',
-      type: null,
-      created: null,
-      status: 'Start',
-      source: null,
-      creator: null,
-      comments: [],
-      attachments: [],
-      history: [],
-      subjects: [
-        {
-          id: '092c826d528339238',
-          name: null,
-          tin: null,
-          dob: null,
-          employed: false,
-          license: [],
-          contact: [],
-          addresses: [],
-          products: [],
-          branches: [],
-          identification: [],
-          citizenship: null,
-          citizenshipCountry: []
-        }
-      ]
+      subjects: []
     }
   }
 };

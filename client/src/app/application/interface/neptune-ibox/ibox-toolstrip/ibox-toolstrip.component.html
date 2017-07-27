@@ -1,0 +1,29 @@
+<div class="navbar navbar-default ibox-toolstrip">
+  <div class="ibox-container-fluid">
+    <ul class="nav navbar-nav">
+      <li *ngIf="config.save.enable" data-toggle="tooltip" data-placement="top" title="Save progress"><a (click)="save()"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a></li>
+      <li *ngIf="config.attachment.enable" data-toggle="tooltip" data-placement="top" title="Add attachment"><a data-toggle="modal" data-target="#modal-attachments"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></a></li>
+      <li *ngIf="config.comment.enable" data-toggle="tooltip" data-placement="top" title="Enter notes"><a data-toggle="modal" data-target="#modal-comments"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a></li>
+      <li *ngIf="config.share.enable" data-toggle="tooltip" data-placement="top" title="Share with others"><a data-toggle="modal" data-target="#modal-share"><span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></li>
+      <li *ngIf="config.reminder.enable" data-toggle="tooltip" data-placement="top" title="Add a reminder"><a data-toggle="modal" data-target="#modal-add-notification"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></li>
+      <li *ngIf="config.watch.enable" data-toggle="tooltip" data-placement="top" title="Monitor"><a ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li>
+      <li *ngIf="config.history.enable" data-toggle="tooltip" data-placement="top" title="View History"><a ><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a></li>
+    </ul>
+    <workflow *ngIf="config.workflow.enable"
+      [config]="config.workflow.config"
+      [status]="data.workitem.status"
+    ></workflow>
+  </div>
+</div>
+
+<modal *ngIf="config.comment.enable"
+  [config]= "config.comment.modal"
+  [id]="'modal-comments'"
+  [feed]="data.workitem.comments"
+></modal>
+
+<modal *ngIf="config.attachment.enable"
+  [id]="'modal-attachments'"
+  [config]= "config.attachment.modal"
+  [feed]="data.workitem.attachments"
+></modal>

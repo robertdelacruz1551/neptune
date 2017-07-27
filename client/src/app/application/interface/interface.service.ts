@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Elements, ModalConfig } from './templates.component';
-import { KYC } from '../../MockData/interface-mock';
+import { Elements, ModalConfig } from './ui-elements.component';
+import { CUSTOMFORM } from '../../MockData/interface-mock';
+import { USERMANAGER } from '../../MockData/user-management';
 
 export class Interfaces {
   id: string;
   name: string;
   description?: string;
-  sidebar: {
-    enable: boolean;
-    label: string;
+  subject: {
+    add: boolean;
+    modal: any | ModalConfig;
+    id: string;
+    object: any;
   };
   toolstrip?: Toolstrip;
   panels: Panels [];
@@ -24,7 +27,7 @@ export class Toolstrip {
   };
   attachment?: {
     enable: boolean;
-    model: ModalConfig;
+    modal: ModalConfig;
   };
   comment?: {
     enable: boolean;
@@ -42,14 +45,13 @@ export class Toolstrip {
   history?: {
     enable: boolean
   };
-  Workflow?: {
+  workflow?: {
     enable: boolean;
     config: Workflow;
   };
 };
 
 export class Workflow {
-  enable: boolean;
   id: string;
   statuses: {
     id: string;
@@ -61,29 +63,32 @@ export class Workflow {
 class Workitem {
   id: string;
   type: string;
+  description?: string;
   created: Date;
+  modified?: Date;
   status: string;
   source: string;
   creator: string;
+  modifier?: string;
   comments: any [];
   attachments: any [];
   history: any [];
   subjects: any [];
 }
 
-class Panels {
+export class Panels {
   id: string;
   name: string;
   header?: Header;
   containers: Containers [];
-}
+};
 
-class Containers {
+export class Containers {
   header?: Header;
   elements: Elements [];
-}
+};
 
-class Header {
+export class Header {
   align: string;
   text?: string;
   subtext?: string;
@@ -91,6 +96,6 @@ class Header {
 
 @Injectable()
 export class InterfaceService {
-  interface = KYC;
+  interface = USERMANAGER || CUSTOMFORM;
   constructor() { }
 }

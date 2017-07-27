@@ -1,12 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { InterfaceService, Interfaces, Workflow } from './interface.service';
+import { InterfaceService, Interfaces, Workflow, Panels } from './interface.service';
 declare var jQuery: any;
 
 const InterfaceDefault: Interfaces = {
   id: null,
   name: null,
+  subject: {
+    add: true,
+    modal: {},
+    id: 'name',
+    object: {}
+  },
   description: null,
-  sidebar: { enable: false, label: null },
   toolstrip: { enable: false },
   panels: [],
   data: {
@@ -17,6 +22,8 @@ const InterfaceDefault: Interfaces = {
       status: null,
       source: null,
       creator: null,
+      modified: null,
+      modifier: null,
       comments: [],
       attachments: [],
       history: [],
@@ -37,52 +44,61 @@ const InterfaceDefault: Interfaces = {
             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </div>
         </div>
-        <toolstrip *ngIf="interface.toolstrip && interface.toolstrip.enable"
-          [config]="interface.toolstrip"
-          [data]="interface.data"
+        <toolstrip *ngIf="interface.toolstrip && interface.toolstrip.enable" 
+          [config]="interface.toolstrip" [data]="interface.data"
         ></toolstrip>
         <div class="ibox-content">
           <!-- FORM START -->
-          <div class="form-horizontal"> 
-<div *ngFor="let subject of interface.data.workitem.subjects; let s = index" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        Subject Id: 
-        <a role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#' + subject.id" aria-expanded="true" [attr.aria-controls]="subject.id" [innerHtml]="subject.id"></a>
-        <a class="pull-right" role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#' + subject.id" aria-expanded="true" [attr.aria-controls]="subject.id" [innerHtml]="subject.name"></a>
-      </h4>
-    </div>
-    <div [id]="subject.id" [ngClass]="(s === 0)?'panel-collapse collapse in':'panel-collapse collapse'" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
-        <!-- INDIVIDUAL SUBJECT FORM START -->
-        <ul *ngIf="interface.panels.length > 1" class="nav nav-pills nav-justified" role="tablist">
-          <li *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'nav-link active':'nav-link'">
-            <a [href]="'#' + subject.id + panel.id" role="tab" [innerHtml]="panel.name" data-toggle="tab"></a>
-          </li>
-        </ul>
-        <div class="tab-content">
-          <div *ngFor="let panel of interface.panels; let i = index;" [ngClass]="(i === 0)?'tab-pane active':'tab-pane'" [id]="+ subject.id + panel.id" role="tabpanel">
-            <div class="row">
-              <div *ngIf="panel.header" [ngClass]="{'left':'text-left col-sm-12', 'center':'text-center col-sm-12', 'right':'text-right col-sm-12'}[panel.header.align]">
-                <h2 [innerHtml]="panel.header.text"></h2>
-                <p [innerHtml]="panel.header.subtext"></p>
-              </div>
-              <div *ngFor="let container of panel.containers; let containerCount = index;" class="col-sm-12 pane-container">
-                <div *ngIf="containerCount !== 0" class="hr-line-dashed"></div>
-                <interface-elements
-                  [elements]="container.elements"
-                  [data]="subject"
-                ></interface-elements>
+          <div class="form-horizontal">
+            <!-- Workitem information start-->
+            <div class="navbar navbar-default ibox-toolstrip">
+              <div class="ibox-container-fluid">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <dl class="dl-horizontal">
+                      <dt>Work Item:</dt><dd [innerHtml]="interface.data.workitem.id"></dd>
+                      <dt>Source:</dt><dd [innerHtml]="interface.data.workitem.source"></dd>
+                      <dt>Type:</dt><dd [innerHtml]="interface.data.workitem.type"></dd>
+                      <dt>Description:</dt><dd [innerHtml]="interface.data.workitem.description"></dd>
+                    </dl>
+                  </div>
+                  <div class="col-sm-6">
+                    <dl class="dl-horizontal">
+                      <dt>Creator:</dt><dd [innerHtml]="interface.data.workitem.creator"></dd>
+                      <dt>Date Created:</dt><dd [innerHtml]="interface.data.workitem.created"></dd>
+                    </dl>
+                  </div>
+                  <div class="col-sm-12">
+                    <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-new-subject">Add Subject</button>
+                    <modal
+                      [id]= "'modal-new-subject'"
+                      [config]= "interface.subject.modal"
+                      [datarow]= "{}"
+                      (commit)= "addSubject($event)"
+                    ></modal>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div> 
-        <!-- INDIVIDUAL SUBJECT FORM END -->
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="hr-line-dashed"></div>
+            <!-- Workitem information end-->
+            <!-- Create a component to display workitem data -->
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <div *ngFor="let subject of interface.data.workitem.subjects; let s = index" class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    Subject: 
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#subject' + s" aria-expanded="true" [attr.aria-controls]="'subject' + s" [innerHtml]="subject[interface.subject.id]"></a>
+                    <a class="pull-right" role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#subject' + s" aria-expanded="true" ><i class="fa fa-chevron-up"></i></a>
+                  </h4>
+                </div>
+                <div [id]="'subject' + s" [ngClass]="(s === 0)?'panel-collapse collapse in':'panel-collapse collapse'" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    <form-panel [panels]="interface.panels" [subject]="subject" ></form-panel>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- FORM END -->
         </div>
@@ -91,28 +107,15 @@ const InterfaceDefault: Interfaces = {
   </div>
   `,
   styles: [`
-    .tab-content {
-      padding-top: 25px;
-      padding-bottom: 50px;
-    }
-    .pane-container {
-      padding-top: 25px;
-    }
-    .nav-pills>li>a {
-      font-size: 11px; 
-    }
-    .nav-pills > li.active {
-      border-left: 0px;
-      background: white;
-    }
-    .nav-link {
-      padding: 0px 5px 0px 5px;
-    }
-    .navbar {
+    .panel-group .panel {
       border-radius: 0px;
     }
-    .nav > li > a {
-      padding: 15px 25px 14px 25px;
+    .panel-heading {
+      padding-top: 4px;
+      padding-bottom: 5px;
+    }
+    .workitem {
+
     }
   `]
 })
@@ -123,6 +126,11 @@ export class InterfaceComponent implements OnInit {
     private service: InterfaceService
   ) { }
 
+  addSubject(obj: string) {
+    let subject = JSON.parse(JSON.stringify(this.interface.subject.object[obj['type']]));
+    this.interface.data.workitem.subjects.push(subject);
+  };
+
   ngOnInit() {
     this.interface = this.service.interface || InterfaceDefault;
   };
@@ -131,6 +139,73 @@ export class InterfaceComponent implements OnInit {
     console.log(this.interface.data);
   }
 }
+
+
+
+@Component({
+  selector: 'form-panel',
+  template:`
+  <!-- INDIVIDUAL SUBJECT FORM START -->
+  <ul *ngIf="panels.length > 1" class="nav nav-pills nav-justified" role="tablist">
+    <li *ngFor="let panel of panels; let i = index;" [ngClass]="(i === 0)?'nav-link active':'nav-link'">
+      <a [href]="'#' + subject.id + panel.id" role="tab" [innerHtml]="panel.name" data-toggle="tab"></a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div *ngFor="let panel of panels; let i = index;" [ngClass]="(i === 0)?'tab-pane active':'tab-pane'" [id]="+ subject.id + panel.id" role="tabpanel">
+      <div class="row">
+        <div *ngIf="panel.header" [ngClass]="{'left':'text-left col-sm-12', 'center':'text-center col-sm-12', 'right':'text-right col-sm-12'}[panel.header.align]">
+          <h2 [innerHtml]="panel.header.text"></h2>
+          <p [innerHtml]="panel.header.subtext"></p>
+        </div>
+        <div *ngFor="let container of panel.containers; let containerCount = index;" class="col-sm-12 pane-container">
+          <div *ngIf="containerCount !== 0" class="hr-line-dashed"></div>
+          <interface-elements
+            [elements]="container.elements"
+            [data]="subject"
+          ></interface-elements>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- INDIVIDUAL SUBJECT FORM END -->
+  `,
+  styles: [`
+    .tab-content {
+      padding-top: 25px;
+      padding-bottom: 50px;
+    }
+    .pane-container {
+      padding-top: 25px;
+    }
+    .nav-link {
+      padding: 0px 5px 0px 5px;
+    }
+    .nav-pills>li>a {
+      font-size: 11px; 
+    }
+    .nav-pills > li.active {
+      border-left: 0px;
+      background: white;
+    }
+    .navbar {
+      border-radius: 0px;
+    }
+    .nav > li > a {
+      padding: 15px 25px 14px 25px;
+    }
+  `]
+})
+
+export class FormPanelComponent implements OnInit {
+  @Input() panels: Panels [];
+  @Input() subject: any;
+  constructor() { }
+  ngOnInit() { }
+}
+
+
+
 
 
 
@@ -257,15 +332,6 @@ export class ToolstripComponent {
 
   
   constructor() { }
-  ngOnInit() {
-  }
+  ngOnInit() { }
 }
-
-/**
-  <social-modal
-    [comments] = "interface.data.workitem.comments"
-    [user] = "{name:'Robert De La Cruz', img: '#'}"
-  ></social-modal>
- */
-
 // tslint:disable-next-line:max-line-length
