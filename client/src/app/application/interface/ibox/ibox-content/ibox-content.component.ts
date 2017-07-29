@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'ibox-content',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ibox-content.component.css']
 })
 export class IboxContentComponent implements OnInit {
+  @Input() panels;
+  @Input() data;
   constructor() { }
   ngOnInit() {
   }

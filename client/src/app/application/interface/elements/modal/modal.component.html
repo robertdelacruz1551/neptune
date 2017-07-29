@@ -6,7 +6,9 @@
         <h4 class="modal-title" [id]="config.labelBy" [innerHtml]="config.header.text"></h4>
       </div>
       <div class="modal-body">
-        <neptune-wizard></neptune-wizard>
+        <div class="form-horizontal">
+          <wizard [panels]="config.form.panels" [data]="editableDatarow"></wizard>
+        </div>
       </div>
       <div *ngIf="config.footer.enable" class="modal-footer">
         <button (click)="cancelChange()" type="button" class="btn btn-default btn-action" data-dismiss="modal">Cancel</button>

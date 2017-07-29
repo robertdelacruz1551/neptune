@@ -1,9 +1,7 @@
-<div [ngClass]="(id === 0)?'tab-pane active':'tab-pane'" [id]="id" role="tabpanel">
-  <div class="row">
-    <div *ngIf="header || description">
-      <h2 [innerHtml]="header"></h2>
-      <p [innerHtml]="description"></p>
-    </div>
-    <container *ngFor="let container of panel.containers"></container>
+<div class="row">
+  <div *ngIf="header || description">
+    <h2 [innerHtml]="header"></h2>
+    <p [innerHtml]="description"></p>
   </div>
+  <container *ngFor="let container of panel.containers" [elements]="container.elements" [data]="data"></container>
 </div>

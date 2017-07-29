@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Panels } from '../../ibox/ibox.service';
 
 @Component({
   selector: 'modal',
@@ -8,7 +9,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class ModalComponent implements OnInit {
   @Input() id: string;
   @Input() datarow: any = {};
-  @Input() feed: any [] = []; // used to feed data into a data displaying element like the app-comments element
   @Input() config: ModalConfig;
   @Output() commit = new EventEmitter();
 /**
@@ -52,7 +52,7 @@ export class ModalConfig {
     text: string;
   };
   form: {
-// add the wizord object
+    panels: Panels;
   };
   footer: {
     enable: boolean;

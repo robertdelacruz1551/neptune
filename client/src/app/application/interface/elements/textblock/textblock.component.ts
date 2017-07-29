@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-textblock',
+  selector: 'textblock',
   templateUrl: './textblock.component.html',
   styleUrls: ['./textblock.component.css']
 })

@@ -8,7 +8,11 @@ import { Toolstrip } from '../ibox.service';
 })
 export class IboxToolstripComponent implements OnInit {
   @Input() toolstring: Toolstrip;
+  @Input() ibox;
   constructor() { }
   ngOnInit() {
+  }
+  view() {
+    console.log(this.ibox);
   }
 }

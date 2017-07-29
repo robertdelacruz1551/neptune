@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-radio',
+  selector: 'radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.css']
 })

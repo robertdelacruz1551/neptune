@@ -30,17 +30,19 @@ import { PanelComponent } from './application/interface/elements/wizard/panel/pa
 import { ContainerComponent } from './application/interface/elements/wizard/panel/container/container.component';
 import { ElementsComponent } from './application/interface/elements/wizard/panel/container/elements/elements.component';
 import { ModalComponent } from './application/interface/elements/modal/modal.component';
+import { TextboxComponent } from './application/interface/elements/textbox/textbox.component';
+import { CheckboxComponent } from './application/interface/elements/checkbox/checkbox.component';
+import { RadioComponent } from './application/interface/elements/radio/radio.component';
+import { DropdownComponent } from './application/interface/elements/dropdown/dropdown.component';
+import { DatatableComponent } from './application/interface/elements/datatable/datatable.component';
+import { TextblockComponent } from './application/interface/elements/textblock/textblock.component';
 
 /**
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
 import { InterfaceService } from './application/interface/interface.service';
-import { TextboxComponent } from './application/interface/elements/textbox/textbox.component';
-import { CheckboxComponent } from './application/interface/elements/checkbox/checkbox.component';
-import { RadioComponent } from './application/interface/elements/radio/radio.component';
-import { DropdownComponent } from './application/interface/elements/dropdown/dropdown.component';
-import { DatatableComponent } from './application/interface/elements/datatable/datatable.component';
+import { IboxService } from './application/interface/ibox/ibox.service';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,8 @@ import { DatatableComponent } from './application/interface/elements/datatable/d
     CheckboxComponent,
     RadioComponent,
     DropdownComponent,
-    DatatableComponent
+    DatatableComponent,
+    TextblockComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +93,8 @@ import { DatatableComponent } from './application/interface/elements/datatable/d
   ],
   providers: [
     SidebarService,
-    InterfaceService
+    InterfaceService,
+    IboxService
   ],
   bootstrap: [AppComponent]
 })

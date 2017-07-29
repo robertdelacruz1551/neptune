@@ -1,11 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { IboxService } from './ibox.service';
 
 @Component({
-  selector: 'neptune-ibox',
-  templateUrl: './neptune-ibox.component.html',
-  styleUrls: ['./neptune-ibox.component.css']
+  selector: 'ibox',
+  templateUrl: './ibox.component.html',
+  styleUrls: ['./ibox.component.css']
 })
 export class IboxComponent implements OnInit {
-  constructor() { }
-  ngOnInit() { }
+  private interface;
+  constructor(
+    private service: IboxService
+  ) { }
+  ngOnInit() {
+    this.interface = this.service.interface;
+  }
 }

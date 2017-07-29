@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalConfig } from '../modal/modal.component';
 
 @Component({
-  selector: 'app-datatable',
+  selector: 'datatable',
   templateUrl: './datatable.component.html',
   styleUrls: ['./datatable.component.css']
 })

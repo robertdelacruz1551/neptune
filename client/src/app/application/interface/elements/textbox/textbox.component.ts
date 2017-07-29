@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-textbox',
+  selector: 'textbox',
   templateUrl: './textbox.component.html',
   styleUrls: ['./textbox.component.css']
 })

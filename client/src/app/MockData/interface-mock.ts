@@ -1,36 +1,46 @@
-import { Interfaces } from '../application/interface/interface.service';
-import { ModalConfig } from '../application/interface/ui-elements.component';
+import { Interfaces } from '../application/interface/ibox/ibox.service';
+import { ModalConfig } from '../application/interface/elements/modal/modal.component';
 
-const contactModal: ModalConfig = {
+const contactModal = {
   header: {
     enable: true,
     text: 'Contact Information'
   },
   form: {
-    elements: [
+    panels: [
       {
-        type: 'dropdown',
-        bind: 'type',
-        dropdown: {
-          label: { text: 'Type' },
-          input: {
-            size: 'medium',
-            name: 'modal.contact.type',
-            options: [
-              { value: 'Email', text: 'Email' },
-              { value: 'Mobile Number', text: 'Mobile Number' },
-              { value: 'Home Number', text: 'Home Number' }
+        id: '001',
+        name: 'Contact',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'dropdown',
+                bind: 'type',
+                dropdown: {
+                  label: { text: 'Type' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.contact.type',
+                    options: [
+                      { value: 'Email', text: 'Email' },
+                      { value: 'Mobile Number', text: 'Mobile Number' },
+                      { value: 'Home Number', text: 'Home Number' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'description',
+                textbox: {
+                  label: { text: 'Description' },
+                  input: { name: 'modal.contact.description', size: '6' }
+                }
+              }
             ]
           }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'description',
-        textbox: {
-          label: { text: 'Description' },
-          input: { name: 'modal.contact.description', size: '6' }
-        }
+        ]
       }
     ]
   },
@@ -43,135 +53,100 @@ const contactModal: ModalConfig = {
     }
   }
 };
-const attachmentModal: ModalConfig = {
-  header: {
-    enable: true,
-    text: 'Attachments'
-  },
-  form: {
-    elements: [
-      {
-        type: 'attachment',
-        attachment: {
-          input: { name: 'modal.attachment.file' }
-        }
-      }
-    ]
-  },
-  footer: { enable: false }
-};
-const commentModal: ModalConfig = {
-  header: {
-    enable: true,
-    text: 'Notes'
-  },
-  form: {
-    elements: [
-      {
-        type: 'comment',
-        bind: 'comments',
-        comment: {
-          input: {},
-          comments: {
-            user: {
-              image: true,
-              name: true,
-              id: true,
-            },
-            datetime: true,
-          }
-        }
-      }
-    ]
-  },
-  footer: {
-    enable: false
-  }
-};
-const addressModal: ModalConfig = {
+const addressModal = {
   header: {
     enable: true,
     text: 'Client Address'
   },
   form: {
-    elements: [
+    panels: [
       {
-        type: 'textbox',
-        bind: 'line1',
-        textbox: {
-          label: { text: 'Street address' },
-          input: { name: 'modal.addresses.line1', size: '6', placeholder: 'Line 1' }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'line2',
-        textbox: {
-          label: { text: null },
-          input: { name: 'modal.addresses.line2', size: '6', placeholder: 'Line 2' }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'line3',
-        textbox: {
-          label: { text: null },
-          input: { name: 'modal.addresses.line3', size: '6', placeholder: 'Line 3' }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'city',
-        textbox: {
-          label: { text: 'City' },
-          input: { name: 'modal.addresses.city', size: '6' }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'state',
-        textbox: {
-          label: { text: 'State' },
-          input: { name: 'modal.addresses.state', size: 'small' }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'zip',
-        textbox: {
-          label: { text: 'Postal Code' },
-          input: { name: 'modal.addresses.zip', size: 'medium' }
-        }
-      },
-      {
-        type: 'dropdown',
-        bind: 'country',
-        dropdown: {
-          label: { text: 'Country' },
-          input: {
-            size: 'medium',
-            name: 'modal.addresses.country',
-            options: [
-              { value: 'USA', text: 'United States' },
-              { value: 'Other', text: 'Other' }
+        id: '001',
+        name: 'Contact',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'textbox',
+                bind: 'line1',
+                textbox: {
+                  label: { text: 'Street address' },
+                  input: { name: 'modal.addresses.line1', size: '6', placeholder: 'Line 1' }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'line2',
+                textbox: {
+                  label: { text: null },
+                  input: { name: 'modal.addresses.line2', size: '6', placeholder: 'Line 2' }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'line3',
+                textbox: {
+                  label: { text: null },
+                  input: { name: 'modal.addresses.line3', size: '6', placeholder: 'Line 3' }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'city',
+                textbox: {
+                  label: { text: 'City' },
+                  input: { name: 'modal.addresses.city', size: '6' }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'state',
+                textbox: {
+                  label: { text: 'State' },
+                  input: { name: 'modal.addresses.state', size: 'small' }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'zip',
+                textbox: {
+                  label: { text: 'Postal Code' },
+                  input: { name: 'modal.addresses.zip', size: 'medium' }
+                }
+              },
+              {
+                type: 'dropdown',
+                bind: 'country',
+                dropdown: {
+                  label: { text: 'Country' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.addresses.country',
+                    options: [
+                      { value: 'USA', text: 'United States' },
+                      { value: 'Other', text: 'Other' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'dropdown',
+                bind: 'type',
+                dropdown: {
+                  label: { text: 'Type' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.addresses.type',
+                    options: [
+                      { value: 'Primary Residence', text: 'Primary Residence' },
+                      { value: 'Vacation Home', text: 'Vacation Home' }
+                    ]
+                  }
+                }
+              }
             ]
           }
-        }
-      },
-      {
-        type: 'dropdown',
-        bind: 'type',
-        dropdown: {
-          label: { text: 'Type' },
-          input: {
-            size: 'medium',
-            name: 'modal.addresses.type',
-            options: [
-              { value: 'Primary Residence', text: 'Primary Residence' },
-              { value: 'Vacation Home', text: 'Vacation Home' }
-            ]
-          }
-        }
+        ]
       }
     ]
   },
@@ -183,63 +158,73 @@ const addressModal: ModalConfig = {
     }
   }
 };
-const productModal: ModalConfig = {
+const productModal = {
   header: {
     enable: true,
     text: 'Account/Product Information'
   },
   form: {
-    elements: [
+    panels: [
       {
-        type: 'textbox',
-        bind: 'number',
-        textbox: {
-          label: { text: 'Number' },
-          input: { name: 'modal.products.number', size: '6' }
-        }
-      },
-      {
-        type: 'dropdown',
-        bind: 'type',
-        dropdown: {
-          label: { text: 'Type' },
-          input: {
-            size: 'medium',
-            name: 'modal.product.type',
-            options: [
-              { value: 'Accounting', text: 'Accounting' },
-              { value: 'Tax Audit Services', text: 'Tax Audit Services' }
+        id: '001',
+        name: 'Contact',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'textbox',
+                bind: 'number',
+                textbox: {
+                  label: { text: 'Number' },
+                  input: { name: 'modal.products.number', size: '6' }
+                }
+              },
+              {
+                type: 'dropdown',
+                bind: 'type',
+                dropdown: {
+                  label: { text: 'Type' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.product.type',
+                    options: [
+                      { value: 'Accounting', text: 'Accounting' },
+                      { value: 'Tax Audit Services', text: 'Tax Audit Services' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'dropdown',
+                bind: 'relationship',
+                dropdown: {
+                  label: { text: 'Relationship' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.product.relationship',
+                    options: [
+                      { value: 'Primary', text: 'Primary Signor' },
+                      { value: 'Secondary', text: 'Secondary Signor' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'checkbox',
+                bind: 'use',
+                checkbox: {
+                  label: { text: 'Expected activity'},
+                  input: { options: [
+                    { name: 'modal.product.use', value: 'Wires (International)', text: 'International Wires' },
+                    { name: 'modal.product.use', value: 'Wires (Domestic)', text: 'Domestic Wires' },
+                    { name: 'modal.product.use', value: 'ACH', text: 'Account Clearing House (ACH)' },
+                    { name: 'modal.product.use', value: 'RDC', text: 'Remote Deposit Capture (RDC)' }
+                  ]}
+                }
+              }
             ]
           }
-        }
-      },
-      {
-        type: 'dropdown',
-        bind: 'relationship',
-        dropdown: {
-          label: { text: 'Relationship' },
-          input: {
-            size: 'medium',
-            name: 'modal.product.relationship',
-            options: [
-              { value: 'Primary', text: 'Primary Signor' },
-              { value: 'Secondary', text: 'Secondary Signor' }
-            ]
-          }
-        }
-      },
-      {
-        type: 'checkbox',
-        bind: 'use',
-        checkbox: {
-          label: { text: 'Expected activity'},
-          input: { options: [
-            { name: 'modal.product.use', value: 'Wires (International)', text: 'International Wires' },
-            { name: 'modal.product.use', value: 'Wires (Domestic)', text: 'Domestic Wires' },
-            { name: 'modal.product.use', value: 'ACH', text: 'Account Clearing House (ACH)' },
-            { name: 'modal.product.use', value: 'RDC', text: 'Remote Deposit Capture (RDC)' }
-          ]}
-        }
+        ]
       }
     ]
   },
@@ -251,59 +236,69 @@ const productModal: ModalConfig = {
     }
   }
 };
-const branchModal: ModalConfig = {
+const branchModal = {
   header: {
     enable: true,
     text: 'Branches and Relationhsip Managers'
   },
   form: {
-    elements: [
+    panels: [
       {
-        type: 'textbox',
-        bind: 'employee',
-        textbox: {
-          label: { text: 'Employee Name' },
-          input: { name: 'modal.branchs.employee', size: '6' }
-        }
-      },
-      {
-        type: 'dropdown',
-        bind: 'relationship',
-        dropdown: {
-          label: { text: 'Relationship' },
-          input: {
-            size: 'medium',
-            name: 'modal.branchs.relationship',
-            options: [
-              { value: 'Relationship Manager', text: 'Relationship Manager' },
-              { value: 'Loan Officer', text: 'Loan Officer' },
-              { value: 'Financial Advisor', text: 'Financial Advisor' }
+        id: '001',
+        name: 'Contact',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'textbox',
+                bind: 'employee',
+                textbox: {
+                  label: { text: 'Employee Name' },
+                  input: { name: 'modal.branchs.employee', size: '6' }
+                }
+              },
+              {
+                type: 'dropdown',
+                bind: 'relationship',
+                dropdown: {
+                  label: { text: 'Relationship' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.branchs.relationship',
+                    options: [
+                      { value: 'Relationship Manager', text: 'Relationship Manager' },
+                      { value: 'Loan Officer', text: 'Loan Officer' },
+                      { value: 'Financial Advisor', text: 'Financial Advisor' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'dropdown',
+                bind: 'division',
+                dropdown: {
+                  label: { text: 'Division' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.branchs.division',
+                    options: [
+                      { value: 'North America', text: 'North East' },
+                      { value: 'APAC', text: 'APAC' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'branch',
+                textbox: {
+                  label: { text: 'Branch' },
+                  input: { name: 'modal.branchs.branch', size: '6' }
+                }
+              }
             ]
           }
-        }
-      },
-      {
-        type: 'dropdown',
-        bind: 'division',
-        dropdown: {
-          label: { text: 'Division' },
-          input: {
-            size: 'medium',
-            name: 'modal.branchs.division',
-            options: [
-              { value: 'North America', text: 'North East' },
-              { value: 'APAC', text: 'APAC' }
-            ]
-          }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'branch',
-        textbox: {
-          label: { text: 'Branch' },
-          input: { name: 'modal.branchs.branch', size: '6' }
-        }
+        ]
       }
     ]
   },
@@ -315,59 +310,69 @@ const branchModal: ModalConfig = {
     }
   }
 };
-const identificationModal: ModalConfig = {
+const identificationModal = {
   header: {
     enable: true,
     text: 'Identification Information'
   },
   form: {
-    elements: [
+    panels: [
       {
-        type: 'dropdown',
-        bind: 'type',
-        dropdown: {
-          label: { text: 'Identification Type' },
-          input: {
-            size: 'medium',
-            name: 'modal.identification.type',
-            options: [
-              { value: 'Drivers License', text: 'Drivers License' },
-              { value: 'State Issued ID', text: 'State Issued ID' },
-              { value: 'Passport', text: 'Passport' }
+        id: '001',
+        name: 'Contact',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'dropdown',
+                bind: 'type',
+                dropdown: {
+                  label: { text: 'Identification Type' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.identification.type',
+                    options: [
+                      { value: 'Drivers License', text: 'Drivers License' },
+                      { value: 'State Issued ID', text: 'State Issued ID' },
+                      { value: 'Passport', text: 'Passport' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'number',
+                textbox: {
+                  label: { text: 'ID Number' },
+                  input: { name: 'modal.identification.number', size: '6' }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'issuer',
+                textbox: {
+                  label: { text: 'Issuer' },
+                  input: { name: 'modal.identification.issuer', size: '6' }
+                }
+              },
+              {
+                type: 'dropdown',
+                bind: 'country',
+                dropdown: {
+                  label: { text: 'Country' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.identification.country',
+                    options: [
+                      { value: 'USA', text: 'United States' },
+                      { value: 'Other', text: 'Other' }
+                    ]
+                  }
+                }
+              }
             ]
           }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'number',
-        textbox: {
-          label: { text: 'ID Number' },
-          input: { name: 'modal.identification.number', size: '6' }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'issuer',
-        textbox: {
-          label: { text: 'Issuer' },
-          input: { name: 'modal.identification.issuer', size: '6' }
-        }
-      },
-      {
-        type: 'dropdown',
-        bind: 'country',
-        dropdown: {
-          label: { text: 'Country' },
-          input: {
-            size: 'medium',
-            name: 'modal.identification.country',
-            options: [
-              { value: 'USA', text: 'United States' },
-              { value: 'Other', text: 'Other' }
-            ]
-          }
-        }
+        ]
       }
     ]
   },
@@ -379,68 +384,45 @@ const identificationModal: ModalConfig = {
     }
   }
 };
-const citizenshipModal: ModalConfig = {
+const citizenshipModal = {
   header: {
     enable: true,
     text: 'Country of Citizenship'
   },
   form: {
-    elements: [
+    panels: [
       {
-        type: 'dropdown',
-        bind: 'country',
-        dropdown: {
-          label: { text: 'Country' },
-          input: {
-            size: 'medium',
-            name: 'modal.citizenship.country',
-            options: [
-              { value: 'USA', text: 'United States' },
-              { value: 'Other', text: 'Other' }
+        id: '001',
+        name: 'Contact',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'dropdown',
+                bind: 'country',
+                dropdown: {
+                  label: { text: 'Country' },
+                  input: {
+                    size: 'medium',
+                    name: 'modal.citizenship.country',
+                    options: [
+                      { value: 'USA', text: 'United States' },
+                      { value: 'Other', text: 'Other' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'proof',
+                textbox: {
+                  label: { text: 'Proof of Citizenship' },
+                  input: { name: 'modal.citizenship.proof', size: '6' }
+                }
+              }
             ]
           }
-        }
-      },
-      {
-        type: 'textbox',
-        bind: 'proof',
-        textbox: {
-          label: { text: 'Proof of Citizenship' },
-          input: { name: 'modal.citizenship.proof', size: '6' }
-        }
-      }
-    ]
-  },
-  footer: {
-    enable: true,
-    commit: {
-      text: 'Save',
-      enable: true
-    }
-  }
-};
-const newSubjectModal: ModalConfig = {
-  size: 'small',
-  header: {
-    enable: true,
-    text: 'Add subject to work item'
-  },
-  form: {
-    elements: [
-      {
-        type: 'dropdown',
-        bind: 'type',
-        dropdown: {
-          label: { text: 'Type' },
-          input: {
-            size: 'large',
-            name: 'modal.subject.creation.type',
-            options: [
-              { value: 'individual', text: 'Individual' },
-              { value: 'nonindividual', text: 'Non-individual' }
-            ]
-          }
-        }
+        ]
       }
     ]
   },
@@ -453,61 +435,16 @@ const newSubjectModal: ModalConfig = {
   }
 };
 
-export const CUSTOMFORM: Interfaces = {
+
+export const CUSTOMFORM = {
   id: 'rouge1',
-  name: 'Prospect Engagement Form',
+  title: 'Prospect Engagement Form',
+  version: '1.0',
   description: null,
-  subject: {
-    add: true,
-    modal: newSubjectModal,
-    id: 'name',
-    object: {
-      individual: {
-        name: null,
-        type: 'individual',
-        tin: null,
-        dob: null,
-        employed: false,
-        license: [],
-        contact: [],
-        addresses: [],
-        products: [],
-        branches: [],
-        identification: [],
-        citizenship: null,
-        citizenshipCountry: []
-      },
-      nonindividual: {
-        id: '092c826d528339238',
-        name: null,
-        tin: null,
-        type: 'nonindividual',
-        formation: null,
-        sosoffice: null,
-        regulators: [],
-        industry: [],
-        license: [],
-        contact: [],
-        addresses: [],
-        products: [],
-        branches: [],
-        owners: [],
-        operatingCountries: []
-      }
-    }
-  },
   toolstrip: {
     enable: true,
     save: {
       enable: true
-    },
-    attachment: {
-      enable: true,
-      modal: attachmentModal
-    },
-    comment: {
-      enable: true,
-      modal: commentModal
     },
     share: {
       enable: false
@@ -785,7 +722,9 @@ export const CUSTOMFORM: Interfaces = {
       comments: [],
       attachments: [],
       history: [],
-      subjects: []
+      subject: {
+        contact: []
+      }
     }
   }
 };

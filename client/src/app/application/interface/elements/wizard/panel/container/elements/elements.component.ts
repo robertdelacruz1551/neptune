@@ -1,5 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { TextBoxConfig } from '../../../../textbox/textbox.component';
+import { CheckboxConfig } from '../../../../checkbox/checkbox.component';
+import { RadioConfig } from '../../../../radio/radio.component';
+import { DropdownConfig } from '../../../../dropdown/dropdown.component';
+import { DatatableConfig } from '../../../../datatable/datatable.component';
+import { TextBlockConfig } from '../../../../textblock/textblock.component';
 @Component({
   selector: 'elements',
   templateUrl: './elements.component.html',
@@ -7,7 +12,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ElementsComponent implements OnInit {
   @Input() data: any;
-  @Input() elements: Elements [] = [];
+  @Input() element: Elements [] = [];
 
   pair(object, bind, value) {
     if (typeof bind === 'string') {
@@ -26,8 +31,7 @@ export class ElementsComponent implements OnInit {
 }
 
 export class Elements {
-/** 
-  type: string; // textbox/checkbox/radio/dropdown/datatable
+  type: string;
   bind?: string;
   textbox?: TextBoxConfig;
   checkbox?: CheckboxConfig;
@@ -35,7 +39,4 @@ export class Elements {
   dropdown?: DropdownConfig;
   datatable?: DatatableConfig;
   textblock?: TextBlockConfig;
-  attachment?: AttachmentConfig;
-  comment?: CommentConfig;
- */
 }
