@@ -43,6 +43,7 @@ import { TextblockComponent } from './application/interface/elements/textblock/t
 import { SidebarService } from './application/sidebar/sidebar.service';
 import { InterfaceService } from './application/interface/interface.service';
 import { IboxService } from './application/interface/ibox/ibox.service';
+import { DlistComponent } from './application/interface/elements/dlist/dlist.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { IboxService } from './application/interface/ibox/ibox.service';
     RadioComponent,
     DropdownComponent,
     DatatableComponent,
-    TextblockComponent
+    TextblockComponent,
+    DlistComponent
   ],
   imports: [
     BrowserModule,

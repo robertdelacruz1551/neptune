@@ -5,6 +5,8 @@ import { RadioConfig } from '../../../../radio/radio.component';
 import { DropdownConfig } from '../../../../dropdown/dropdown.component';
 import { DatatableConfig } from '../../../../datatable/datatable.component';
 import { TextBlockConfig } from '../../../../textblock/textblock.component';
+import { DlistConfig } from '../../../../dlist/dlist.component';
+
 @Component({
   selector: 'elements',
   templateUrl: './elements.component.html',
@@ -14,7 +16,7 @@ export class ElementsComponent implements OnInit {
   @Input() data: any;
   @Input() element: Elements [] = [];
 
-  pair(object, bind, value) {
+  pair (object, bind, value) {
     if (typeof bind === 'string') {
       return this.pair(object, bind.split('.'), value);
     } else if (bind.length === 1 && value !== undefined) {
@@ -25,10 +27,13 @@ export class ElementsComponent implements OnInit {
       return this.pair(object[bind[0]], bind.slice(1), value);
     }
   }
+
   constructor() { }
   ngOnInit() {
   }
 }
+
+
 
 export class Elements {
   type: string;
@@ -39,4 +44,5 @@ export class Elements {
   dropdown?: DropdownConfig;
   datatable?: DatatableConfig;
   textblock?: TextBlockConfig;
+  dlist?: DlistConfig;
 }

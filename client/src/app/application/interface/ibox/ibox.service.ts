@@ -67,11 +67,11 @@ class Workitem {
   comments: any [];
   attachments: any [];
   history: any [];
-  subjects: any [];
+  subject: {};
 }
 
 export class Panels {
-  //id: string;
+  id: string;
   name?: string;
   header?: Header;
   containers: Containers [];

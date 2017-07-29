@@ -22,3 +22,7 @@
   [config]= "element[element.type]"
   [dataset]="pair(data, element.bind)"
 ></datatable>
+<dlist *ngIf="element.type === 'dlist'"
+  [config]= "element[element.type]"
+  [data]=   "data"
+></dlist>

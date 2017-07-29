@@ -436,51 +436,42 @@ const citizenshipModal = {
 };
 
 
-export const CUSTOMFORM = {
+export const CUSTOMFORM: Interfaces = {
+  id: 'test',
+  title: 'Vendor Onboarding Form',
+  version: '1.1',
+  description: null,
+  panels: [
+    {
+      id: '1221',
+      name: 'Case',
+      containers: [
+        {
+          elements: [
+            {
+              type: 'dlist',
+              dlist: {
+                terms: [
+                  { text: 'Work Item', bind: 'id' }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  data: {
+    
+  }
+};
+
+
+export const CUSTOMFORM2: Interfaces = {
   id: 'rouge1',
   title: 'Prospect Engagement Form',
   version: '1.0',
   description: null,
-  toolstrip: {
-    enable: true,
-    save: {
-      enable: true
-    },
-    share: {
-      enable: false
-    },
-    reminder: {
-      enable: false
-    },
-    watch: {
-      enable: false
-    },
-    history: {
-      enable: true
-    },
-    workflow: {
-      enable: true,
-      config: {
-        id: '1',
-        statuses: [
-          {
-            id: '1',
-            name: 'Start',
-            next: [
-              {
-                id: '2',
-                name: 'In Progress'
-              },
-              {
-                id: '3',
-                name: 'End'
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
   panels: [
     {
       id: '005',
@@ -709,6 +700,7 @@ export const CUSTOMFORM = {
     },
   ], // end panels
   data: {
+    id: null,
     workitem: {
       id: '122323',
       type: 'OPDD',
