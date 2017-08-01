@@ -3,7 +3,7 @@
   <div class="col-sm-8">
     <div *ngFor="let option of config.input.options" class="checkbox">
       <label>
-        <input type="checkbox" [name]="option.name + id" [value]="option.value || option.text" [checked]="isChecked(option.value || option.text)" (change)="updateArray((option.value || option.text), $event.target.checked); update.emit(this._bind)">
+        <input type="checkbox" [name]="option.name + id" [value]="option.value || option.text" [checked]="isChecked(option.value || option.text)" (change)="updateArray((option.value || option.text), $event.target.checked); update.emit(this.bind)">
         {{option.text}}
       </label>
     </div>
