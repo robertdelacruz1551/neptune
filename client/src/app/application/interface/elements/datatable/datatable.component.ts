@@ -9,6 +9,7 @@ import { ModalConfig } from '../modal/modal.component';
 export class DatatableComponent implements OnInit {
   @Input() config: DatatableConfig;
   @Input() dataset: any [];
+
 /**
  * if the user clicks on selected all then set all 
  * the checkboxes in the table to checked
@@ -90,13 +91,9 @@ export class DatatableConfig {
   } [];
   action: {
     enable: boolean;
+    objectModel?: any;
     modal?: ModalConfig;
     edit: boolean;
     add: boolean;
-    button?: {
-      add?:  { enable: boolean; modal: ModalConfig; };
-      edit?: { enable: boolean; modal: ModalConfig; };
-      delete?: { enable: boolean; message?: string; };
-    }
   };
 };

@@ -1,5 +1,4 @@
 import { Interfaces } from '../application/interface/ibox/ibox.service';
-import { ModalConfig } from '../application/interface/elements/modal/modal.component';
 
 const contactModal = {
   header: {
@@ -9,7 +8,7 @@ const contactModal = {
   form: {
     panels: [
       {
-        id: '001',
+        active: true,
         name: 'Contact',
         containers: [
           {
@@ -61,7 +60,7 @@ const addressModal = {
   form: {
     panels: [
       {
-        id: '001',
+        active: true,
         name: 'Contact',
         containers: [
           {
@@ -166,7 +165,7 @@ const productModal = {
   form: {
     panels: [
       {
-        id: '001',
+        active: true,
         name: 'Contact',
         containers: [
           {
@@ -236,80 +235,6 @@ const productModal = {
     }
   }
 };
-const branchModal = {
-  header: {
-    enable: true,
-    text: 'Branches and Relationhsip Managers'
-  },
-  form: {
-    panels: [
-      {
-        id: '001',
-        name: 'Contact',
-        containers: [
-          {
-            elements: [
-              {
-                type: 'textbox',
-                bind: 'employee',
-                textbox: {
-                  label: { text: 'Employee Name' },
-                  input: { name: 'modal.branchs.employee', size: '6' }
-                }
-              },
-              {
-                type: 'dropdown',
-                bind: 'relationship',
-                dropdown: {
-                  label: { text: 'Relationship' },
-                  input: {
-                    size: 'medium',
-                    name: 'modal.branchs.relationship',
-                    options: [
-                      { value: 'Relationship Manager', text: 'Relationship Manager' },
-                      { value: 'Loan Officer', text: 'Loan Officer' },
-                      { value: 'Financial Advisor', text: 'Financial Advisor' }
-                    ]
-                  }
-                }
-              },
-              {
-                type: 'dropdown',
-                bind: 'division',
-                dropdown: {
-                  label: { text: 'Division' },
-                  input: {
-                    size: 'medium',
-                    name: 'modal.branchs.division',
-                    options: [
-                      { value: 'North America', text: 'North East' },
-                      { value: 'APAC', text: 'APAC' }
-                    ]
-                  }
-                }
-              },
-              {
-                type: 'textbox',
-                bind: 'branch',
-                textbox: {
-                  label: { text: 'Branch' },
-                  input: { name: 'modal.branchs.branch', size: '6' }
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  footer: {
-    enable: true,
-    commit: {
-      text: 'Save',
-      enable: true
-    }
-  }
-};
 const identificationModal = {
   header: {
     enable: true,
@@ -318,7 +243,7 @@ const identificationModal = {
   form: {
     panels: [
       {
-        id: '001',
+        active: true,
         name: 'Contact',
         containers: [
           {
@@ -392,7 +317,7 @@ const citizenshipModal = {
   form: {
     panels: [
       {
-        id: '001',
+        active: true,
         name: 'Contact',
         containers: [
           {
@@ -434,7 +359,219 @@ const citizenshipModal = {
     }
   }
 };
-
+const vendorConfig = {
+  size: 'large',
+  header: {
+    enable: true,
+    text: 'Vendor'
+  },
+  form: {
+    panels: [
+      {
+        active: true,
+        name: 'Individual Information',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'name',
+                textbox: {
+                  label: { text: 'Name' },
+                  input: { name: 'client.name', size: 'medium' }
+                }
+              },
+              {
+                type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'tin',
+                textbox: {
+                  label: { text: 'Tax Identification No.' },
+                  input: { name: 'client.tin', size: 'small' }
+                }
+              },
+              {
+                type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'dob',
+                textbox: {
+                  label: { text: 'Date of Birth' },
+                  input: { name: 'client.dob', size: 'small' }
+                }
+              },
+              {
+                type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'identification',
+                datatable: {
+                  size: 'large',
+                  label: { text: 'Identification' },
+                  headers: [
+                    { key: 'type', text: 'Type' },
+                    { key: 'number', text: 'Number' },
+                    { key: 'issuer', text: 'Issuer' },
+                    { key: 'country', text: 'Country' }
+                  ],
+                  action: {
+                    enable: true,
+                    modal: identificationModal,
+                    edit: true,
+                    add: true,
+                  }
+                }
+              }
+            ]
+          },
+          {
+            elements: [
+              {
+                type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'contact',
+                datatable: {
+                  size: 'medium',
+                  label: { text: 'Contact Information' },
+                  headers: [
+                    { key: 'type', text: 'Type' },
+                    { key: 'description', text: 'Description' }
+                  ],
+                  action: {
+                    enable: true,
+                    modal: contactModal,
+                    edit: true,
+                    add: true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            elements: [
+              {
+                type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'addresses',
+                datatable: {
+                  size: 'large',
+                  label: { text: 'Address' },
+                  headers: [
+                    { key: 'line1', text: 'Address' },
+                    { key: 'zip', text: 'Postal Code' },
+                    { key: 'country', text: 'Country' },
+                    { key: 'type', text: 'Type' }
+                  ],
+                  action: {
+                    enable: true,
+                    modal: addressModal,
+                    edit: true,
+                    add: true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        active: false,
+        name: 'Due Diligence',
+        containers: [
+          {
+            elements: [
+              {
+                type: 'radio',
+                bind: 'citizenship',
+                radio: {
+                  label: { text: 'Citizenship Status' },
+                  input: {
+                    name: 'client.individual.citizenship',
+                    options: [
+                      { value: 'US Citizen', text: 'US Citizen' },
+                      { value: 'US Resident', text: 'US Resident' },
+                      { value: 'NRA', text: 'Non-Resident Alien' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'citizenshipCountry',
+                datatable: {
+                  size: 'medium',
+                  label: { text: 'Country of Citizenship' },
+                  headers: [
+                    { key: 'country', text: 'Country' },
+                    { key: 'proof', text: 'Proof Obtained' }
+                  ],
+                  action: {
+                    enable: true,
+                    modal: citizenshipModal,
+                    edit: true,
+                    add: true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            elements: [
+              {
+                type: 'radio',
+                bind: 'employed',
+                radio: {
+                  label: { text: 'Employed' },
+                  input: {
+                    name: 'client.employed',
+                    options: [
+                      { value: true, text: 'Yes' },
+                      { value: false, text: 'No' }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'textbox',
+                bind: 'occupation',
+                textbox: {
+                  label: { text: 'Primary Occupation' },
+                  input: { name: 'client.occupation', size: 'medium' }
+                }
+              }
+            ]
+          },
+          {
+            elements: [
+              {
+                type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
+                bind: 'products',
+                datatable: {
+                  size: 'large',
+                  label: { text: 'List all accounts' },
+                  headers: [
+                    { key: 'number', text: 'Number' },
+                    { key: 'type', text: 'Type' },
+                    { key: 'relationship', text: 'Relationship' },
+                    { key: 'use', text: 'Expect Use' }
+                  ],
+                  action: {
+                    enable: true,
+                    objectModel: {number: null, type: null, relationship: null, use: []},
+                    modal: productModal,
+                    edit: true,
+                    add: true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  footer: {
+    enable: true,
+    commit: {
+      enable: true,
+      text: 'Save',
+      clearFormAfterSubmit: true
+    }
+  }
+};
 
 export const CUSTOMFORM: Interfaces = {
   id: 'test',
@@ -443,7 +580,7 @@ export const CUSTOMFORM: Interfaces = {
   description: null,
   panels: [
     {
-      id: '1221',
+      active: true,
       name: 'Case',
       containers: [
         {
@@ -452,8 +589,48 @@ export const CUSTOMFORM: Interfaces = {
               type: 'dlist',
               dlist: {
                 terms: [
-                  { text: 'Work Item', bind: 'id' }
+                  { text: 'Work Item', bind: 'workitem.id' },
+                  { text: 'Created', bind: 'workitem.created' },
+                  { text: 'Type', bind: 'workitem.type' },
+                  { text: 'Creator', bind: 'workitem.creator' },
+                  { text: 'Source', bind: 'workitem.source' },
+                  { text: 'Modified', bind: 'workitem.modified' },
+                  { text: 'Description', bind: 'workitem.description' },
+                  { text: 'Modifier', bind: 'workitem.modifier' }
                 ]
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'datatable',
+              bind: 'vendors',
+              datatable: {
+                headers: [
+                  { key: 'name', text: 'Name' },
+                  { key: 'tin', text: 'Tax ID' }
+                ],
+                action: {
+                  enable: true,
+                  objectModel: {
+                    name: null,
+                    tin: null,
+                    dob: null,
+                    employed: false,
+                    license: [],
+                    contact: [],
+                    addresses: [],
+                    products: [],
+                    identification: [],
+                    citizenship: null,
+                    citizenshipCountry: []
+                  },
+                  modal: vendorConfig,
+                  edit: true,
+                  add: true
+                }
               }
             }
           ]
@@ -462,249 +639,10 @@ export const CUSTOMFORM: Interfaces = {
     }
   ],
   data: {
-    
-  }
-};
-
-
-export const CUSTOMFORM2: Interfaces = {
-  id: 'rouge1',
-  title: 'Prospect Engagement Form',
-  version: '1.0',
-  description: null,
-  panels: [
-    {
-      id: '005',
-      name: 'Individual Information',
-      containers: [
-        {
-          elements: [
-            {
-              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'name',
-              textbox: {
-                label: { text: 'Name' },
-                input: { name: 'client.name', size: 'medium' }
-              }
-            },
-            {
-              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'tin',
-              textbox: {
-                label: { text: 'Tax Identification No.' },
-                input: { name: 'client.tin', size: 'small' }
-              }
-            },
-            {
-              type: 'textbox', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'dob',
-              textbox: {
-                label: { text: 'Date of Birth' },
-                input: { name: 'client.dob', size: 'small' }
-              }
-            },
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'identification',
-              datatable: {
-                size: 'large',
-                label: { text: 'Identification' },
-                headers: [
-                  { key: 'type', text: 'Type' },
-                  { key: 'number', text: 'Number' },
-                  { key: 'issuer', text: 'Issuer' },
-                  { key: 'country', text: 'Country' }
-                ],
-                action: {
-                  enable: true,
-                  modal: identificationModal,
-                  edit: true,
-                  add: true,
-                }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'contact',
-              datatable: {
-                size: 'medium',
-                label: { text: 'Contact Information' },
-                headers: [
-                  { key: 'type', text: 'Type' },
-                  { key: 'description', text: 'Description' }
-                ],
-                action: {
-                  enable: true,
-                  modal: contactModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'addresses',
-              datatable: {
-                size: 'large',
-                label: { text: 'Address' },
-                headers: [
-                  { key: 'line1', text: 'Address' },
-                  { key: 'zip', text: 'Postal Code' },
-                  { key: 'country', text: 'Country' },
-                  { key: 'type', text: 'Type' }
-                ],
-                action: {
-                  enable: true,
-                  modal: addressModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: '006',
-      name: 'Due Diligence',
-      containers: [
-        {
-          elements: [
-            {
-              type: 'radio',
-              bind: 'citizenship',
-              radio: {
-                label: { text: 'Citizenship Status' },
-                input: {
-                  name: 'client.individual.citizenship',
-                  options: [
-                    { value: 'US Citizen', text: 'US Citizen' },
-                    { value: 'US Resident', text: 'US Resident' },
-                    { value: 'NRA', text: 'Non-Resident Alien' }
-                  ]
-                }
-              }
-            },
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'citizenshipCountry',
-              datatable: {
-                size: 'medium',
-                label: { text: 'Country of Citizenship' },
-                headers: [
-                  { key: 'country', text: 'Country' },
-                  { key: 'proof', text: 'Proof Obtained' }
-                ],
-                action: {
-                  enable: true,
-                  modal: citizenshipModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'radio',
-              bind: 'employed',
-              radio: {
-                label: { text: 'Employed' },
-                input: {
-                  name: 'client.employed',
-                  options: [
-                    { value: true, text: 'Yes' },
-                    { value: false, text: 'No' }
-                  ]
-                }
-              }
-            },
-            {
-              type: 'textbox',
-              bind: 'occupation',
-              textbox: {
-                label: { text: 'Primary Occupation' },
-                input: { name: 'client.occupation', size: 'medium' }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'products',
-              datatable: {
-                size: 'large',
-                label: { text: 'List all accounts' },
-                headers: [
-                  { key: 'number', text: 'Number' },
-                  { key: 'type', text: 'Type' },
-                  { key: 'relationship', text: 'Relationship' },
-                  { key: 'use', text: 'Expect Use' }
-                ],
-                action: {
-                  enable: true,
-                  modal: productModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: '004',
-      name: 'Internal Contacts',
-      header: {
-        align: 'left',
-        text: 'Relationship Managers'
-      },
-      containers: [
-        {
-          elements: [
-            {
-              type: 'datatable', // textbox/checkbox/radio/dropdown/datatable
-              bind: 'branches',
-              datatable: {
-                headers: [
-                  { key: 'employee', text: 'Employee' },
-                  { key: 'relationship', text: 'Relationship' },
-                  { key: 'division', text: 'Division' },
-                  { key: 'branch', text: 'Branch' }
-                ],
-                action: {
-                  enable: true,
-                  modal: branchModal,
-                  edit: true,
-                  add: true
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-  ], // end panels
-  data: {
-    id: null,
     workitem: {
       id: '122323',
       type: 'OPDD',
-      description: 'Onboarding clients requires client risk assessment prior to establishing account relationship',
+      description: 'Onboarding vendor requires risk assessment prior to establishing relationship',
       created: new Date(),
       modified: new Date(),
       status: 'Start',
@@ -714,9 +652,80 @@ export const CUSTOMFORM2: Interfaces = {
       comments: [],
       attachments: [],
       history: [],
-      subject: {
-        contact: []
-      }
+    },
+    vendors: []
+  }
+};
+
+export const NEWUSER: Interfaces = {
+  id: '93482484848829372636430293',
+  title: 'Add User',
+  description: null,
+  panels: [
+    {
+      active: true,
+      containers: [
+        {
+          elements: [
+            {
+              type: 'textbox',
+              bind: 'user.fullname',
+              textbox: {
+                label: { text: 'Full Name' },
+                input: { name: 'fullname', size: 'medium' }
+              }
+            },
+            {
+              type: 'textbox',
+              bind: 'user.title',
+              textbox: {
+                label: { text: 'Job Title' },
+                input: { name: 'jobtitle', size: '3' }
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'textbox',
+              bind: 'user.username',
+              textbox: {
+                label: { text: 'Username' },
+                input: { name: 'username', size: '3' }
+              }
+            },
+            {
+              type: 'textbox',
+              bind: 'user.password',
+              textbox: {
+                label: { text: 'Password' },
+                input: { name: 'password', size: 'small' }
+              }
+            }
+          ]
+        },
+        {
+          elements: [
+            {
+              type: 'checkbox',
+              bind: 'user.groups',
+              checkbox: {
+                label: { text: 'User Groups' },
+                input: {
+                  options: [
+                    { name: 'groups', value: {id: '1', group: 'Vendor Onboarding Analyst' }, text: 'Vendor Onboarding Analyst' },
+                    { name: 'groups', value: {id: '2', group: 'Vendor Onboarding Specialist' }, text: 'Vendor Onboarding Specialist' },
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
+  ],
+  data: {
+    user: {}
   }
 };

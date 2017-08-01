@@ -35,7 +35,7 @@
 
   <modal *ngIf="config.action.add && config.action.modal" 
     [id]="'addmodal' + datasetId"
-    [datarow]="{}"
+    [datarow]="config.action.objectModel || {}"
     [config]= "config.action.modal"
     (commit)= "dataset.push($event)"
   ></modal>

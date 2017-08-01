@@ -11,11 +11,11 @@ export class ModalComponent implements OnInit {
   @Input() datarow: any = {};
   @Input() config: ModalConfig;
   @Output() commit = new EventEmitter();
+
 /**
  * Will contain the updated object
  */
   private editableDatarow: {} = {};
-
   private setEditableDatarow() {
     this.editableDatarow = JSON.parse(JSON.stringify(this.datarow));
   }
@@ -30,7 +30,7 @@ export class ModalComponent implements OnInit {
 
   public commits() {
     let editableDatarowToCommit = this.editableDatarow;
-    this.editableDatarow = {};
+    this.setEditableDatarow();
     return this.commit.emit(editableDatarowToCommit);
   }
 
@@ -39,6 +39,8 @@ export class ModalComponent implements OnInit {
  * property to prevent update if user 
  * cancels change.
  */
+  constructor() {
+  }
   ngOnInit() {
     this.setEditableDatarow();
   }

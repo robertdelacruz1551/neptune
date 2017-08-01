@@ -4,23 +4,30 @@ export const OPERATOR = {
     name: 'John Smith', 
     title: 'Project Manager', 
     img: 'me.jpg', 
-    home: '/auth/app/home' 
+    home: '' 
 };
 
 export const APPLICATIONS = [
     {
+        name: 'BPM',
+        icon: 'fa fa-list',
+        interfaces: [
+            { name: 'BPM 1', url: '/interface/21727300' }
+        ]
+    },
+    {
         name: 'Administration',
         icon: 'fa fa-cogs',
         interfaces: [
-            { name: 'Application Designer', url: '' },
-            { name: 'Generator', url: '/generator' }
+            { name: 'User', url: '/interface/93482484' },
+            { name: 'Groups', url: '/interface/80302948' },
+            { name: 'Account', url: '/interface/80302949' }
         ]
-    }, 
+    },
     {
-        name: 'Development',
+        name: 'Neptune Admin',
         icon: 'fa fa-cogs',
         interfaces: [
-            { name: 'Table View', url: '/auth/table/1' }
         ]
     }
 ];

@@ -8,8 +8,25 @@ import { Component, OnInit, Input } from '@angular/core';
 export class WizardComponent implements OnInit {
   @Input() panels: any[] = [];
   @Input() data: any;
-  constructor() { }
+
+  aetActivePanel(panel) {
+    this.panels.forEach(p => {
+      p.active = false;
+    });
+    this.panels[panel].active = true;
+  };
+
+  setId() {
+    this.panels.forEach(panel => {
+      if(!panel.id) {
+        panel.id = Math.random().toString(36).substring(7);
+      }
+    });
+  }
+
+  constructor() {
+  }
   ngOnInit() {
-    //console.log(this.panels);
+    this.setId();
   }
 }

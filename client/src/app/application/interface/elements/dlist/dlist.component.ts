@@ -23,7 +23,6 @@ export class DlistComponent implements OnInit {
 
   constructor() { }
   ngOnInit() {
-    console.log(this.data);
   }
 };
 export class DlistConfig {

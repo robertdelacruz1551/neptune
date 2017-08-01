@@ -1,6 +1,6 @@
 <dl class="dl-horizontal">
-  <div class="col-sm-6">
-    <dt *ngFor="let term of config.terms">{{term.text}}: </dt>
-    <dd *ngFor="let term of config.terms" [innerHtml]="pair(data, term.bind)"></dd>
+  <div *ngFor="let term of config.terms" class="col-sm-6">
+    <dt>{{term.text}}: </dt>
+    <dd [innerHtml]="pair(data, term.bind)"></dd>
   </div>
 </dl>
