@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalConfig } from '../elements/modal/modal.component';
-import { NEWUSER, CUSTOMFORM } from '../../../MockData/interface-mock';
+import { GROUPS, USERS, CUSTOMFORM } from '../../../MockData/interface-mock';
 
 export class Interfaces {
   id: string;
@@ -8,17 +8,18 @@ export class Interfaces {
   title: string;
   description?: string;
   toolstrip?: Toolstrip;
+  save?: {
+    form?: boolean;
+    toolstrip?: boolean;
+  };
   panels: Panels [];
-  data?: any | {
+  data: any | {
     workitem?: Workitem;
   };
 };
 
 export class Toolstrip {
-  enable: boolean;
-  save?: {
-    enable: boolean;
-  };
+  save: boolean;
   attachment?: {
     enable: boolean;
     modal: ModalConfig;
@@ -52,7 +53,7 @@ export class Workflow {
     name: string;
     next: { id: string; name: string } [];
   } [];
-}
+};
 
 class Workitem {
   id: string;
@@ -87,10 +88,15 @@ export class Header {
   align: string;
   text?: string;
   subtext?: string;
-}
+};
 
 @Injectable()
 export class IboxService {
-  interface: Interfaces = CUSTOMFORM;
+  interface: Interfaces;
+
+  getInterface(interfaceId?: string, workitemId?: string, entityId?: string): Interfaces {
+    this.interface = GROUPS || USERS || CUSTOMFORM;
+    return this.interface;
+  }
   constructor() { }
-}
+};

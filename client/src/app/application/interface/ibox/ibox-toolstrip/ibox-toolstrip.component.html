@@ -1,37 +1,37 @@
 <div class="navbar navbar-default ibox-toolstrip">
   <div class="ibox-container-fluid">
     <ul class="nav navbar-nav">
-      <li data-toggle="tooltip" data-placement="top" title="Save progress">
-        <a (click)="view()">
+      <li *ngIf="save" data-toggle="tooltip" data-placement="top" title="Save progress">
+        <a (click)="saveData()">
           <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
         </a>
       </li>
-      <li data-toggle="tooltip" data-placement="top" title="Add attachment">
+      <li *ngIf="toolstrip && toolstrip.attachment" data-toggle="tooltip" data-placement="top" title="Add attachment">
         <a data-toggle="modal" data-target="#modal-attachments">
           <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
         </a>
       </li>
-      <li data-toggle="tooltip" data-placement="top" title="Enter notes">
+      <li *ngIf="toolstrip && toolstrip.comment" data-toggle="tooltip" data-placement="top" title="Enter notes">
         <a data-toggle="modal" data-target="#modal-comments">
           <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
         </a>
       </li>
-      <li data-toggle="tooltip" data-placement="top" title="Share with others">
+      <li *ngIf="toolstrip && toolstrip.share" data-toggle="tooltip" data-placement="top" title="Share with others">
         <a data-toggle="modal" data-target="#modal-share">
           <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
         </a>
       </li>
-      <li data-toggle="tooltip" data-placement="top" title="Add a reminder">
+      <li *ngIf="toolstrip && toolstrip.notification" data-toggle="tooltip" data-placement="top" title="Add a reminder">
         <a data-toggle="modal" data-target="#modal-add-notification">
           <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </a>
       </li>
-      <li data-toggle="tooltip" data-placement="top" title="Monitor">
+      <li *ngIf="toolstrip && toolstrip.monitor" data-toggle="tooltip" data-placement="top" title="Monitor">
         <a >
           <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
         </a>
       </li>
-      <li data-toggle="tooltip" data-placement="top" title="View History">
+      <li *ngIf="toolstrip && toolstrip.history" data-toggle="tooltip" data-placement="top" title="View History">
         <a >
           <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
         </a>

@@ -5,7 +5,10 @@
 </ul>
 <div class="tab-content">
   <div *ngFor="let panel of panels; let i = index;" [ngClass]="(panel.active)?'tab-pane active':'tab-pane'" [id]="panel.id" role="tabpanel">
-    <panel [panel]="panel" [data]="data"></panel>
+    <panel 
+      [panel]="panel" 
+      [data]="data">
+    </panel>
   </div>
 </div>
 <!--

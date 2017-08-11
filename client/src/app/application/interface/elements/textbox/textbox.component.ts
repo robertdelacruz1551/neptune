@@ -15,5 +15,4 @@ export class TextboxComponent implements OnInit {
 export class TextBoxConfig {
   label: { text?: string; };
   input: { name: string; placeholder?: string; size?: string; };
-  rules?: { showIf?: string; };
 };

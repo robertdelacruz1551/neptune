@@ -575,9 +575,10 @@ const vendorConfig = {
 
 export const CUSTOMFORM: Interfaces = {
   id: 'test',
-  title: 'Vendor Onboarding Form',
+  title: 'Vendor Intake Form',
   version: '1.1',
   description: null,
+  save: { toolstrip: true },
   panels: [
     {
       active: true,
@@ -657,66 +658,121 @@ export const CUSTOMFORM: Interfaces = {
   }
 };
 
-export const NEWUSER: Interfaces = {
-  id: '93482484848829372636430293',
-  title: 'Add User',
+export const USERS: Interfaces = {
+  id: 'neptune-users',
+  title: 'Users',
+  version: '1.0',
   description: null,
+  save: { toolstrip: true },
   panels: [
     {
       active: true,
+      name: 'Users',
       containers: [
         {
           elements: [
             {
-              type: 'textbox',
-              bind: 'user.fullname',
-              textbox: {
-                label: { text: 'Full Name' },
-                input: { name: 'fullname', size: 'medium' }
-              }
-            },
-            {
-              type: 'textbox',
-              bind: 'user.title',
-              textbox: {
-                label: { text: 'Job Title' },
-                input: { name: 'jobtitle', size: '3' }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'textbox',
-              bind: 'user.username',
-              textbox: {
-                label: { text: 'Username' },
-                input: { name: 'username', size: '3' }
-              }
-            },
-            {
-              type: 'textbox',
-              bind: 'user.password',
-              textbox: {
-                label: { text: 'Password' },
-                input: { name: 'password', size: 'small' }
-              }
-            }
-          ]
-        },
-        {
-          elements: [
-            {
-              type: 'checkbox',
-              bind: 'user.groups',
-              checkbox: {
-                label: { text: 'User Groups' },
-                input: {
-                  options: [
-                    { name: 'groups', value: {id: '1', group: 'Vendor Onboarding Analyst' }, text: 'Vendor Onboarding Analyst' },
-                    { name: 'groups', value: {id: '2', group: 'Vendor Onboarding Specialist' }, text: 'Vendor Onboarding Specialist' },
-                  ]
+              type: 'datatable',
+              bind: 'users',
+              datatable: {
+                headers: [
+                  { key: 'username', text: 'Username' },
+                  { key: 'name', text: 'Name' },
+                  { key: 'title', text: 'Title' },
+                  { key: 'status', text: 'Status'}
+                ],
+                action: {
+                  enable: true,
+                  objectModel: {
+                    username: null,
+                    name: null,
+                    title: null,
+                    status: 'Active',
+                    groups: []
+                  },
+                  modal: {
+                    header: {
+                      enable: true,
+                      text: 'User Form'
+                    },
+                    form: {
+                      panels: [
+                        {
+                          active: true,
+                          name: 'User',
+                          containers: [
+                            {
+                              elements: [
+                                {
+                                  type: 'textbox',
+                                  bind: 'username',
+                                  textbox: {
+                                    label: { text: 'Username' },
+                                    input: { name: 'modal.user.username', size: '3' }
+                                  }
+                                },
+                                {
+                                  type: 'textbox',
+                                  bind: 'name',
+                                  textbox: {
+                                    label: { text: 'Name' },
+                                    input: { name: 'modal.user.name', size: 'medium' }
+                                  }
+                                },
+                                {
+                                  type: 'textbox',
+                                  bind: 'title',
+                                  textbox: {
+                                    label: { text: 'Title' },
+                                    input: { name: 'modal.user.title', size: 'medium' }
+                                  }
+                                },
+                                {
+                                  type: 'dropdown',
+                                  bind: 'status',
+                                  dropdown: {
+                                    label: { text: 'Status' },
+                                    input: {
+                                      size: 'medium',
+                                      name: 'modal.user.status',
+                                      options: [
+                                        { value: 'Active', text: 'Active' },
+                                        { value: 'Suspended', text: 'Suspended' },
+                                        { value: 'Closed', text: 'Closed' }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  type: 'checkbox',
+                                  bind: 'groups',
+                                  checkbox: {
+                                    label: { text: 'User Groups' },
+                                    input: {
+                                      options: [
+                                        { name: 'modal.user.groups', value: 'Onboarding', text: 'Onboarding' },
+                                        { name: 'modal.user.groups', value: 'Quality Assurance', text: 'Quality Assurance' },
+                                        { name: 'modal.user.groups', value: 'Manager', text: 'Manager' }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    footer: {
+                      enable: true,
+                      commit: {
+                        text: 'Save',
+                        enable: true
+                      }
+                    }
+                  },
+                  edit: true,
+                  add: true
                 }
               }
             }
@@ -726,6 +782,108 @@ export const NEWUSER: Interfaces = {
     }
   ],
   data: {
-    user: {}
+    users: []
+  }
+};
+
+export const GROUPS: Interfaces = {
+  id: 'neptune-groups',
+  title: 'Groups',
+  description: null,
+  save: { toolstrip: true },
+  panels: [
+    {
+      active: true,
+      name: 'Groups',
+      containers: [
+        {
+          elements: [
+            {
+              type: 'datatable',
+              bind: 'groups',
+              datatable: {
+                headers: [
+                  { key: 'name', text: 'Group Name' },
+                  { key: 'description', text: 'Description' },
+                  { key: 'status', text: 'Status' }
+                ],
+                action: {
+                  enable: true,
+                  objectModel: {
+                    name: null,
+                    description: null,
+                    status: 'Active'
+                  },
+                  modal: {
+                    header: {
+                      enable: true,
+                      text: 'Group Maintenance Form',
+                    },
+                    form: {
+                      panels: [
+                        {
+                          active: true,
+                          name: 'Groups',
+                          containers: [
+                            {
+                              elements: [
+                                {
+                                  type: 'textbox',
+                                  bind: 'name',
+                                  textbox: {
+                                    label: { text: 'Group Name' },
+                                    input: { name: 'modal.group.name', size: 'large' }
+                                  }
+                                },
+                                {
+                                  type: 'textblock',
+                                  bind: 'description',
+                                  textblock: {
+                                    label: { text: 'Description' },
+                                    input: { name: 'modal.group.description' }
+                                  }
+                                },
+                                {
+                                  type: 'dropdown',
+                                  bind: 'status',
+                                  dropdown: {
+                                    label: { text: 'Status' },
+                                    input: {
+                                      size: 'medium',
+                                      name: 'modal.group.status',
+                                      options: [
+                                        { value: 'Active', text: 'Active' },
+                                        { value: 'Suspended', text: 'Suspended' },
+                                        { value: 'Closed', text: 'Closed' }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    footer: {
+                      enable: true,
+                      commit: {
+                        text: 'Save',
+                        enable: true
+                      }
+                    }
+                  },
+                  edit: true,
+                  add: true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  data: {
+    groups: []
   }
 };

@@ -41,7 +41,6 @@ import { TextblockComponent } from './application/interface/elements/textblock/t
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
-import { InterfaceService } from './application/interface/interface.service';
 import { IboxService } from './application/interface/ibox/ibox.service';
 import { DlistComponent } from './application/interface/elements/dlist/dlist.component';
 
@@ -95,7 +94,6 @@ import { DlistComponent } from './application/interface/elements/dlist/dlist.com
   ],
   providers: [
     SidebarService,
-    InterfaceService,
     IboxService
   ],
   bootstrap: [AppComponent]

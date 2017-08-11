@@ -17,6 +17,7 @@ export class ModalComponent implements OnInit {
  */
   private editableDatarow: {} = {};
   private setEditableDatarow() {
+    this.datarow['neptune.metadata'] = {};
     this.editableDatarow = JSON.parse(JSON.stringify(this.datarow));
   }
 /**
@@ -29,6 +30,10 @@ export class ModalComponent implements OnInit {
   }
 
   public commits() {
+    if (!this.editableDatarow['neptune.metadata'].created ) {
+      this.editableDatarow['neptune.metadata'].created = new Date().toString();
+    };
+    this.editableDatarow['neptune.metadata'].modified = new Date().toString();
     let editableDatarowToCommit = this.editableDatarow;
     this.setEditableDatarow();
     return this.commit.emit(editableDatarowToCommit);
@@ -47,6 +52,10 @@ export class ModalComponent implements OnInit {
 }
 
 export class ModalConfig {
+  button?: {
+    enable: boolean;
+    text: string;
+  };
   labelBy?: string;
   size?: string;
   header: {

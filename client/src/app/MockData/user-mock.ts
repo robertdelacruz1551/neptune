@@ -9,10 +9,11 @@ export const OPERATOR = {
 
 export const APPLICATIONS = [
     {
-        name: 'BPM',
+        name: 'BPM Name',
         icon: 'fa fa-list',
         interfaces: [
-            { name: 'BPM 1', url: '/interface/21727300' }
+            { name: 'Work Item List', url: '/interface/21727300' },
+            { name: 'Create Work Item', url: '/interface/21727300' }
         ]
     },
     {
@@ -22,12 +23,6 @@ export const APPLICATIONS = [
             { name: 'User', url: '/interface/93482484' },
             { name: 'Groups', url: '/interface/80302948' },
             { name: 'Account', url: '/interface/80302949' }
-        ]
-    },
-    {
-        name: 'Neptune Admin',
-        icon: 'fa fa-cogs',
-        interfaces: [
         ]
     }
 ];

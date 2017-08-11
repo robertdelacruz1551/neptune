@@ -7,12 +7,14 @@ import { Toolstrip } from '../ibox.service';
   styleUrls: ['./ibox-toolstrip.component.css']
 })
 export class IboxToolstripComponent implements OnInit {
-  @Input() toolstring: Toolstrip;
-  @Input() ibox;
+  @Input() toolstrip: Toolstrip;
+  @Input() interface;
+  @Input() save: boolean;
+
+  saveData() {
+    console.log(this.interface.data);
+  };
   constructor() { }
   ngOnInit() {
-  }
-  view() {
-    console.log(this.ibox);
   }
 }
