@@ -2,3 +2,6 @@ client/src/assets/css/style.css
 client/src/assets/css/style.min.css
 client/src/assets/js/inspinia.js
 client/credentials.txt
+server/routes/
+server/node_modules/
+server/public/
