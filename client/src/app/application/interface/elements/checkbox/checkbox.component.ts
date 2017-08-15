@@ -30,7 +30,9 @@ export class CheckboxComponent implements OnInit {
     this.id = Math.random().toString(36).substring(7);
   };
 }
+
 export class CheckboxConfig {
   label: { text: string; };
-  input: { readonly?: boolean; options: { name?: string; value?: any; text: string }[]; };
-}
+  input: { readonly?: boolean; name: string; options: { value: any; text: string; } []; };
+};
+
