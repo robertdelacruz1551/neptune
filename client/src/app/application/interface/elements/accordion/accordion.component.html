@@ -1,0 +1,15 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div *ngFor="let data of dataset" class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a [innerHtml]="data[config.title]" role="button" data-toggle="collapse" data-parent="#accordion" [attr.href]="'#' + data._id" aria-expanded="true" aria-controls="collapseOne"></a>
+        <p *ngIf="data[config.subtitle]" [innerHtml]="data[config.subtitle]" class="pull-right"></p>
+      </h4>
+    </div>
+    <div [id]="data._id" class="panel-collapse collapse" role="tabpanel" [attr.aria-labelledby]="config.title">
+      <div class="panel-body">
+        <wizard *ngIf="config.panels" [panels]="config.panels" [data]="data"></wizard>
+      </div>
+    </div>
+  </div>
+</div>
