@@ -1,28 +1,32 @@
-<textbox *ngIf="element.type === 'textbox'" 
+<textbox *ngIf="element.textbox" 
   [config]= "element[element.type]"
   [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
 ></textbox>
-<checkbox *ngIf="element.type === 'checkbox'" 
-  [config]= "element[element.type]"
+<checkbox *ngIf="element.checkbox" 
+  [config]= "element.checkbox"
   [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
 ></checkbox>
-<radio *ngIf="element.type === 'radio'"    
-  [config]= "element[element.type]"
+<radio *ngIf="element.radio"    
+  [config]= "element.radio"
   [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
 ></radio>
-<dropdown *ngIf="element.type === 'dropdown'" 
-  [config]= "element[element.type]"
+<dropdown *ngIf="element.dropdown" 
+  [config]= "element.dropdown"
   [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
 ></dropdown>
-<textblock *ngIf="element.type === 'textblock'"
-  [config]= "element[element.type]"
+<textblock *ngIf="element.textblock"
+  [config]= "element.textblock"
   [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
 ></textblock>
-<datatable *ngIf="element.type === 'datatable'"
-  [config]= "element[element.type]"
+<datatable *ngIf="element.datatable"
+  [config]= "element.datatable"
   [dataset]="pair(data, element.bind)"
 ></datatable>
-<dlist *ngIf="element.type === 'dlist'"
-  [config]= "element[element.type]"
+<dlist *ngIf="element.dlist"
+  [config]= "element.dlist"
   [data]=   "data"
 ></dlist>
+<accordion *ngIf="element.accordion"
+  [config]="element.accordion"
+  [dataset]="pair(data, element.bind)"
+></accordion>

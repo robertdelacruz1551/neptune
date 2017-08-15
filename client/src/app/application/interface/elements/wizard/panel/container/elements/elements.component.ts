@@ -6,6 +6,7 @@ import { DropdownConfig } from '../../../../dropdown/dropdown.component';
 import { DatatableConfig } from '../../../../datatable/datatable.component';
 import { TextBlockConfig } from '../../../../textblock/textblock.component';
 import { DlistConfig } from '../../../../dlist/dlist.component';
+import { AccordionConfig } from '../../../../accordion/accordion.component';
 
 @Component({
   selector: 'elements',
@@ -36,7 +37,7 @@ export class ElementsComponent implements OnInit {
 
 
 export class Elements {
-  type: string;
+  type?: string;
   bind?: string;
   textbox?: TextBoxConfig;
   checkbox?: CheckboxConfig;
@@ -45,4 +46,5 @@ export class Elements {
   datatable?: DatatableConfig;
   textblock?: TextBlockConfig;
   dlist?: DlistConfig;
+  accordion?: AccordionConfig;
 }
