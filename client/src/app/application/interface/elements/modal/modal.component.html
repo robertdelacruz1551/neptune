@@ -1,10 +1,10 @@
 <button *ngIf="config.button && config.button.enable" class="btn btn-default btn-sm" type="button"  data-toggle="modal" [attr.data-target] = "'#' + id" [innerHtml]="config.button.text"></button>
-<div class="modal fade" [id]="id" tabindex="-1" role="dialog" [attr.aria-labelledby]="config.labelBy">
+<div class="modal fade" [id]="id" tabindex="-1" role="dialog" [attr.aria-labelledby]="'modal' + config.labelBy">
   <div [ngClass]="(!config.size)? 'modal-dialog': { 'small' : 'modal-dialog modal-sm', 'large' : 'modal-dialog modal-lg'}[config.size]" role="document">
     <div class="modal-content">
       <div *ngIf="config.header.enable" class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" [id]="config.labelBy" [innerHtml]="config.header.text"></h4>
+        <h4 class="modal-title" [id]="'modal' + config.labelBy" [innerHtml]="config.header.text"></h4>
       </div>
       <div class="modal-body">
         <div class="form-horizontal">
