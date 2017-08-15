@@ -823,7 +823,7 @@ export const GROUPS: Interfaces = {
                       panels: [
                         {
                           active: true,
-                          name: 'Groups',
+                          name: 'Group Information',
                           containers: [
                             {
                               elements: [
@@ -862,6 +862,80 @@ export const GROUPS: Interfaces = {
                               ]
                             }
                           ]
+                        },
+                        {
+                          active: false,
+                          name: 'Application Access',
+                          containers: [
+                            {
+                              elements: [
+                                {
+                                  bind: 'applications',
+                                  accordion: {
+                                    title: 'name',
+                                    subtitle: 'access',
+                                    panels: [
+                                      {
+                                        active: true,
+                                        name: 'application',
+                                        containers: [
+                                          {
+                                            elements: [
+                                              {
+                                                dlist: {
+                                                  columns: 1,
+                                                  terms: [
+                                                    { text: 'Application', bind: 'name' },
+                                                    { text: 'Description', bind: 'description' }
+                                                  ]
+                                                }
+                                              },
+                                              {
+                                                bind: 'access',
+                                                dropdown: {
+                                                  label: { text: 'Access Level' },
+                                                  input: {
+                                                    size: 'medium',
+                                                    name: 'accordion.application.access',
+                                                    options: [
+                                                      { value: 'Block', text: 'Block' },
+                                                      { value: 'Read', text: 'Read only' },
+                                                      { value: 'Edit', text: 'Edit' }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              {
+                                                bind: 'workflow',
+                                                datatable: {
+                                                  label: 'Workflow Elements',
+                                                  headers: [
+                                                    { key: 'status', text: 'Status' },
+                                                    { key: 'queue', text: 'Queue' },
+                                                    { key: 'permit', text: 'Permit Change',
+                                                      input: {
+                                                        dropdown: [
+                                                          { value: true, text: 'True' },
+                                                          { value: false, text: 'False' }
+                                                        ]
+                                                      }
+                                                    },
+                                                  ],
+                                                  action: {
+                                                    enable: false
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     },
@@ -884,6 +958,56 @@ export const GROUPS: Interfaces = {
     }
   ],
   data: {
-    groups: []
+    groups: [
+      {
+        name: 'Test Group',
+        description: 'This is a test group',
+        status: 'Active',
+        applications: [
+          {
+            name: 'Vendor Onboarding',
+            description: 'Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.',
+            access: 'Block',
+            workflow: [
+              {
+                status: 'Start',
+                queue: 'Not Started',
+                permit: false
+
+              },
+              {
+                status: 'Reviewing',
+                queue: 'In Progress',
+                permit: false
+              },
+              {
+                status: 'End',
+                queue: 'Closed',
+                permit: false
+              }
+            ]
+          },
+          {
+            name: 'Client Proposal',
+            description: 'Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.',
+            access: 'Read',
+            workflow: [
+              {
+                status: 'Start',
+                queue: 'Not Started',
+                permit: false
+
+              },
+              {
+                status: 'End',
+                queue: 'Closed',
+                permit: false
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 };
+// tslint:disable-next-line:max-line-length
