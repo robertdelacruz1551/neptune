@@ -26,5 +26,6 @@ export class DlistComponent implements OnInit {
   }
 };
 export class DlistConfig {
+  columns: number;
   terms: { text: string, bind: string } [];
 };

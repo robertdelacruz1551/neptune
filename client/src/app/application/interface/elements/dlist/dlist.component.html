@@ -1,5 +1,5 @@
 <dl class="dl-horizontal">
-  <div *ngFor="let term of config.terms" class="col-sm-6">
+  <div *ngFor="let term of config.terms" ngClass="{'1':'col-sm-12','2':'col-sm-6','3':'col-sm-4'}[config.columns]">
     <dt>{{term.text}}: </dt>
     <dd [innerHtml]="pair(data, term.bind)"></dd>
   </div>
