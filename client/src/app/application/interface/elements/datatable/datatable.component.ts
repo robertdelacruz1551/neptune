@@ -88,6 +88,9 @@ export class DatatableConfig {
   headers: {
     key: string;
     text: string;
+    input?: {
+      dropdown?: { value: any; text: string } [];
+    };
   } [];
   action: {
     enable: boolean;
@@ -95,5 +98,6 @@ export class DatatableConfig {
     modal?: ModalConfig;
     edit: boolean;
     add: boolean;
+    delete: boolean;
   };
 };

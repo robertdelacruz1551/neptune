@@ -13,6 +13,6 @@
 .datatable-data {
   cursor:pointer;
 }
-.control-label {
+.control-label, td > span > select {
   font-size: 11px;
 }

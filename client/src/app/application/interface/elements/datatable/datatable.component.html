@@ -5,9 +5,9 @@
         <thead>
           <tr>
             <th *ngIf="config.action.enable">
-              <input type="checkbox" [(ngModel)]="allSelected" (change)="select($event.target.checked)">
-              <a *ngIf="config.action.edit && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
-              <a *ngIf="config.action.edit && rowsSelected.length > 0" class="text-danger datatable-icon" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
+              <input *ngIf="config.action.delete" type="checkbox" [(ngModel)]="allSelected" (change)="select($event.target.checked)">
+              <a *ngIf="config.action.add && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
+              <a *ngIf="config.action.delete && rowsSelected.length > 0" class="text-danger datatable-icon" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
             </th>
             <th *ngFor="let header of config.headers"  [innerHtml]="header.text"></th>
           </tr>
@@ -15,7 +15,7 @@
         <tbody>
           <tr *ngFor="let data of dataset; let row = index;">
             <td *ngIf="config.action.enable === true">
-              <input *ngIf="config.action.edit" type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
+              <input *ngIf="config.action.delete" type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
               <a *ngIf="config.action.edit  && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
 
               <modal *ngIf="config.action.edit && config.action.modal"
@@ -26,7 +26,17 @@
               ></modal>
             </td>
 
-            <td *ngFor="let head of config.headers" [innerHtml]="data[head.key]" ></td>
+            <td *ngFor="let head of config.headers">
+
+              <span *ngIf="head.input && head.input.dropdown"> <!-- this span will have a dropdown option -->
+                <select class="form-control input-sm" [name]="head.key + 'row'" [(ngModel)]="data[head.key]">
+                  <option *ngFor="let option of head.input.dropdown" [value]="option.value" [innerHtml]="option.text"></option>  
+                </select>
+              </span>
+
+              <span *ngIf="!head.input" [innerHtml]="data[head.key]"></span><!-- this span will be used to display plain text -->
+            
+            </td>
           </tr>
         </tbody>
       </table>
@@ -40,7 +50,7 @@
     (commit)= "dataset.push($event)"
   ></modal>
   
-  <div class="modal fade" [id]="deleteModalId" tabindex="-1" role="dialog" aria-labelledby="deleteRowModalLabel">
+  <div *ngIf="config.action.delete" class="modal fade" [id]="deleteModalId" tabindex="-1" role="dialog" aria-labelledby="deleteRowModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
