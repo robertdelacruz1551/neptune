@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NeptuneIboxComponent } from './ibox.component';
+import { IboxComponent } from './ibox.component';
 
-describe('NeptuneIboxComponent', () => {
-  let component: NeptuneIboxComponent;
-  let fixture: ComponentFixture<NeptuneIboxComponent>;
+describe('IboxComponent', () => {
+  let component: IboxComponent;
+  let fixture: ComponentFixture<IboxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NeptuneIboxComponent ]
+      declarations: [ IboxComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NeptuneIboxComponent);
+    fixture = TestBed.createComponent(IboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

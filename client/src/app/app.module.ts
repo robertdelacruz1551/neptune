@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule }   from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 /**
  * Components
@@ -36,14 +37,14 @@ import { RadioComponent } from './application/interface/elements/radio/radio.com
 import { DropdownComponent } from './application/interface/elements/dropdown/dropdown.component';
 import { DatatableComponent } from './application/interface/elements/datatable/datatable.component';
 import { TextblockComponent } from './application/interface/elements/textblock/textblock.component';
+import { DlistComponent } from './application/interface/elements/dlist/dlist.component';
+import { AccordionComponent } from './application/interface/elements/accordion/accordion.component';
 
 /**
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
 import { IboxService } from './application/interface/ibox/ibox.service';
-import { DlistComponent } from './application/interface/elements/dlist/dlist.component';
-import { AccordionComponent } from './application/interface/elements/accordion/accordion.component';
 
 @NgModule({
   declarations: [
@@ -84,14 +85,11 @@ import { AccordionComponent } from './application/interface/elements/accordion/a
   imports: [
     BrowserModule,
     FormsModule,
+    BrowserAnimationsModule,
     HttpModule,
     RouterModule.forRoot([
       {path: '', component: IboxComponent},
-      {path: 'interface/:interface', component: IboxComponent},
-      {path: 'interface/:interface/workitem/:workitem', component: IboxComponent},
-      {path: 'interface/:interface/workitem/:workitem/entity/:entity', component: IboxComponent},
-      {path: 'interface/:interface/entity/:entity', component: IboxComponent},
-      {path: 'interface/:interface/entity/:entity/workitem/:workitem', component: IboxComponent}
+      {path: 'authenticated/:item', component: IboxComponent}
     ])
   ],
   providers: [

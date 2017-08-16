@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ModalConfig } from '../elements/modal/modal.component';
 import { GROUPS, USERS, CUSTOMFORM } from '../../../MockData/interface-mock';
 
+
 export class Interfaces {
   id: string;
   version?: string;
@@ -94,7 +95,7 @@ export class Header {
 export class IboxService {
   interface: Interfaces;
 
-  getInterface(interfaceId?: string, workitemId?: string, entityId?: string): Interfaces {
+  getInterface(item: string): Interfaces {
     this.interface = GROUPS || USERS || CUSTOMFORM;
     return this.interface;
   }

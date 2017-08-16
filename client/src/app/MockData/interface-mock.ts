@@ -904,7 +904,11 @@ export const GROUPS: Interfaces = {
                                                     ]
                                                   }
                                                 }
-                                              },
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            elements: [
                                               {
                                                 bind: 'workflow',
                                                 datatable: {
