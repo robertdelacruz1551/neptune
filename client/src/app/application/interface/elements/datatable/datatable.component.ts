@@ -90,6 +90,7 @@ export class DatatableConfig {
     text: string;
     input?: {
       dropdown?: { value: any; text: string } [];
+      checkbox?: boolean;
     };
   } [];
   action: {

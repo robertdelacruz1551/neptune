@@ -29,9 +29,13 @@
             <td *ngFor="let head of config.headers">
 
               <span *ngIf="head.input && head.input.dropdown"> <!-- this span will have a dropdown option -->
-                <select class="form-control input-sm" [name]="head.key + 'row'" [(ngModel)]="data[head.key]">
+                <select class="form-control input-sm" [name]="head.key + row" [(ngModel)]="data[head.key]">
                   <option *ngFor="let option of head.input.dropdown" [value]="option.value" [innerHtml]="option.text"></option>  
                 </select>
+              </span>
+
+              <span *ngIf="head.input && head.input.checkbox"><!-- checkbox input for data table -->
+                <input class="form-control input-sm datatable-checkbox" type="checkbox" [name]="head.key + row" [checked]="data[head.key]" (change)="data[head.key] = $event.target.checked">
               </span>
 
               <span *ngIf="!head.input" [innerHtml]="data[head.key]"></span><!-- this span will be used to display plain text -->
