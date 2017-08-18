@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule }   from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
@@ -45,6 +46,7 @@ import { AccordionComponent } from './application/interface/elements/accordion/a
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
 import { IboxService } from './application/interface/ibox/ibox.service';
+import { SigninService } from './signin/signin.service';
 
 @NgModule({
   declarations: [
@@ -87,14 +89,16 @@ import { IboxService } from './application/interface/ibox/ibox.service';
     FormsModule,
     BrowserAnimationsModule,
     HttpModule,
+    HttpClientModule,
     RouterModule.forRoot([
       {path: '', component: IboxComponent},
-      {path: 'authenticated/:item', component: IboxComponent}
+      {path: 'authenticated/:data', component: IboxComponent}, // { interface: 8328923, item: 290938839 }
     ])
   ],
   providers: [
     SidebarService,
-    IboxService
+    IboxService,
+    SigninService
   ],
   bootstrap: [AppComponent]
 })
