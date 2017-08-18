@@ -12,11 +12,11 @@ var flash 			= require('connect-flash');
 
 // ================================
 // Port declaration
-// ================================
+// ================================ 
 var port 			= process.env.PORT || 1337;
 app.listen(port, function() {	
 	console.log('Starting Neptune Application Servers...');
-	console.log('Neptune is live!');
+	console.log('Neptune is running!');
 	console.log('http://127.0.0.1:' + port + '/');
 });	
 
