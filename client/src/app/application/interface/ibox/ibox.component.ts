@@ -19,8 +19,8 @@ export class IboxComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      let item  = params['item'];
-      this.interface = this.service.getInterface(item);
+      let data  = params['data'];
+      this.interface = this.service.getInterface(data);
     });
   }
 }

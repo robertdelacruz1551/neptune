@@ -95,9 +95,18 @@ export class Header {
 export class IboxService {
   interface: Interfaces;
 
-  getInterface(item: string): Interfaces {
-    this.interface = GROUPS || USERS || CUSTOMFORM;
-    return this.interface;
-  }
+  getInterface(data: DataConfig) {
+    return this.httpRequestForData('#', data);
+  };
+
+  private httpRequestForData(url: string, data): Interfaces {
+    return GROUPS;
+  };
+
   constructor() { }
 };
+
+export class DataConfig {
+  interface?: string;
+  item?: string;
+}

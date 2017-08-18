@@ -809,6 +809,8 @@ export const GROUPS: Interfaces = {
                 ],
                 action: {
                   enable: true,
+                  edit: true,
+                  add: true,
                   objectModel: {
                     name: null,
                     description: null,
@@ -918,10 +920,7 @@ export const GROUPS: Interfaces = {
                                                     { key: 'queue', text: 'Queue' },
                                                     { key: 'permit', text: 'Permit Change',
                                                       input: {
-                                                        dropdown: [
-                                                          { value: true, text: 'True' },
-                                                          { value: false, text: 'False' }
-                                                        ]
+                                                        checkbox: true
                                                       }
                                                     },
                                                   ],
@@ -950,9 +949,7 @@ export const GROUPS: Interfaces = {
                         enable: true
                       }
                     }
-                  },
-                  edit: true,
-                  add: true
+                  }
                 }
               }
             }
@@ -976,7 +973,7 @@ export const GROUPS: Interfaces = {
               {
                 status: 'Start',
                 queue: 'Not Started',
-                permit: false
+                permit: true
 
               },
               {
