@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 declare var jQuery: any;
 
 @Component({
@@ -7,7 +7,7 @@ declare var jQuery: any;
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
-
+  @Input() navigation;
   constructor() { }
 
   ngOnInit() {

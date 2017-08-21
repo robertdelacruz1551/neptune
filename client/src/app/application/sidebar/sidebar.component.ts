@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SidebarService } from './sidebar.service';
 
 
@@ -7,23 +7,10 @@ import { SidebarService } from './sidebar.service';
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
-  name: string;
-  title: string;
-  home: string;
-  username: string;
+  @Input() operator;
+  @Input() links
 
-  applications: any;
-
-  constructor(
-    private sidebar: SidebarService
-  ) { }
-
+  constructor() {};
   ngOnInit() {
-    this.name = this.sidebar.operator.name;
-    this.title = this.sidebar.operator.title;
-    this.home = this.sidebar.operator.home;
-    this.username = this.sidebar.operator.username;
-    this.applications = this.sidebar.applications;
   }
-
 }

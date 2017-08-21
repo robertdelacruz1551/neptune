@@ -91,6 +91,10 @@ export class Header {
   subtext?: string;
 };
 
+const MOCK = [
+  GROUPS, USERS, CUSTOMFORM
+];
+
 @Injectable()
 export class IboxService {
   interface: Interfaces;
@@ -99,8 +103,9 @@ export class IboxService {
     return this.httpRequestForData('#', data);
   };
 
-  private httpRequestForData(url: string, data): Interfaces {
-    return GROUPS;
+  private httpRequestForData(url: string, data): any {
+    let id = MOCK[data] || {};
+    return id;
   };
 
   constructor() { }

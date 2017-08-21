@@ -14,7 +14,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
  * Components
  */
 import { AppComponent } from './app.component';
-import { SigninComponent } from './signin/signin.component';
 import { ApplicationComponent } from './application/application.component';
 import { SidebarComponent } from './application/sidebar/sidebar.component';
 import { NavigationComponent } from './application/navigation/navigation.component';
@@ -40,20 +39,28 @@ import { DatatableComponent } from './application/interface/elements/datatable/d
 import { TextblockComponent } from './application/interface/elements/textblock/textblock.component';
 import { DlistComponent } from './application/interface/elements/dlist/dlist.component';
 import { AccordionComponent } from './application/interface/elements/accordion/accordion.component';
+import { SigninComponent } from './application/signin/signin.component';
+import { ResetComponent } from './application/signin/reset/reset.component';
 
 /**
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
 import { IboxService } from './application/interface/ibox/ibox.service';
-import { SigninService } from './signin/signin.service';
+import { SigninService } from './application/signin/signin.service';
+import { ApplicationService } from './application/application.service';
+
+/**
+ * Guards
+ */
+import { SigninGuard } from './application/signin/signin.guard';
+import { OperatorComponent } from './application/sidebar/operator/operator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     FooterComponent,
-    SigninComponent,
     ApplicationComponent,
     NavigationComponent,
     SearchComponent,
@@ -82,7 +89,10 @@ import { SigninService } from './signin/signin.service';
     DatatableComponent,
     TextblockComponent,
     DlistComponent,
-    AccordionComponent
+    AccordionComponent,
+    SigninComponent,
+    ResetComponent,
+    OperatorComponent
   ],
   imports: [
     BrowserModule,
@@ -91,14 +101,16 @@ import { SigninService } from './signin/signin.service';
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: '', component: IboxComponent},
-      {path: 'authenticated/:data', component: IboxComponent}, // { interface: 8328923, item: 290938839 }
+      {path: '', component: SigninComponent},
+      {path: 'authorized/:data', component: ApplicationComponent, canActivate: [SigninGuard]} // { interface: 8328923, item: 290938839 }
     ])
   ],
   providers: [
+    SigninGuard,
     SidebarService,
     IboxService,
-    SigninService
+    SigninService,
+    ApplicationService
   ],
   bootstrap: [AppComponent]
 })
