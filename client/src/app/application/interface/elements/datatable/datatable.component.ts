@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalConfig } from '../modal/modal.component';
+import { FeedService } from '../feed.service';
 
 @Component({
   selector: 'datatable',
@@ -79,7 +80,17 @@ export class DatatableComponent implements OnInit {
     this.rowsSelected = [];
   };
 
+  constructor(private Feed: FeedService) {}
+
   ngOnInit() {
+    // if the checkbox requires a feed then 
+    // perform a search for the data
+    if(this.config.action.feed) {
+      let feed = this.Feed.datafeed(this.config.action.feed);
+      feed.subscribe(dataset=>{
+        this.dataset = dataset;
+      });
+    }
   }
 }
 export class DatatableConfig {
@@ -95,6 +106,11 @@ export class DatatableConfig {
   } [];
   action: {
     enable: boolean;
+    link?: {
+      url: string;
+      id: string; // this should be the name of the field in the dataset that identifies the record. best to use the _id field
+    };
+    feed?: string;
     objectModel?: any;
     modal?: ModalConfig;
     edit: boolean;

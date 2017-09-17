@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SigninService } from './signin.service';
 import { Router } from '@angular/router';
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -17,9 +17,11 @@ export class SigninComponent implements OnInit {
   password: string;
   message: string;
 
-  constructor(private auth: SigninService, private router: Router) { }
+  constructor(private signinService: SigninService, private router: Router) { }
 
   ngOnInit() {
+    this.signinService.jwt = null;
+    localStorage.clear();  
   }
 
   clearPassword() {
@@ -31,13 +33,13 @@ export class SigninComponent implements OnInit {
     if(!this.username || !this.password) {
       this.message = "Username and password required";
     } else { 
-      let attemptResults = this.auth.authenticate(this.username, this.password);
+      let attemptResults = this.signinService.authenticate(this.username, this.password);
       attemptResults.subscribe(res=>{
         this.clearPassword(); // clear the password
-        if(!this.auth.jwt) {
+        if(!this.signinService.jwt) {
           this.message = res;
         } else {
-          this.router.navigate(['authorized/home']);
+          this.router.navigate(['secure/home']);
         }
       });
     };

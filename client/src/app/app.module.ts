@@ -41,20 +41,37 @@ import { DlistComponent } from './application/interface/elements/dlist/dlist.com
 import { AccordionComponent } from './application/interface/elements/accordion/accordion.component';
 import { SigninComponent } from './application/signin/signin.component';
 import { ResetComponent } from './application/signin/reset/reset.component';
+import { OperatorComponent } from './application/sidebar/operator/operator.component';
+import { HomeComponent } from './application/interface/home/home.component';
+import { DashboardComponent } from './application/interface/dashboard/dashboard.component';
+import { TeamComponent } from './application/interface/team/team.component';
+import { AttachmentComponent } from './application/interface/elements/attachment/attachment.component';
+import { ListComponent } from './application/interface/list/list.component';
+import { UsersComponent } from './application/interface/neptune/users/users.component';
+import { UserComponent } from './application/interface/neptune/user/user.component';
+import { ProfileComponent } from './application/interface/neptune/user/profile/profile.component';
+import { RolesComponent } from './application/interface/neptune/roles/roles.component';
+import { RoleComponent } from './application/interface/neptune/role/role.component';
+import { TenantComponent } from './application/interface/neptune/tenant/tenant.component';
 
 /**
  * Services
  */
 import { SidebarService } from './application/sidebar/sidebar.service';
-import { IboxService } from './application/interface/ibox/ibox.service';
+import { InterfaceService } from './application/interface/interface.service';
 import { SigninService } from './application/signin/signin.service';
 import { ApplicationService } from './application/application.service';
+import { MessageService } from './application/navigation/message/message.service';
+import { NotificationService } from './application/navigation/notification/notification.service';
+import { FeedService } from './application/interface/elements/feed.service';
+import { UsersService } from './application/interface/neptune/users/users.service';
+import { UserService } from './application/interface/neptune/user/user.service';
 
 /**
  * Guards
  */
 import { SigninGuard } from './application/signin/signin.guard';
-import { OperatorComponent } from './application/sidebar/operator/operator.component';
+
 
 @NgModule({
   declarations: [
@@ -92,7 +109,18 @@ import { OperatorComponent } from './application/sidebar/operator/operator.compo
     AccordionComponent,
     SigninComponent,
     ResetComponent,
-    OperatorComponent
+    OperatorComponent,
+    HomeComponent,
+    DashboardComponent,
+    TeamComponent,
+    AttachmentComponent,
+    ListComponent,
+    UsersComponent,
+    UserComponent,
+    RolesComponent,
+    RoleComponent,
+    TenantComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -101,16 +129,51 @@ import { OperatorComponent } from './application/sidebar/operator/operator.compo
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: '', component: SigninComponent},
-      {path: 'authorized/:data', component: ApplicationComponent, canActivate: [SigninGuard]} // { interface: 8328923, item: 290938839 }
+      {
+        path: '',
+        component: SigninComponent,
+        children: [
+          { path: 'reset', component: ResetComponent }
+        ]
+      },
+      {
+        path: 'secure',
+        component: ApplicationComponent,
+        canActivate: [SigninGuard],
+        children: [
+          // Neptune interfaces. These pages are locally stored.
+          // A role check will take place to see if the user has 
+          // access to the interface before opening
+          { path: 'users', component: UsersComponent },
+          { path: 'user/:id', component: UserComponent },
+          { path: 'user/profile', component: ProfileComponent },
+          { path: 'tenant/profile', component: TenantComponent },
+          { path: 'roles', component: RolesComponent },
+          // { path: 'notofications', component: NotificationsComponent },
+          // { path: 'notification/:id', component: NotificationComponent },
+          { path: 'role/:id', component: RoleComponent },
+          { path: 'home', component: HomeComponent }, // home does not have need role
+          // These interfaces are templates for use to generate custom interfaces
+          { path: ':id', component: IboxComponent },
+          { path: 'list/:id', component: ListComponent },
+          { path: 'box/:id', component: IboxComponent },
+          { path: 'dashboard/:id', component: DashboardComponent },
+          { path: 'team', component: TeamComponent }
+        ]
+      }
     ])
   ],
   providers: [
     SigninGuard,
     SidebarService,
-    IboxService,
+    InterfaceService,
     SigninService,
-    ApplicationService
+    ApplicationService,
+    MessageService,
+    NotificationService,
+    FeedService,
+    UsersService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

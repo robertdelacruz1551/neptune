@@ -28,15 +28,4 @@ export class Application {
 @Injectable()
 export class ApplicationService {
 
-  constructor(private http: Http) { }
-
-  getApplicationSettings( jwt: string ): Observable<Application> {
-    let url = 'http://127.0.0.1:1337/api/secure/application';
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt }); 
-    let options = new RequestOptions({ headers: headers }); 
-
-    return this.http.get(url, options) 
-                    .map((res:Response) => res.json())
-                    .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
-  } 
 }

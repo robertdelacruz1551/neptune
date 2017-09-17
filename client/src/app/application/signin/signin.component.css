@@ -6,3 +6,17 @@
 .login-message {
   border-radius: 5px;
 }
+
+.wrapper {
+  height: 100vh;
+}
+
+.middle-box {
+  top: 0%;
+}
+
+.bg-danger {
+  border: 1pt;
+  border-style: solid;
+  border-color: #dea8ae;
+}

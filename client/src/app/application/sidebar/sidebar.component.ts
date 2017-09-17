@@ -7,10 +7,17 @@ import { SidebarService } from './sidebar.service';
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
-  @Input() operator;
-  @Input() links
-
-  constructor() {};
+  private operator;
+  private links;
+  
+  constructor(private sidebarService: SidebarService) {};
+  
   ngOnInit() {
+    let jwt = localStorage.getItem('client');
+    let sidebar = this.sidebarService.getSidebar(jwt);
+    sidebar.subscribe(res=> {
+      this.operator = res.operator;
+      this.links    = res.links;
+    });
   }
 }

@@ -1,28 +1,18 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse">
-        <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header">
-                
-                <app-operator [operator]="operator"></app-operator>
+	<div class="sidebar-collapse">
+		<ul class="nav metismenu" id="side-menu">
+			<li class="nav-header">
+				<app-operator *ngIf="operator" [operator]="operator"></app-operator>
+				<div class="logo-element">BPM</div>
+			</li>
 
-                <div class="logo-element">
-                    BPM
-                </div>
-            </li>
-
-            <li *ngFor="let link of links">
-                <a>
-                    <i [class]="link.icon"></i> 
-                    <span class="nav-label" [innerHtml]="link.name"></span> 
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level">
-                    <li *ngFor="let app of link.apps">
-                        <a [routerLink]="app.url"[innerHtml]="app.name"></a>
-                    </li>
-                </ul>
-            </li>
-
-        </ul>
-    </div>
+			<li *ngFor="let link of links">
+				<a [routerLink]="link._id">
+					<!-- <i [class]="link.icon"></i>  -->
+					<span class="nav-label" [innerHtml]="link.title"></span> 
+					<!-- <span class="fa arrow"></span> -->
+				</a>
+			</li>
+		</ul>
+	</div>
 </nav>

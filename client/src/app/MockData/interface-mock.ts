@@ -1,4 +1,4 @@
-import { Interfaces } from '../application/interface/ibox/ibox.service';
+import { Interfaces } from '../application/interface/interface.service';
 
 const contactModal = {
   header: {
@@ -576,9 +576,9 @@ const vendorConfig = {
 export const CUSTOMFORM: Interfaces = {
   id: 'test',
   title: 'Vendor Intake Form',
-  version: '1.1',
+  __v: '1.1',
   description: null,
-  save: { toolstrip: true },
+  saves: { toolstrip: true },
   panels: [
     {
       active: true,
@@ -661,9 +661,9 @@ export const CUSTOMFORM: Interfaces = {
 export const USERS: Interfaces = {
   id: 'neptune-users',
   title: 'Users',
-  version: '1.0',
+  __v: '1.0',
   description: null,
-  save: { toolstrip: true },
+  saves: { toolstrip: true },
   panels: [
     {
       active: true,
@@ -749,10 +749,11 @@ export const USERS: Interfaces = {
                                   checkbox: {
                                     label: { text: 'User Groups' },
                                     input: {
+                                      name: 'modal.user.groups',
                                       options: [
-                                        { name: 'modal.user.groups', value: 'Onboarding', text: 'Onboarding' },
-                                        { name: 'modal.user.groups', value: 'Quality Assurance', text: 'Quality Assurance' },
-                                        { name: 'modal.user.groups', value: 'Manager', text: 'Manager' }
+                                        { value: 'Onboarding', text: 'Onboarding' },
+                                        { value: 'Quality Assurance', text: 'Quality Assurance' },
+                                        { value: 'Manager', text: 'Manager' }
                                       ]
                                     }
                                   }
@@ -790,7 +791,7 @@ export const GROUPS: Interfaces = {
   id: 'neptune-groups',
   title: 'Groups',
   description: null,
-  save: { toolstrip: true },
+  saves: { toolstrip: true },
   panels: [
     {
       active: true,

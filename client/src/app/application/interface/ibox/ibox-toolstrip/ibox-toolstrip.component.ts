@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Toolstrip } from '../ibox.service';
+import { Toolstrip } from '../../interface.service';
 
 @Component({
   selector: 'ibox-toolstrip',

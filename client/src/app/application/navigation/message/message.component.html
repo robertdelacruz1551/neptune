@@ -1,34 +1,27 @@
-<li class="dropdown">
-    <a class="dropdown-toggle text-primary" data-toggle="dropdown" href="javascript:;">
-        <i class="fa fa-envelope-o fa-lg"></i>
-    </a>
+<li class="dropdown" *ngIf="1===0">
+	<a class="dropdown-toggle text-primary" data-toggle="dropdown" href="javascript:;">
+		<i class="fa fa-envelope-o fa-lg"></i>
+	</a>
 
-    <ul class="dropdown-menu dropdown-messages">
-        <li>
-            <div class="dropdown-messages-box">
-                <a href="profile.html" class="pull-left">
-                    <!-- <img alt="image" class="img-circle" src="img/a7.jpg"> -->
-                </a>
-                <div class="media-body">
-                    <small class="pull-right">46h ago</small>
-                    <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                    <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                </div>
-            </div>
-        </li>
-        <li class="divider"></li>
-        <li>
-            <div class="dropdown-messages-box">
-                <a href="profile.html" class="pull-left">
-                    <!-- <img alt="image" class="img-circle" src="img/a7.jpg"> -->
-                </a>
-                <div class="media-body ">
-                    <small class="pull-right text-navy">5h ago</small>
-                    <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-                    <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                </div>
-            </div>
-        </li>
-    </ul>
-
+	<ul class="dropdown-menu dropdown-messages">
+		<li *ngIf="!messages">
+				<p class="text-center">No messages to display</p>
+		</li>
+		<li *ngFor="let message of messages; let i = index">
+			<div *ngIf="i > 1"class="divider"></div>
+			<div class="dropdown-messages-box">
+				<a class="pull-left">
+					<i [ngClass]="(message.read)? 'fa fa-check-square-o fa-lg text-muted':'fa fa-square-o fa-lg text-muted'" aria-hidden="true"></i>
+				</a>
+				<div class="media-body">
+					<!-- <small class="pull-right text-muted">5h ago</small> -->
+					<strong [innerHtml]="message.subject"></strong> {{message.sender}}<br>
+					<small class="text-muted" [innerHtml]="message.sent"></small>
+				</div>
+			</div>
+		</li>
+		<li *ngIf="!messages">
+			<button type="button" class="btn btn-primary btn-block">Refresh</button>
+		</li>
+	</ul>
 </li>

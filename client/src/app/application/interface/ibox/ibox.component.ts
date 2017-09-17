@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IboxService } from './ibox.service';
+import { InterfaceService } from '../interface.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
@@ -9,18 +9,28 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./ibox.component.css']
 })
 export class IboxComponent implements OnInit {
-  @Input() user;
   private interface;
+  private ready: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: IboxService
+    private service: InterfaceService
   ) { };
 
   ngOnInit() {
+    // clears the template
+    this.ready = false;
+    // query for the interface
     this.route.params.subscribe((params: Params) => {
-      let data  = params['data'];
-      this.interface = this.service.getInterface(data);
+      let id  = params['id'];
+      let jwt = localStorage.getItem('client');
+      let _interface = this.service.getInterface(id, jwt);
+      _interface.subscribe(res=> {
+        console.log(res);
+        this.interface = res;
+        this.ready = true;
+      });
     });
   }
 }

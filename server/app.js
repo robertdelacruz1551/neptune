@@ -47,13 +47,19 @@ app.set('view engine', 'ejs');
 // Configure routes 
 // ================================
 var authenticator	= require('./routes/authenticator.js');
-var home 					= require('./routes/home.js');
-var interface			= require('./routes/interface.js');
+var sidebar 			= require('./routes/sidebar.api.js');
+var messages 			= require('./routes/message.api.js');
+var notifications	= require('./routes/notification.api.js');
+var interface			= require('./routes/interface.api.js');
+var feeds					= require('./routes/feed.api.js');
 
 // ================================
 // CORS whitelist
 // ================================
-var whitelist = ['http://localhost:4200', 'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop'];
+var whitelist = [
+	'http://localhost:4200', 
+	'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop'
+];
 var corsOptions = {
   origin: function(origin, callback){
 		var isWhitelisted = whitelist.indexOf(origin) !== -1;
@@ -64,8 +70,11 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(authenticator);
-app.use(home);
+app.use(sidebar);
+app.use(messages);
+app.use(notifications);
 app.use(interface); 
+app.use(feeds);
 
 // ================================
 // Error handling for the application

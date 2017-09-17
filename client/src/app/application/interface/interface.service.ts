@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { ModalConfig } from '../elements/modal/modal.component';
-import { GROUPS, USERS, CUSTOMFORM } from '../../../MockData/interface-mock';
+import { ModalConfig } from './elements/modal/modal.component';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+// import { GROUPS, USERS, CUSTOMFORM } from '../../../MockData/interface-mock';
 
 
 export class Interfaces {
   id: string;
-  version?: string;
+  __v?: string;
   title: string;
   description?: string;
   toolstrip?: Toolstrip;
-  save?: {
+  saves?: {
     form?: boolean;
     toolstrip?: boolean;
   };
@@ -91,27 +94,26 @@ export class Header {
   subtext?: string;
 };
 
-const MOCK = [
-  GROUPS, USERS, CUSTOMFORM
-];
-
-@Injectable()
-export class IboxService {
-  interface: Interfaces;
-
-  getInterface(data: DataConfig) {
-    return this.httpRequestForData('#', data);
-  };
-
-  private httpRequestForData(url: string, data): any {
-    let id = MOCK[data] || {};
-    return id;
-  };
-
-  constructor() { }
-};
-
 export class DataConfig {
   interface?: string;
   item?: string;
 }
+
+class InterfaceResponse {
+  status: number;
+  interface: Interfaces;
+}
+
+@Injectable()
+export class InterfaceService {
+  constructor( private http: Http, private router: Router ) { }
+
+  getInterface(id: string,  jwt: string ): Observable<Interfaces> {
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt }); 
+    let options = new RequestOptions({ headers: headers }); 
+    let url = 'http://127.0.0.1:1337/api/secure/interface/' + id;
+    return this.http.get(url, options) 
+                    .map((res:Response) => res.json())
+                    .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+  }
+};

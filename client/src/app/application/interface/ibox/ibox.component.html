@@ -1,19 +1,22 @@
   <div class="row">
-    <div class="col-sm-10" style="padding-left: 0px;">
-      <div class="ibox float-e-margins">
-        <ibox-title
-          [title]="interface.title" 
-          [version]="interface.version">
-        </ibox-title>
-        <ibox-toolstrip *ngIf="interface.save || interface.toolstrip"
-          [interface]="interface"
-          [save]="interface.save.toolstrip"
-          [toolstrip]="interface.toolstrip">
-        </ibox-toolstrip>
-        <ibox-content *ngIf="interface.panels"
-          [panels]="interface.panels" 
-          [data]="interface.data">
-        </ibox-content>
+    <div *ngIf="ready" class="animated fadeIn">
+      <div class="col-sm-12" style="padding-left: 0px;">
+        <div *ngIf="interface" class="ibox float-e-margins">
+          <ibox-title
+            [title]="interface.title" 
+            [version]="interface.__v">
+          </ibox-title>
+          <ibox-toolstrip
+            [interface]="interface"
+            [save]="interface.saves.toolstrip"
+            [toolstrip]="interface.toolstrip">
+          </ibox-toolstrip>
+          <ibox-content *ngIf="interface.panels"
+            [panels]="interface.panels" 
+            [data]="interface.data">
+          </ibox-content>
+        </div>
       </div>
     </div>
   </div>
+  <!--  [save]="interface.save.toolstrip" -->
