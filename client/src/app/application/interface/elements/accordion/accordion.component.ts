@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Panels } from '../../ibox/ibox.service';
+import { Panels } from '../../interface.service';
 import { FeedService } from '../feed.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class AccordionComponent implements OnInit {
   @Input() dataset: any [];
 
   constructor(private Feed: FeedService) {}
-  
+
   ngOnInit() {
     if ( this.dataset ) {
       this.dataset.forEach(data => {
@@ -22,11 +22,11 @@ export class AccordionComponent implements OnInit {
       });
     }
 
-    // if the checkbox requires a feed then 
+    // if the checkbox requires a feed then
     // perform a search for the data
-    if(this.config.feed) {
+    if (this.config.feed) {
       let feed = this.Feed.datafeed(this.config.feed);
-      feed.subscribe(dataset=>{
+      feed.subscribe(dataset => {
         this.dataset = dataset;
       });
     }

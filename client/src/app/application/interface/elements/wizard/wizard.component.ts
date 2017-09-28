@@ -18,7 +18,7 @@ export class WizardComponent implements OnInit {
 
   setId() {
     this.panels.forEach(panel => {
-      if(!panel.id) {
+      if (!panel.id) {
         panel.id = Math.random().toString(36).substring(7);
       }
     });

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Panels } from '../../ibox/ibox.service';
+import { Panels } from '../../interface.service';
 
 @Component({
   selector: 'modal',

@@ -1,12 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TextBoxConfig } from '../../../../textbox/textbox.component';
-import { CheckboxConfig } from '../../../../checkbox/checkbox.component';
-import { RadioConfig } from '../../../../radio/radio.component';
-import { DropdownConfig } from '../../../../dropdown/dropdown.component';
-import { DatatableConfig } from '../../../../datatable/datatable.component';
-import { TextBlockConfig } from '../../../../textblock/textblock.component';
-import { DlistConfig } from '../../../../dlist/dlist.component';
-import { AccordionConfig } from '../../../../accordion/accordion.component';
+import { TextBoxConfig } from '../textbox/textbox.component';
+import { CheckboxConfig } from '../checkbox/checkbox.component';
+import { RadioConfig } from '../radio/radio.component';
+import { DropdownConfig } from '../dropdown/dropdown.component';
+import { DatatableConfig } from '../datatable/datatable.component';
+import { TextBlockConfig } from '../textblock/textblock.component';
+import { DlistConfig } from '../dlist/dlist.component';
+import { AccordionConfig } from '../accordion/accordion.component';
+import { ButtonConfig } from '../button/button.component';
 
 @Component({
   selector: 'elements',
@@ -16,7 +17,7 @@ import { AccordionConfig } from '../../../../accordion/accordion.component';
 export class ElementsComponent implements OnInit {
   @Input() data: any;
   @Input() element: Elements [] = [];
-
+// pair(data, element.bind)
   pair (object, bind, value) {
     if (typeof bind === 'string') {
       return this.pair(object, bind.split('.'), value);
@@ -47,4 +48,5 @@ export class Elements {
   textblock?: TextBlockConfig;
   dlist?: DlistConfig;
   accordion?: AccordionConfig;
+  button?: ButtonConfig;
 }

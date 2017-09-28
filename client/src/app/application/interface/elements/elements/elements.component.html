@@ -27,6 +27,10 @@
   [data]=   "data"
 ></dlist>
 <accordion *ngIf="element.accordion"
-  [config]="element.accordion"
+  [config]= "element.accordion"
   [dataset]="pair(data, element.bind)"
 ></accordion>
+<app-button *ngIf="element.button"
+  [config]= "element.button"
+  [data]=   "data"
+></app-button>

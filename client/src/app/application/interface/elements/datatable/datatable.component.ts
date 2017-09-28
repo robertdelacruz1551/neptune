@@ -12,7 +12,7 @@ export class DatatableComponent implements OnInit {
   @Input() dataset: any [];
 
 /**
- * if the user clicks on selected all then set all 
+ * if the user clicks on selected all then set all
  * the checkboxes in the table to checked
  */
   private allSelected: boolean;
@@ -23,13 +23,13 @@ export class DatatableComponent implements OnInit {
   public datasetId = Math.random().toString(36).substring(7);
 
 /**
- * This property will have the modal key 
+ * This property will have the modal key
  * to delete records from the datatable
  */
   public deleteModalId = Math.random().toString(36).substring(7);
 
 /**
- * This property is an array 
+ * This property is an array
  * containing the rows selected
  */
   private rowsSelected: any [] = [];
@@ -45,7 +45,7 @@ export class DatatableComponent implements OnInit {
   };
 
 /**
- * This method sets the row in focus to 
+ * This method sets the row in focus to
  * view, edit or delete from the dataset
  * @param row: is initialized on click
  */
@@ -55,7 +55,7 @@ export class DatatableComponent implements OnInit {
   };
 
 /**
- * This method sets the row in focus to 
+ * This method sets the row in focus to
  * view, edit or delete from the dataset
  * @param row: is initialized on click
  */
@@ -83,11 +83,11 @@ export class DatatableComponent implements OnInit {
   constructor(private Feed: FeedService) {}
 
   ngOnInit() {
-    // if the checkbox requires a feed then 
+    // if the checkbox requires a feed then
     // perform a search for the data
-    if(this.config.action.feed) {
+    if (this.config.action.feed) {
       let feed = this.Feed.datafeed(this.config.action.feed);
-      feed.subscribe(dataset=>{
+      feed.subscribe(dataset => {
         this.dataset = dataset;
       });
     }

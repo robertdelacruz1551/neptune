@@ -13,8 +13,8 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     let jwt = localStorage.getItem('client');
     let notification = this.notificationService.getNotifications(jwt);
-    notification.subscribe(res=>{
-      this.notifications = res; 
+    notification.subscribe(res => {
+      this.notifications = res;
     });
   }
 }

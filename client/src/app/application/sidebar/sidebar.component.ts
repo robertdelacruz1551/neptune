@@ -9,13 +9,13 @@ import { SidebarService } from './sidebar.service';
 export class SidebarComponent implements OnInit {
   private operator;
   private links;
-  
+
   constructor(private sidebarService: SidebarService) {};
-  
+
   ngOnInit() {
     let jwt = localStorage.getItem('client');
     let sidebar = this.sidebarService.getSidebar(jwt);
-    sidebar.subscribe(res=> {
+    sidebar.subscribe(res => {
       this.operator = res.operator;
       this.links    = res.links;
     });

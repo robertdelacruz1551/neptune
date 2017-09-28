@@ -106,14 +106,23 @@ class InterfaceResponse {
 
 @Injectable()
 export class InterfaceService {
-  constructor( private http: Http, private router: Router ) { }
+  constructor( private http: Http ) { }
 
-  getInterface(id: string,  jwt: string ): Observable<Interfaces> {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt }); 
-    let options = new RequestOptions({ headers: headers }); 
-    let url = 'http://127.0.0.1:1337/api/secure/interface/' + id;
-    return this.http.get(url, options) 
-                    .map((res:Response) => res.json())
-                    .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+  protected InterfaceGetRequest(url: string, options: RequestOptions ): Observable<any>  {
+    return this.http.get(url, options)
+                    .map((res: Response) => res.json())
+                    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
+
+  protected InterfaceHeaderContext(jwt): RequestOptions {
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt });
+    return new RequestOptions({ headers: headers });
+  }
+
+  getInterface(url: string,  jwt: string ): Observable<Interfaces> {
+    let options = this.InterfaceHeaderContext(jwt);
+    let URL = 'http://127.0.0.1:1337/api' + url;
+    return this.InterfaceGetRequest(URL, options);
+  };
+
 };
