@@ -6,7 +6,7 @@
             [title]="interface.title" 
             [version]="interface.__v">
           </ibox-title>
-          <ibox-toolstrip
+          <ibox-toolstrip *ngIf="interface.toolstrip"
             [interface]="interface"
             [save]="interface.saves.toolstrip"
             [toolstrip]="interface.toolstrip">

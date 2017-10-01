@@ -22,7 +22,7 @@
                             
               <a *ngIf="!config.action.link && config.action.edit  && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
 
-              <modal *ngIf="!config.action.link && config.action.edit && config.action.modal"
+              <modal *ngIf="showModal()"
                 [id]="'editmodal' + datasetId + row"
                 [datarow]="data"
                 [config]= "config.action.modal"

@@ -128,8 +128,9 @@ import { SigninGuard } from './application/signin/signin.guard';
         path: 'secure',
         component: ApplicationComponent,
         canActivate: [SigninGuard],
+        canActivateChild: [SigninGuard],
         children: [
-          { path: 'interface/:interface', component: IboxComponent },
+          { path: 'interface/:interface', component: IboxComponent},
           { path: 'interface/:interface/:record', component: IboxComponent },
           { path: 'record/:record', component: IboxComponent },
           { path: 'home', component: HomeComponent },

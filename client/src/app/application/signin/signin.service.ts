@@ -11,35 +11,35 @@ export class SigninService {
 
 
   VerifyClientToken(jwt: string): Observable<boolean> {
-    let url = 'http://127.0.0.1:1337/api/secure/token';
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt }); 
-    let options = new RequestOptions({ headers: headers }); 
+    let url = 'http://127.0.0.1:1337/secure/token';
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt });
+    let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(url, options) 
-                    .map((res:Response) => {
+    return this.http.get(url, options)
+                    .map((res: Response) => {
                       this.jwt = res.json().jwt;
                       localStorage.setItem('client', this.jwt);
                       return res.json().valid;
                     })
-                    .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+                    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   };
 
   authenticate( username: string, password: string ): Observable<string> {
     let url = 'http://127.0.0.1:1337/login/598d0e04a848bf4e7f8df53d';
-    let user = JSON.stringify({ username: username, password: password }); 
-    let headers = new Headers({ 'Content-Type': 'application/json' }); 
-    let options = new RequestOptions({ headers: headers }); 
+    let user = JSON.stringify({ username: username, password: password });
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(url, user, options) 
-                    .map((res:Response) => {
-                      if(res.json().jwt) {
+    return this.http.post(url, user, options)
+                    .map((res: Response) => {
+                      if (res.json().jwt) {
                         this.jwt = res.json().jwt; // stores the jwt in this service for future use
                         localStorage.setItem('client', this.jwt); // stores the username and the jwt locally
                         return res.json().jwt;
-                      }else if(res.json().message) {
+                      }else if (res.json().message) {
                         return res.json().message;
                       }
                     })
-                    .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
-  } 
+                    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
 }

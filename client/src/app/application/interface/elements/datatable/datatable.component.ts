@@ -67,7 +67,11 @@ export class DatatableComponent implements OnInit {
       this.rowsSelected.splice(row, 1);
     }
   };
-
+/**
+  * This function checks to see if the modal needs to be shown
+  */showModal() {
+    return !this.config.action.link && this.config.action.enable && this.config.action.edit && this.config.action.modal;
+  }
 /**
  * Deletes the row in focus from the dataset
  */

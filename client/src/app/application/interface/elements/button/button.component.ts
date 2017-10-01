@@ -43,6 +43,7 @@ export class ButtonComponent implements OnInit {
     if (this.config.api.body && this.config.api.body.length > 0) {
       this.config.api.body.forEach(property => {
         this.body[property.key] = this.data[property.value] || null
+        console.log(this.body);
       });
     };
   }
@@ -50,8 +51,14 @@ export class ButtonComponent implements OnInit {
 
 export class ButtonConfig {
   text: string;
+  style: {
+    position: number;
+    color: string;
+  };
   api: {
     url: string;
+    onSuccessMessage?: string [];
+    onFailureMessage?: string [];
     protocal?: string;
     params?: {
       key: string;

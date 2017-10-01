@@ -121,8 +121,9 @@ export class InterfaceService {
 
   getInterface(url: string,  jwt: string ): Observable<Interfaces> {
     let options = this.InterfaceHeaderContext(jwt);
-    let URL = 'http://127.0.0.1:1337/api' + url;
+    let URL = 'http://127.0.0.1:1337' + url;
     return this.InterfaceGetRequest(URL, options);
   };
+
 
 };

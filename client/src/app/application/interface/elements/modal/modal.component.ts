@@ -17,12 +17,12 @@ export class ModalComponent implements OnInit {
  */
   private editableDatarow: {} = {};
   private setEditableDatarow() {
-    this.datarow['neptune.metadata'] = {};
+    this.datarow['metadata'] = {};
     this.editableDatarow = JSON.parse(JSON.stringify(this.datarow));
   }
 /**
- * If the user cancels the change we 
- * need to reset the updateDatarow object 
+ * If the user cancels the change we
+ * need to reset the updateDatarow object
  * back to it's unchanged state
  */
   public cancelChange() {
@@ -30,18 +30,18 @@ export class ModalComponent implements OnInit {
   }
 
   public commits() {
-    if (!this.editableDatarow['neptune.metadata'].created ) {
-      this.editableDatarow['neptune.metadata'].created = new Date().toString();
+    if (!this.editableDatarow['metadata'].created ) {
+      this.editableDatarow['metadata'].created = new Date().toString();
     };
-    this.editableDatarow['neptune.metadata'].modified = new Date().toString();
+    this.editableDatarow['metadata'].modified = new Date().toString();
     let editableDatarowToCommit = this.editableDatarow;
     this.setEditableDatarow();
     return this.commit.emit(editableDatarowToCommit);
   }
 
 /**
- * On init make a copy of the datarow 
- * property to prevent update if user 
+ * On init make a copy of the datarow
+ * property to prevent update if user
  * cancels change.
  */
   constructor() {

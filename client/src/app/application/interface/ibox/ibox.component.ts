@@ -36,6 +36,7 @@ export class IboxComponent implements OnInit {
         let url = this.router.url;
         let gui = this.interfaceService.getInterface(url, jwt);
         gui.subscribe(res => {
+          console.log(res);
           this.interface  = res;
           this.ready      = true;
         });
