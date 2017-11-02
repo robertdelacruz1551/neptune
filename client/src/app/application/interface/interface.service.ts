@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalConfig } from './elements/modal/modal.component';
+import { ButtonConfig } from './elements/button/button.component';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -23,7 +24,7 @@ export class Interfaces {
 };
 
 export class Toolstrip {
-  save: boolean;
+  _save?: ButtonConfig;
   attachment?: {
     enable: boolean;
     modal: ModalConfig;

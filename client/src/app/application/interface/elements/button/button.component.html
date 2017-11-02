@@ -1,5 +1,7 @@
-<div class="form-group">
-  <div class="col-sm-offset-4 col-sm-8">
-    <button type="button" class="btn btn-default" [innerHtml]="config.text" (click)="ButtonAction()"></button>
-  </div>
-</div>
+
+
+<button type="button" class="btn btn-default" [innerHtml]="config.text || 'Save'" (click)="ButtonAction()"></button>
+
+<!-- <a *ngIf="host === 'toolstrip'">  This is only used in the tool strip 
+  <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" (click)="ButtonAction()"></span>
+</a> -->

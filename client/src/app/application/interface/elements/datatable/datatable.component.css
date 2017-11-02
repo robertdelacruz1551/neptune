@@ -20,3 +20,14 @@
   height: 15px;
   margin: 0px;
 }
+.datatable-dropdown {
+  border: none;
+  height: 20px;
+}
+.datatable-actions {
+  min-height: 20px;
+}
+
+.btn {
+  margin: 0px;
+}

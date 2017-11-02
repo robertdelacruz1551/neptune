@@ -8,7 +8,7 @@ import { ApplicationService, Application } from './application.service';
     <app-sidebar></app-sidebar>
     <div id="page-wrapper" class="gray-bg">
       <app-navigation></app-navigation>
-      <div class="wrapper wrapper-content animated fadeIn"> 
+      <div class="wrapper wrapper-content animated fadeIn">
         <div class="container">
           <router-outlet></router-outlet>
         </div>
@@ -20,5 +20,5 @@ import { ApplicationService, Application } from './application.service';
 })
 export class ApplicationComponent implements OnInit {
   ngOnInit() {
-  } 
+  }
 }

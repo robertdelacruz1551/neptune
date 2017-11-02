@@ -25,3 +25,6 @@
   .navbar {
     border-radius: 0px;
   }
+  .toolstrip-button-right-li {
+    padding: 8px 0px 0px 25px;
+  }

@@ -30,7 +30,13 @@
   [config]= "element.accordion"
   [dataset]="pair(data, element.bind)"
 ></accordion>
-<app-button *ngIf="element.button"
-  [config]= "element.button"
-  [data]=   "data"
-></app-button>
+
+<div *ngIf="element.button" class="form-group"> <!-- This is only used in panel containers -->
+  <div class="col-sm-offset-4 col-sm-8">
+      <app-button
+      [host] = "'container'"
+      [config]= "element.button"
+      [data]=   "data"
+    ></app-button>
+  </div>
+</div>

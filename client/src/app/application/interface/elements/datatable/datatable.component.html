@@ -1,14 +1,21 @@
   <div class="row">
     <label *ngIf="config.label" class="col-sm-4 control-label" [innerHtml]="config.label.text"></label>
     <div [ngClass]="(!config.size)?'col-sm-12': (config.label)? {'small': 'col-sm-4', 'medium': 'col-sm-6', 'large': 'col-sm-8'}[config.size] : {'small': 'col-sm-offset-4 col-sm-4', 'medium': 'col-sm-offset-4 col-sm-6', 'large': 'col-sm-offset-4 col-sm-8'}[config.size]">
+      <div *ngIf="config.action.enable" class="datatable-actions">
+        <a *ngIf="config.action.add && config.action.add.modal"    class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
+        <a *ngIf="config.action.add && config.action.add.link"     class="text-default datatable-icon" [routerLink]="'/' + config.action.add.link.url"> <span class="glyphicon glyphicon-plus-sign"></span></a>  
+        <a *ngIf="config.action.delete && rowsSelected.length > 0" class="text-danger datatable-icon"  data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
+      </div>
       <table class="table table-hover datatable" [id]="datasetId">
         <thead>
           <tr>
             <th *ngIf="config.action.enable">
               <input *ngIf="config.action.delete" type="checkbox" [(ngModel)]="allSelected" (change)="select($event.target.checked)">
-              <a *ngIf="config.action.add && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
-              <a *ngIf="config.action.delete && rowsSelected.length > 0" class="text-danger datatable-icon" data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
-              <a *ngIf="config.action.link && config.action.edit" class="text-default datatable-icon" [routerLink]="'/' + config.action.link.url + '/new'"> <span class="glyphicon glyphicon-plus"></span></a>
+              <!-- Moved this obove the table
+                <a *ngIf="config.action.add && config.action.add.modal"    class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#addmodal'  + datasetId" > <span class="glyphicon glyphicon-plus-sign"></span></a>
+                <a *ngIf="config.action.delete && rowsSelected.length > 0" class="text-danger datatable-icon"  data-toggle="modal" [attr.data-target]="'#' + deleteModalId"> <span class="glyphicon glyphicon-remove-circle"></span></a>
+                <a *ngIf="config.action.add && config.action.add.link"     class="text-default datatable-icon" [routerLink]="'/' + config.action.add.link.url"> <span class="glyphicon glyphicon-plus"></span></a>
+              -->
             </th>
             <th *ngFor="let header of config.headers"  [innerHtml]="header.text"></th>
           </tr>
@@ -16,16 +23,15 @@
         <tbody>
           <tr *ngFor="let data of dataset; let row = index;">
             <td *ngIf="config.action.enable === true">
-              <input *ngIf="config.action.delete" type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
-              
-              <a *ngIf="config.action.link && config.action.edit" class="text-default datatable-icon" [routerLink]="'/' + config.action.link.url + '/' + data[config.action.link.id]"> <span class="glyphicon glyphicon-edit"></span></a>
-                            
-              <a *ngIf="!config.action.link && config.action.edit  && config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row"> <span class="glyphicon glyphicon-pencil"></span></a>
 
-              <modal *ngIf="showModal()"
+              <input *ngIf="config.action.delete" type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
+              <a *ngIf="config.action.edit && config.action.edit.link" class="text-default datatable-icon" [routerLink]="'/' + config.action.edit.link.url + '/' + data[config.action.edit.link.id]" [innerHtml]="data[config.action.edit.link.label] || config.action.edit.link.label || 'Edit'"></a>   
+              <a *ngIf="(config.action.edit && !config.action.edit.link && config.action.edit.modal) || config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row">Edit</a>
+
+              <modal *ngIf="this.config.action && this.config.action.edit && this.config.action.edit.modal"
                 [id]="'editmodal' + datasetId + row"
                 [datarow]="data"
-                [config]= "config.action.modal"
+                [config]= "this.config.action.edit.modal"
                 (commit)= "dataset[row] = $event"
               ></modal>
             </td>
@@ -33,7 +39,7 @@
             <td *ngFor="let head of config.headers">
 
               <span *ngIf="head.input && head.input.dropdown"> <!-- this span will have a dropdown option -->
-                <select class="form-control input-sm" [name]="head.key + row" [(ngModel)]="data[head.key]">
+                <select class="form-control input-sm datatable-dropdown" [name]="head.key + row" [(ngModel)]="data[head.key]">
                   <option *ngFor="let option of head.input.dropdown" [value]="option.value" [innerHtml]="option.text"></option>  
                 </select>
               </span>
@@ -42,7 +48,7 @@
                 <input class="form-control input-sm datatable-checkbox" type="checkbox" [name]="head.key + row" [checked]="data[head.key]" (change)="data[head.key] = $event.target.checked">
               </span>
 
-              <span *ngIf="!head.input" [innerHtml]="data[head.key]"></span><!-- this span will be used to display plain text -->
+              <span *ngIf="!head.input" [innerHtml]="data[head.key]" class="tdtext"></span><!-- this span will be used to display plain text -->
             
             </td>
           </tr>
@@ -51,10 +57,10 @@
     </div>
   </div>
 
-  <modal *ngIf="config.action.add && config.action.modal" 
+  <modal *ngIf="config.action && config.action.add && config.action.add.modal" 
     [id]="'addmodal' + datasetId"
     [datarow]="config.action.objectModel || {}"
-    [config]= "config.action.modal"
+    [config]= "config.action.add.modal"
     (commit)= "dataset.push($event)"
   ></modal>
   

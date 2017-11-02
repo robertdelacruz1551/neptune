@@ -11,6 +11,8 @@ export class DatatableComponent implements OnInit {
   @Input() config: DatatableConfig;
   @Input() dataset: any [];
 
+  private editModal: ModalConfig;
+  private addModal: ModalConfig;
 /**
  * if the user clicks on selected all then set all
  * the checkboxes in the table to checked
@@ -70,7 +72,8 @@ export class DatatableComponent implements OnInit {
 /**
   * This function checks to see if the modal needs to be shown
   */showModal() {
-    return !this.config.action.link && this.config.action.enable && this.config.action.edit && this.config.action.modal;
+    // !this.config.action.link && this.config.action.enable && this.config.action.edit && this.config.action.modal
+    return (this.config.action.edit && this.config.action.edit.modal) || (this.config.action.modal);
   }
 /**
  * Deletes the row in focus from the dataset
@@ -117,8 +120,21 @@ export class DatatableConfig {
     feed?: string;
     objectModel?: any;
     modal?: ModalConfig;
-    edit: boolean;
-    add: boolean;
+    edit?: {
+      link?: {
+        url: string;
+        id: string;
+        label: string ;
+      };
+      modal?: ModalConfig;
+    };
+    add?: {
+      link?: {
+        url: string;
+        id: string;
+      };
+      modal?: ModalConfig;
+    };
     delete: boolean;
   };
 };

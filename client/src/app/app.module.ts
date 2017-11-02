@@ -64,6 +64,7 @@ import { ButtonService } from './application/interface/elements/button/button.se
  * Guards
  */
 import { SigninGuard } from './application/signin/signin.guard';
+import { OptionsListComponent } from './application/interface/elements/options-list/options-list.component';
 
 
 @NgModule({
@@ -108,7 +109,8 @@ import { SigninGuard } from './application/signin/signin.guard';
     TeamComponent,
     AttachmentComponent,
     ListComponent,
-    ButtonComponent
+    ButtonComponent,
+    OptionsListComponent
   ],
   imports: [
     BrowserModule,

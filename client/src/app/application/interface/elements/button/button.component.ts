@@ -7,6 +7,7 @@ import { ButtonService } from './button.service';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent implements OnInit {
+  @Input() host: string;
   @Input() config: ButtonConfig;
   @Input() data: any;
 
@@ -51,7 +52,7 @@ export class ButtonComponent implements OnInit {
 
 export class ButtonConfig {
   text: string;
-  style: {
+  style?: {
     position: number;
     color: string;
   };

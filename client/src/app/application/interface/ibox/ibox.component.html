@@ -1,6 +1,6 @@
   <div class="row">
     <div *ngIf="ready" class="animated fadeIn">
-      <div class="col-sm-12" style="padding-left: 0px;">
+      <div class="col-sm-10" style="padding-left: 0px;">
         <div *ngIf="interface" class="ibox float-e-margins">
           <ibox-title
             [title]="interface.title" 
@@ -8,7 +8,6 @@
           </ibox-title>
           <ibox-toolstrip *ngIf="interface.toolstrip"
             [interface]="interface"
-            [save]="interface.saves.toolstrip"
             [toolstrip]="interface.toolstrip">
           </ibox-toolstrip>
           <ibox-content *ngIf="interface.panels"

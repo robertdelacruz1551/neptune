@@ -9,11 +9,7 @@ import { Toolstrip } from '../../interface.service';
 export class IboxToolstripComponent implements OnInit {
   @Input() toolstrip: Toolstrip;
   @Input() interface;
-  @Input() save: boolean;
 
-  saveData() {
-    console.log(this.interface.data);
-  };
   constructor() { }
   ngOnInit() {
   }
