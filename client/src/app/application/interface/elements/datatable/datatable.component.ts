@@ -73,7 +73,7 @@ export class DatatableComponent implements OnInit {
   * This function checks to see if the modal needs to be shown
   */showModal() {
     // !this.config.action.link && this.config.action.enable && this.config.action.edit && this.config.action.modal
-    return (this.config.action.edit && this.config.action.edit.modal) || (this.config.action.modal);
+    return (this.config.action.edit && this.config.action.edit.modal);
   }
 /**
  * Deletes the row in focus from the dataset
@@ -113,13 +113,7 @@ export class DatatableConfig {
   } [];
   action: {
     enable: boolean;
-    link?: {
-      url: string;
-      id: string; // this should be the name of the field in the dataset that identifies the record. best to use the _id field
-    };
     feed?: string;
-    objectModel?: any;
-    modal?: ModalConfig;
     edit?: {
       link?: {
         url: string;
@@ -133,6 +127,7 @@ export class DatatableConfig {
         url: string;
         id: string;
       };
+      model?: any;
       modal?: ModalConfig;
     };
     delete: boolean;

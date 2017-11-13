@@ -2,7 +2,6 @@ var express				= require('express');
 var router				= express.Router();
 var passport 			= require('passport');
 var passportLocal = require('passport-local').Strategy;
-var sessions			= require('./models/sessions.js');
 var tenants				= require('./models/tenants.js');
 var jwt    				= require('jsonwebtoken');
 var roles					= require('./models/roles.js');
@@ -73,7 +72,7 @@ router.post('/login/:tenant', function(req, res, next) {
 });
 
 // All calls to the secure or api go through this router
-router.all(['/secure/*', '/api/*'], function(req, res, next) {
+router.all(['/secure/*', '/api/*', '/action/*'], function(req, res, next) {
 	let jwtAuthenticationToken = req.headers['authorization'];
 	jwt.verify(jwtAuthenticationToken, CERT, function(err, operator) {
 		if(err) {
@@ -90,8 +89,8 @@ router.all(['/secure/*', '/api/*'], function(req, res, next) {
 	// get the interface id and determin if the user has 
 	// access to it by checking the assets array
 	let id = req.params.id;
-	if ( AssetAccessVerification(id, 'INTERFACE', res.locals.operator.assets) > -1 ) {
-		res.locals.InterfacePermission = AssetAccessVerification(id, 'INTERFACE', res.locals.operator.assets);
+	res.locals.InterfacePermission = AssetAccessVerification(id, 'INTERFACE', res.locals.operator.assets);
+	if ( res.locals.InterfacePermission = 1 ) {
 		next();
 	} else {
 		res.sendStatus(403);

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Rx';
 export class Interfaces {
   id: string;
   __v?: string;
-  title: string;
+  name: string;
   description?: string;
   toolstrip?: Toolstrip;
   saves?: {

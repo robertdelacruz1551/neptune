@@ -37,12 +37,4 @@ router.post('/api/secure/update-role', function(req, res) {
   });
 });
 
-router.get('/api/feed/list-of-tenant-accessible-interfaces', function(req, res) {
-  let tenant  = res.locals.operator.tenant;
-  let Interface = new Interfaces({});
-  Interface.TenantAccessibleInterfaceList(tenant, function(options) {
-    res.json(options);
-  });
-});
-
 module.exports = router;

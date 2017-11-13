@@ -11,7 +11,7 @@ class Sidebar {
   links: {
     _id: string,
     type: string,
-    title: string;
+    name: string;
     icon: string;
   } [];
 }

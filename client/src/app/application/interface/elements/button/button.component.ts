@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ButtonService } from './button.service';
 
 @Component({
@@ -11,6 +12,8 @@ export class ButtonComponent implements OnInit {
   @Input() config: ButtonConfig;
   @Input() data: any;
 
+  private showDialog = false;
+  private state = 0; // 1: running, 2: finish ok, 3: error, 4: forbidden
   private url: string;
   private body: any = {};
   private response: {
@@ -19,14 +22,46 @@ export class ButtonComponent implements OnInit {
     data: any;
   };
 
-  constructor(private service: ButtonService) { }
+  private clearResponse() {
+    this.response = {text: null, code: 0, data: null}
+  }
 
-  ButtonAction() {
+  constructor(private service: ButtonService) {
+    this.clearResponse();
+  }
+
+  buttonAction() {
+    // the button should change to read-only while it's
+    // executing and present change in css class
+    this.state = 1;
+
     // console.log('Password reset called ' + this.url)
     let action = this.service.execute(this.url, this.body);
     action.subscribe(response => {
-      console.log(response);
-      this.response = response;
+      setTimeout(() => {
+        // set the response
+        this.response = response;
+
+        // set state
+        switch (this.response.code) {
+          case 400:
+            this.state = 3;
+            break;
+          case 403:
+            this.state = 4;
+            break;
+          default:
+            this.state = 2;
+            break;
+        }
+
+        // reset to 0 after 30 seconds
+        setTimeout(() => {
+          this.state = 0;
+        }, 30000);
+
+      }, 2000);
+
     });
   }
 

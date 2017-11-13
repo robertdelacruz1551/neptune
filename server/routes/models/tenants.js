@@ -1,7 +1,6 @@
 var express	 	= require('express');
 var router	 	= express.Router();
 var mongoose	= require('../connections/NeptuneConnection.js');
-var Errors		= require('./error-log.js');
 
 var exp = function() {
 	var now = new Date();

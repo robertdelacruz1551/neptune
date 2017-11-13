@@ -9,7 +9,7 @@
 			<li *ngFor="let link of links">
 				<a [routerLink]="'interface/' + link._id">
 					<!-- <i [class]="link.icon"></i>  -->
-					<span class="nav-label" [innerHtml]="link.title"></span> 
+					<span class="nav-label" [innerHtml]="link.name"></span> 
 					<!-- <span class="fa arrow"></span> -->
 				</a>
 			</li>

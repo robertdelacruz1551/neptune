@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./ibox-title.component.css']
 })
 export class IboxTitleComponent implements OnInit {
-  @Input() title: string;
+  @Input() name: string;
   @Input() version: string;
   constructor() { }
   ngOnInit() {

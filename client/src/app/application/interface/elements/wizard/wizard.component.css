@@ -15,6 +15,12 @@
   border-left: 0px;
   background: white;
 }
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+  color: #fff;
+  background-color: #51b394;
+}
+
 .navbar {
   border-radius: 0px;
 }

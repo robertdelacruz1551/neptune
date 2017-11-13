@@ -1,5 +1,5 @@
 <textbox *ngIf="element.textbox" 
-  [config]= "element[element.type]"
+  [config]= "element.textbox"
   [bind]=   "pair(data, element.bind)" (update)= "pair(data, element.bind, $event)"
 ></textbox>
 <checkbox *ngIf="element.checkbox" 

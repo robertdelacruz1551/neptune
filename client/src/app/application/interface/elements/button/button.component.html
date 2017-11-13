@@ -1,7 +1,8 @@
 
 
-<button type="button" class="btn btn-default" [innerHtml]="config.text || 'Save'" (click)="ButtonAction()"></button>
-
-<!-- <a *ngIf="host === 'toolstrip'">  This is only used in the tool strip 
-  <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true" (click)="ButtonAction()"></span>
-</a> -->
+<button type="button" [ngClass]="( state <= 2 )? 'btn btn-primary': { '3': 'btn btn-warning', '4': 'btn btn-danger' } [state]" (click)="buttonAction()" [disabled]="state === 1">
+  <strong>{{config.text || 'Save'}}</strong>
+  <i *ngIf="state === 1" class="fa fa-spinner fa-spin"></i>
+  <i *ngIf="state === 2" class="fa fa-check"></i>
+  <i *ngIf="state >= 3"  class="fa fa-times"></i>
+</button>

@@ -53,7 +53,6 @@ var notifications	= require('./routes/notification.api.js');
 var interface			= require('./routes/interface.api.js');
 var userAPI	    	= require('./routes/user-management.api.js');
 var roleAPI  			= require('./routes/roles-management.api.js');
-var feedAPI				= require('./routes/feed.api.js');
 
 // ================================
 // CORS whitelist
@@ -78,7 +77,6 @@ app.use(notifications);
 app.use(interface); 
 app.use(userAPI);
 app.use(roleAPI);
-app.use(feedAPI);// should be the last router in the list
 
 // ================================
 // Error handling for the application

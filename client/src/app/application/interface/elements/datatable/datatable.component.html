@@ -26,7 +26,7 @@
 
               <input *ngIf="config.action.delete" type="checkbox" [value]="row" [checked]="allSelected" (change)="rowSelectionChange(row, $event.target.checked);">
               <a *ngIf="config.action.edit && config.action.edit.link" class="text-default datatable-icon" [routerLink]="'/' + config.action.edit.link.url + '/' + data[config.action.edit.link.id]" [innerHtml]="data[config.action.edit.link.label] || config.action.edit.link.label || 'Edit'"></a>   
-              <a *ngIf="(config.action.edit && !config.action.edit.link && config.action.edit.modal) || config.action.modal" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row">Edit</a>
+              <a *ngIf="(config.action.edit && !config.action.edit.link && config.action.edit.modal)" class="text-default datatable-icon" data-toggle="modal" [attr.data-target] = "'#editmodal' + datasetId + row">Edit</a>
 
               <modal *ngIf="this.config.action && this.config.action.edit && this.config.action.edit.modal"
                 [id]="'editmodal' + datasetId + row"
@@ -59,7 +59,7 @@
 
   <modal *ngIf="config.action && config.action.add && config.action.add.modal" 
     [id]="'addmodal' + datasetId"
-    [datarow]="config.action.objectModel || {}"
+    [datarow]="config.action.add.model || {}"
     [config]= "config.action.add.modal"
     (commit)= "dataset.push($event)"
   ></modal>

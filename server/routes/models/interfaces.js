@@ -40,7 +40,7 @@ var InterfaceSchema = mongoose.Schema({
   _id: String,
   type: String,
   sidebar: { type: Boolean, default: false },
-  title: String,
+  name: String,
   secure: { type: Boolean, default: true },
   description: String,
   tenants: [String],
@@ -55,7 +55,7 @@ InterfaceSchema.methods.FindTenantInterfaces = function(tenant, callback) {
     {
       tenants: { $in: ['neptune', tenant] }
     },
-    '_id title description panels',
+    '_id name description panels',
     {
       sort: {
         title: 1
@@ -71,35 +71,34 @@ InterfaceSchema.methods.FindTenantInterfaces = function(tenant, callback) {
   );
 };
 
-/**
- * This query finds all interfaces accessible to the tenant 
- * and returns the list to be displayed as a list of checkboxes.
- * The value fields should contain an object with the following 
- * properties: _id, name, type: 'INTERFACE', permission: 0.
- * the text should be in format: "name, description"
- */
-InterfaceSchema.methods.TenantAccessibleInterfaceList = function(tenant, callback) {
-  this.model('interfaces').aggregate([
-    {
-      $match: {
-        tenants: { $in: ['neptune' , tenant] }
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        "value" : { _id: "$_id", name: "$title", description: "$description" },
-        "text" : "$title"
-      }
-    }
-  ]).exec(function(err, options) {
-    if (err) console.log(err);
-    if (options) {
-      console.log(options);
-      callback(options);
-    }
-  })
-}
+// /**
+//  * This query finds all interfaces accessible to the tenant 
+//  * and returns the list to be displayed as a list of checkboxes.
+//  * The value fields should contain an object with the following 
+//  * properties: _id, name, type: 'INTERFACE', permission: 0.
+//  * the text should be in format: "name, description"
+//  */
+// InterfaceSchema.methods.TenantAccessibleInterfaceList = function(tenant, callback) {
+//   this.model('interfaces').aggregate([
+//     {
+//       $match: {
+//         tenants: { $in: ['neptune' , tenant] }
+//       },
+//     },
+//     {
+//       $project: {
+//         _id: 0,
+//         "value" : { _id: "$_id", name: "$name", description: "$description" },
+//         "text" : "$title"
+//       }
+//     }
+//   ]).exec(function(err, options) {
+//     if (err) console.log(err);
+//     if (options) {
+//       callback(options);
+//     }
+//   })
+// }
 
 
 InterfaceSchema.methods.CreateInputOptions = function(data, text, value) {
@@ -123,7 +122,7 @@ InterfaceSchema.methods.AuthorizedLinks = function(tenant, roles, callback) {
         { secure: false }
       ]
     },
-    'url type title', // return only the id and title elements
+    'url type name', // return only the id and title elements
     function(err, links) {
       if(err) {
         callback(err, null);
@@ -145,7 +144,7 @@ InterfaceSchema.methods.AuthorizedInterface = function(tenant, roles, id, callba
         { secure: false }
       ]
     },
-    '_id tenant secure roles title toolstrip panels saves data',
+    '_id tenant secure roles name toolstrip panels saves data',
     function(err, interface) {
       if (interface) {
         callback(null, interface);
@@ -164,7 +163,7 @@ let MODAL_INTERFACE = [
   {
     header: {
       enable: true,
-      text: 'Interface Selection'
+      text: 'Interface Access Control'
     },
     form: {
       panels: [
@@ -176,96 +175,70 @@ let MODAL_INTERFACE = [
               elements: [
                 {
                   type: 'checkbox',
-                  bind: 'interfaces',
+                  bind: 'comments',
                   checkbox: {
-                    label: { text: 'Interfaces' },
-                    input: {
-                      name: 'interface.datatable.modal.listof.interfaces',
-                      options: []
-                    },
-                    feed: 'list-of-tenant-accessible-interfaces'
+                    label: { text: 'Comments' },
+                    input: { name: 'permissions.interface.comments',
+                    options: [
+                      { value: 1, text: 'View all comments' },
+                      { value: 2, text: 'Enter new comments' },
+                      { value: 3, text: 'Edit comments' },
+                      { value: 4, text: 'Delete comments' }
+                    ] }                  
+                  }
+                },
+                {
+                  type: 'checkbox',
+                  bind: 'attachments',
+                  checkbox: {
+                    label: { text: 'Attachments' },
+                    input: { name: 'permissions.interface.attachments',
+                    options: [
+                      { value: 1, text: 'Download attachments' },
+                      { value: 2, text: 'Add attachments' },
+                      { value: 3, text: 'Delete attachments' }
+                    ] }                  
                   }
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    footer: {
-      enable: true,
-      commit: {
-        enable: true,
-        text: 'Save',
-        clearFormAfterSubmit: true
-      }
-    }
-  },
-
-  {
-    header: {
-      enable: true,
-      text: 'Web Service Selection'
-    },
-    form: {
-      panels: [
-        {
-          active: true,
-          name: 'apis',
-          containers: [
+            },
             {
               elements: [
                 {
-                  type: 'checkbox',
-                  bind: 'apis',
-                  checkbox: {
-                    label: { text: 'Web Services' },
-                    input: {
-                      name: 'api.datatable.modal.listof.apis',
-                      options: []
-                    },
-                    feed: 'list-of-tenant-accessible-apis'
+                  type: 'datatable',
+                  bind: 'elements',
+                  datatable: {
+                    size: 'large',
+                    label: { text: 'Elements' },
+                    headers: [
+                      { key: 'name', text: 'Name' },
+                      { key: 'type', text: 'Type' },
+                      { key: 'edit', text: 'Edit', input: { checkbox: true } }
+                    ],
+                    action: {
+                      enable: false,
+                      add: false,
+                      edit: false,
+                      delete: false,
+                    }
                   }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    footer: {
-      enable: true,
-      commit: {
-        enable: true,
-        text: 'Save',
-        clearFormAfterSubmit: true
-      }
-    }
-  },
-
-  {
-    header: {
-      enable: true,
-      text: 'Feed Selection'
-    },
-    form: {
-      panels: [
-        {
-          active: true,
-          name: 'feeds',
-          containers: [
-            {
-              elements: [
+                },
                 {
-                  type: 'checkbox',
-                  bind: 'feeds',
-                  checkbox: {
-                    label: { text: 'Feeds' },
-                    input: {
-                      name: 'feed.datatable.modal.listof.feeds',
-                      options: []
-                    },
-                    feed: 'list-of-tenant-accessible-feeds'
+                  type: 'datatable',
+                  bind: 'actions',
+                  datatable: {
+                    size: 'large',
+                    label: { text: 'Actions' },
+                    headers: [
+                      { key: 'name', text: 'Name' },
+                      { key: 'execute', text: 'Execute', input: { checkbox: true } }
+                    ],
+                    action: {
+                      enable: false,
+                      add: false,
+                      edit: false,
+                      delete: false,
+                    }
                   }
                 }
               ]
@@ -300,7 +273,7 @@ let panels = [
             type: 'textbox',
             bind: 'role.name',
             textbox: {
-              label: { text: 'Group Name' },
+              label: { text: 'Name' },
               input: { name: 'role.name', size: 'large' }
             }
           },
@@ -342,32 +315,22 @@ let panels = [
             bind: 'role.interfaces',
             datatable: {
               headers: [
-                {
-                  key: 'name',
-                  text: 'Name'
-                },
-                {
-                  key: 'description',
-                  text: 'Description'
-                },
-                {
-                  key: 'permission',
-                  text: 'Permission',
-                  input: {
-                    dropdown: [
-                      { value: 0, text: 'Read Only' },
-                      { value: 1, text: 'Contribute' },
-                    ]
-                  }
+                { key: 'name', text: 'Name' },
+                { key: 'description', text: 'Description' },
+                { key: 'permission', text: 'Permission',
+                  input: { dropdown: [
+                              { value: 0, text: 'Forbidden' },
+                              { value: 1, text: 'Access Allowed' }
+                            ] }
                 }
               ],
               action: {
                 enable: true,
-                add: {
+                add: false,
+                edit: {
                   modal: MODAL_INTERFACE[0]
                 },
-                edit: false,
-                delete: true,
+                delete: false,
               }
             }
           }
@@ -377,7 +340,7 @@ let panels = [
   },
   {
     active: false,
-    name: 'Web Service',
+    name: 'Web Services',
     containers: [
       {
         elements: [
@@ -386,17 +349,9 @@ let panels = [
             bind: 'role.apis',
             datatable: {
               headers: [
-                {
-                  key: 'name',
-                  text: 'Name'
-                },
-                {
-                  key: 'description',
-                  text: 'Description'
-                },
-                {
-                  key: 'permission',
-                  text: 'Permission',
+                { key: 'name', text: 'Name' },
+                { key: 'description', text: 'Description' },
+                { key: 'permission', text: 'Permission',
                   input: {
                     dropdown: [
                       { value: 0, text: 'Block' },
@@ -406,56 +361,10 @@ let panels = [
                 }
               ],
               action: {
-                enable: true,
-                add: {
-                  modal: MODAL_INTERFACE[1]
-                },
+                enable: false,
+                add: false,
                 edit: false,
-                delete: true,
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    active: false,
-    name: 'Data feeds',
-    containers: [
-      {
-        elements: [
-          {
-            type: 'datatable',
-            bind: 'role.feeds',
-            datatable: {
-              headers: [
-                {
-                  key: 'name',
-                  text: 'Name'
-                },
-                {
-                  key: 'description',
-                  text: 'Description'
-                },
-                {
-                  key: 'permission',
-                  text: 'Permission',
-                  input: {
-                    dropdown: [
-                      { value: 0, text: 'Block' },
-                      { value: 1, text: 'Allow' }
-                    ]
-                  }
-                }
-              ],
-              action: {
-                enable: true,
-                add: {
-                  modal: MODAL_INTERFACE[2]
-                },
-                edit: false,
-                delete: true,
+                delete: false,
               }
             }
           }
@@ -472,7 +381,7 @@ let i = new p({
   type: 'ibox',
   sidebar: false,
   secure: true,
-  title: 'Edit Role',
+  name: 'Edit Role',
   description: null,
   tenants: ['neptune'],
   roles: ['tenant-role-manager'],
@@ -510,5 +419,112 @@ let i = new p({
 //     console.log(err);
 //   } else {
 //     console.log('Landed ' + i._id);
+//   }
+// });
+
+
+
+let q = mongoose.model('interfaces', InterfaceSchema);
+let a = new q({
+  _id: 'roles',
+  type: 'ibox',
+  sidebar: true,
+  secure: true,
+  name: 'Roles',
+  description: null,
+  tenants: ['neptune'],
+  roles: ['tenant-role-manager'],
+  toolstrip: false,
+  panels: [
+    {
+      active: true,
+      name: 'Roles List',
+      containers: [
+        {
+          elements: [
+            {
+              type: 'datatable',
+              bind: 'roles',
+              datatable: {
+                headers: [
+                  { key: 'name', text: 'Name' },
+                  { key: 'description', text: 'Description' },
+                  { key: 'status', text: 'Status' }
+                ],
+                action: {
+                  feed: 'tenant-role-list',
+                  enable: true,
+                  delete: false,
+                  edit: {
+                    link: {
+                      url: 'secure/interface/role-edit',
+                      id: '_id'
+                    }
+                  },
+                  add: {
+                    model: { name: null, description: null, active: true, users: [], assets: []},
+                    modal: {
+                      header: {
+                        enable: true,
+                        text: 'Interface Access Control'
+                      },
+                      footer: {
+                        enable: true,
+                        commit: {
+                          enable: true,
+                          text: 'Save',
+                          clearFormAfterSubmit: true
+                        }
+                      },
+                      form: {
+                        panels: [
+                          {
+                            active: true,
+                            name: 'Interfaces',
+                            containers: [
+                              {
+                                elements: [
+                                  {
+                                    type: 'textbox',
+                                    bind: 'name',
+                                    textbox: {
+                                      label: { text: 'Name' },
+                                      input: { name: 'modal.role.name', size: 'large' }
+                                    }
+                                  },
+                                  {
+                                    type: 'textblock',
+                                    bind: 'description',
+                                    textblock: {
+                                      label: { text: 'Description' },
+                                      input: { name: 'modal.role.description' }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  data: {
+    roles: [] 
+  }
+}, {strict: true});
+
+// a.save(function(err){
+//   if(err) {
+//     console.log(err);
+//   } else {
+//     console.log('Landed ' + a._id);
 //   }
 // });
