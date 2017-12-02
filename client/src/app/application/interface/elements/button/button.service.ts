@@ -6,9 +6,9 @@ import { Observable } from 'rxjs/Rx';
 export class ButtonService {
   constructor(private http: Http) {}
 
-  execute(url: string, body: any): Observable<any>  {
+  execute(action: string, body: any): Observable<any>  {
     let jwt = localStorage.getItem('client');
-    let URL = 'http://127.0.0.1:1337/' + url;
+    let URL = 'http://127.0.0.1:1337/app/action/' + action;
 
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt });
     let options = new RequestOptions({ headers: headers });

@@ -21,7 +21,7 @@ var UsersSchema = mongoose.Schema({
 	expiration: {type: Date, default: exp},
 	failed: {type: Number, default: 0, min: 0, max: 3},
 	status: { type: String, enum: ['Active', 'Suspended', 'Locked', 'Terminated'], default: 'Active' },
-	roles: [String]
+	roles: [mongoose.Schema.Types.Mixed]
 	//home: {type:String, default: '/authenticated/home'},
 });
 
@@ -41,13 +41,13 @@ var AddressSchema = mongoose.Schema({
 	postal: String	
 });
 
-var RoleSchema = mongoose.Schema({
-	_id: { type: String, default: mongoose.Schema.Types.ObjectId.toString },
-	name: String,
-	description: String,
-	created: { type: Date, default: Date.new },
-	status: { type: String, enum: ['Active', 'Inactive', 'Suspended'] }
-});
+// var RoleSchema = mongoose.Schema({
+// 	_id: { type: String, default: mongoose.Schema.Types.ObjectId.toString },
+// 	name: String,
+// 	description: String,
+// 	created: { type: Date, default: Date.new },
+// 	status: { type: String, enum: ['Active', 'Inactive', 'Suspended'] }
+// });
 
 var TenantSchema = mongoose.Schema({
 	tenant: String,
@@ -55,13 +55,9 @@ var TenantSchema = mongoose.Schema({
 	headquarter: AddressSchema,
 	address: [AddressSchema],
 	contacts: [ContactSchema],
-	roles: [RoleSchema],
-	departments: [
-		{
-			name: String,
-			description: String
-		}
-	],
+	// roles: [RoleSchema],
+	departments: [ { name: String,
+									 description: String } ],
 	users: [UsersSchema]
 });
 
@@ -134,6 +130,20 @@ TenantSchema.methods.Name = function(fname, lname, mname = null) {
 	}
 };
 
+TenantSchema.methods.UpdateRole = function(user, role, action) {
+	let User = this.users.id(user);
+	if (User) {
+		console.log(role);
+		if (action == 1  && User.roles.indexOf(role) === -1) User.roles.push(role);
+		if (action == 0) {
+			let index = User.roles.indexOf(role);
+			User.roles.splice(index, 1);
+			if (User.roles.indexOf(role) !== -1) this.UpdateRole(user, role, 0)
+		}
+	}
+	this.save()
+};
+
 TenantSchema.methods.UpdateUser = function(user, roles) {
 	if (roles.indexOf('tenant-user-manager:edit-user') !== -1) {
 		let User = this.users.id(user._id);
@@ -152,9 +162,9 @@ TenantSchema.methods.UpdateUser = function(user, roles) {
 			this.save();
 			
 			// update Roles
-			if (User.roles.length !== user.roles.length || User.roles.every((role) => user.roles.indexOf(role) === -1)) {
-				this.UpdateRole(user._id, user.roles, roles);
-			}
+			// if (User.roles.length !== user.roles.length || User.roles.every((role) => user.roles.indexOf(role) === -1)) {
+			// 	this.UpdateRole(user._id, user.roles, roles);
+			// }
 		}
 	}
 };

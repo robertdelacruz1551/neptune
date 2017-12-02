@@ -5,30 +5,7 @@ var Tenants    = require('./models/tenants');
 var Roles      = require('./models/roles');
 var Interfaces = require('./models/interfaces');
 
-
-router.get('/api/feed/tenant-role-list', function(req, res) {
-  let tenant  = res.locals.operator.tenant;
-  let Role    = new Roles({});
-  Role.GetTenantRoles(tenant, function(roles) {
-    if (roles) {
-      res.json(roles).status(200);
-    }
-  });
-});
-
-router.get('/api/feed/role-options-to-select-from', function(req, res) {
-  let tenant  = res.locals.operator.tenant;
-  let Role    = new Roles({});
-  Role.TenantRolesForUserForm(tenant, function(roles) {
-    if (roles) {
-      res.json(roles);
-    } else {
-      res.json([]);
-    }
-  })
-});
-
-router.post('/api/secure/update-role', function(req, res) {
+router.post('/app/action/update-role', function(req, res) {
   let tenant  = res.locals.operator.tenant;
   let role    = req.body.role;
   let Role    = new Roles({});
@@ -36,5 +13,29 @@ router.post('/api/secure/update-role', function(req, res) {
     res.json(message).status(message.code);
   });
 });
+
+
+router.post('/test', function(req, res) {
+  let Role    = new Roles({});
+  Role.Test(function(i) {
+    if(i) {
+      res.send(i).status(200);
+    }
+  });
+});
+
+router.post('/app/action/create-role', function(req, res) {
+  let tenant  = res.locals.operator.tenant;
+  let role    = req.body;
+  let Role    = new Roles({
+    name: role.name || null,
+    description: role.description || null,
+    tenant: tenant
+  });
+  Role.save(function(err, r) {
+    if (err) res.json({code: 500, message: 'Could not create the role', data: err}).status(500);
+    if (r) res.json({code: 200, message: 'Role created', data: r}).status(200);
+  })
+})
 
 module.exports = router;

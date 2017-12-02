@@ -43,16 +43,6 @@ app.use(flash());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// ================================
-// Configure routes 
-// ================================
-var authenticator	= require('./routes/authenticator.js');
-var sidebar 			= require('./routes/sidebar.api.js');
-var messages 			= require('./routes/message.api.js');
-var notifications	= require('./routes/notification.api.js');
-var interface			= require('./routes/interface.api.js');
-var userAPI	    	= require('./routes/user-management.api.js');
-var roleAPI  			= require('./routes/roles-management.api.js');
 
 // ================================
 // CORS whitelist
@@ -70,13 +60,19 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(authenticator);
-app.use(sidebar);
-app.use(messages);
-app.use(notifications);
-app.use(interface); 
-app.use(userAPI);
-app.use(roleAPI);
+
+// ================================
+// Configure routes 
+// ================================
+app.use(require('./routes/security/authenticate.router.js'));
+app.use(require('./routes/security/authorize.router.js'));
+app.use(require('./routes/action/action.router.js'));
+app.use(require('./routes/feed/feed.router.js'));
+app.use(require('./routes/interfaces/interface.router.js'));
+
+app.use(require('./routes/sidebar.api.js'));
+app.use(require('./routes/notification.api.js'));
+
 
 // ================================
 // Error handling for the application

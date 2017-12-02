@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Panels } from '../../interface.service';
+import { ButtonConfig } from '../button/button.component';
+
+declare var $: any;
 
 @Component({
   selector: 'modal',
@@ -17,7 +20,6 @@ export class ModalComponent implements OnInit {
  */
   private editableDatarow: {} = {};
   private setEditableDatarow() {
-    this.datarow['metadata'] = {};
     this.editableDatarow = JSON.parse(JSON.stringify(this.datarow));
   }
 /**
@@ -30,12 +32,9 @@ export class ModalComponent implements OnInit {
   }
 
   public commits() {
-    if (!this.editableDatarow['metadata'].created ) {
-      this.editableDatarow['metadata'].created = new Date().toString();
-    };
-    this.editableDatarow['metadata'].modified = new Date().toString();
     let editableDatarowToCommit = this.editableDatarow;
     this.setEditableDatarow();
+    $('#' + this.id).modal('hide'); // hides the modal
     return this.commit.emit(editableDatarowToCommit);
   }
 
@@ -69,6 +68,7 @@ export class ModalConfig {
     enable: boolean;
     commit?: {
       enable: boolean;
+      button?: ButtonConfig;
       text: string;
       clearFormAfterSubmit?: boolean;
     }

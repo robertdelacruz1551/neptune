@@ -8,7 +8,7 @@ export class FeedService {
 
   datafeed(feed: string): Observable<any>  {
     let jwt = localStorage.getItem('client');
-    let url = 'http://127.0.0.1:1337/api/feed/' + feed;
+    let url = 'http://127.0.0.1:1337/app/feed/' + feed;
     let body = { _id: feed };
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt });
     let options = new RequestOptions({ headers: headers });

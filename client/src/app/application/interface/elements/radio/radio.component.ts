@@ -16,11 +16,11 @@ export class RadioComponent implements OnInit {
 
   ngOnInit() {
     this.id = Math.random().toString(36).substring(7);
-    // if the checkbox requires a feed then 
+    // if the checkbox requires a feed then
     // perform a search for the data
-    if(this.config.feed) {
+    if (this.config.feed) {
       let feed = this.Feed.datafeed(this.config.feed);
-      feed.subscribe(options=>{
+      feed.subscribe(options => {
         this.config.input.options = options;
       });
     }

@@ -35,8 +35,6 @@ export class ElementsComponent implements OnInit {
   }
 }
 
-
-
 export class Elements {
   type?: string;
   bind?: string;

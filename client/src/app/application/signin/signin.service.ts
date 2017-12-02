@@ -11,7 +11,7 @@ export class SigninService {
 
 
   VerifyClientToken(jwt: string): Observable<boolean> {
-    let url = 'http://127.0.0.1:1337/secure/token';
+    let url = 'http://127.0.0.1:1337/app/token';
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt });
     let options = new RequestOptions({ headers: headers });
 

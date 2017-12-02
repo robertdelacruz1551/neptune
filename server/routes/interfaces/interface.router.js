@@ -1,13 +1,12 @@
 var express			= require('express');
 var router			= express.Router();
-var Interfaces  = require('./models/interfaces');
-var Tenants     = require('./models/tenants');
-var Roles       = require('./models/roles');
-// var RoleAPI     = require('./roles-management.api')
+var Interfaces  = require('../../models/interfaces.model.js');
+var Tenants     = require('../../models/tenants.model.js');
+var Roles       = require('../../models/roles.model.js');
 
 let STATUS = 404 // not found
 
-let ListOfInterfaceUrls = [
+const ListOfInterfaceUrls = [
   '/authenticated/interface/:id',
   '/authenticated/interface/:id/:record'
 ]
@@ -66,8 +65,5 @@ router.get(ListOfInterfaceUrls,
 ).get(ListOfInterfaceUrls, function(req, res) {
   res.json(res.locals.interface).status(STATUS);
 });;
-
-
-
 
 module.exports = router;

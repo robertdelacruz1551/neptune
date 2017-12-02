@@ -21,25 +21,25 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     this.signinService.jwt = null;
-    localStorage.clear();  
+    localStorage.clear();
   }
 
   clearPassword() {
     this.password = null;
   }
 
-  private signin(event){
+  private signin(event) {
     event.preventDefault();
-    if(!this.username || !this.password) {
-      this.message = "Username and password required";
-    } else { 
+    if (!this.username || !this.password) {
+      this.message = 'Username and password required';
+    } else {
       let attemptResults = this.signinService.authenticate(this.username, this.password);
-      attemptResults.subscribe(res=>{
+      attemptResults.subscribe(res => {
         this.clearPassword(); // clear the password
-        if(!this.signinService.jwt) {
+        if (!this.signinService.jwt) {
           this.message = res;
         } else {
-          this.router.navigate(['secure/home']);
+          this.router.navigate(['authenticated/home']);
         }
       });
     };

@@ -95,7 +95,7 @@ export class DatatableComponent implements OnInit {
     if (this.config.action.feed) {
       let feed = this.Feed.datafeed(this.config.action.feed);
       feed.subscribe(dataset => {
-        this.dataset = dataset;
+        this.dataset = dataset.data || [];
       });
     }
   }

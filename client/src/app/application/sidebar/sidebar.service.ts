@@ -21,7 +21,7 @@ export class SidebarService {
   constructor(private http: Http) { }
 
   getSidebar( jwt: string ): Observable<Sidebar> {
-    let url = 'http://127.0.0.1:1337/secure/sidebar';
+    let url = 'http://127.0.0.1:1337/app/sidebar';
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt });
     let options = new RequestOptions({ headers: headers });
 

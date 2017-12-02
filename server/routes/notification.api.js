@@ -1,8 +1,8 @@
 var express			  = require('express');
 var router			  = express.Router();
-var notifications = require('./models/notifications');
+var notifications = require('../models/notifications.model.js');
 
-router.get('/secure/notifications', function(req, res) {
+router.get('/app/notifications', function(req, res) {
   if(res.locals.operator) {
     var tenant = res.locals.operator.tenant;
     var recipient = res.locals.operator.username;

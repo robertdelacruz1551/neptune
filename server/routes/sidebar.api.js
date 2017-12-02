@@ -1,6 +1,6 @@
 var express			= require('express');
 var router			= express.Router();
-var Links 			= require('./models/interfaces.js');
+var Links 			= require('../models/interfaces.model.js');
 
 const Sidebar = {
 	operator: {},
@@ -8,7 +8,7 @@ const Sidebar = {
 }
 
 
-router.get('/secure/sidebar',
+router.get('/app/sidebar',
 	// get user information
 	function(req, res, next) {
 		res.locals.sidebar = Sidebar;

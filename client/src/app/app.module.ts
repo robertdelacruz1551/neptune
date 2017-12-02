@@ -60,11 +60,17 @@ import { MessageService } from './application/navigation/message/message.service
 import { NotificationService } from './application/navigation/notification/notification.service';
 import { FeedService } from './application/interface/elements/feed.service';
 import { ButtonService } from './application/interface/elements/button/button.service';
+import { UtilityService } from './application/interface/utility.service';
+
 /**
  * Guards
  */
 import { SigninGuard } from './application/signin/signin.guard';
 import { OptionsListComponent } from './application/interface/elements/options-list/options-list.component';
+
+/**
+ * Pipes
+ */
 
 
 @NgModule({
@@ -127,7 +133,7 @@ import { OptionsListComponent } from './application/interface/elements/options-l
         ]
       },
       {
-        path: 'secure',
+        path: 'authenticated',
         component: ApplicationComponent,
         canActivate: [SigninGuard],
         canActivateChild: [SigninGuard],
@@ -150,7 +156,8 @@ import { OptionsListComponent } from './application/interface/elements/options-l
     MessageService,
     NotificationService,
     FeedService,
-    ButtonService
+    ButtonService,
+    UtilityService
   ],
   bootstrap: [AppComponent]
 })

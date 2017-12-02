@@ -11,9 +11,14 @@
           <wizard [panels]="config.form.panels" [data]="editableDatarow"></wizard>
         </div>
       </div>
-      <div *ngIf="config.footer.enable" class="modal-footer">
-        <button (click)="cancelChange()" type="button" class="btn btn-default btn-action" data-dismiss="modal">Cancel</button>
-        <button *ngIf="config.footer.enable" (click)="commits()" type="button" class="btn btn-warning btn-action" data-dismiss="modal" [innerHtml]="config.footer.commit.text"></button>
+      <div *ngIf="config.footer && config.footer.enable" class="modal-footer">
+        <button type="button" class="btn btn-sm btn-default btn-action" (click)="cancelChange()" data-dismiss="modal">Cancel</button>
+        <button *ngIf="config.footer.commit && !config.footer.commit.button" type="button" class="btn btn-sm btn-warning btn-action" (click)="commits()" data-dismiss="modal" [innerHtml]="config.footer.commit.text"></button>
+        <app-button *ngIf="config.footer.commit && config.footer.commit.button"
+          [config]= "config.footer.commit.button"
+          [data]=   "editableDatarow"
+          (result)= "editableDatarow = $event; commits()"
+        ></app-button>
       </div>
     </div>
   </div>
