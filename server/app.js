@@ -47,11 +47,12 @@ app.set('view engine', 'ejs');
 // ================================
 // CORS whitelist
 // ================================
-var whitelist = [
+const whitelist = [
 	'http://localhost:4200', 
 	'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop'
 ];
-var corsOptions = {
+
+const corsOptions = {
   origin: function(origin, callback){
 		var isWhitelisted = whitelist.indexOf(origin) !== -1;
 		callback(null, isWhitelisted);
@@ -61,14 +62,18 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+let action_router 	 = require('./routes/action/action.router.js');
+let feed_router   	 = require('./routes/feed/feed.router.js');
+let interface_router = require('./routes/interfaces/interface.router.js');
 // ================================
 // Configure routes 
 // ================================
 app.use(require('./routes/security/authenticate.router.js'));
 app.use(require('./routes/security/authorize.router.js'));
-app.use(require('./routes/action/action.router.js'));
-app.use(require('./routes/feed/feed.router.js'));
-app.use(require('./routes/interfaces/interface.router.js'));
+app.post('/action/*', action_router);
+app.put( '/action/*', action_router);
+app.get( '/feed/*', feed_router);
+app.get( '/authenticated/interface/*', interface_router);
 
 app.use(require('./routes/sidebar.api.js'));
 app.use(require('./routes/notification.api.js'));
@@ -81,6 +86,8 @@ app.use(function(req, res, next) {
 	var err = new Error('Not Found');
 	err.status = 404;
 	next(err);
+	// console.log(err);
+	// next(err);
 });
  
 // ================================
