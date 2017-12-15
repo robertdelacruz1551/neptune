@@ -36,7 +36,6 @@ export class IboxComponent implements OnInit {
         let url = this.router.url;
         let gui = this.interfaceService.getInterface(url, jwt);
         gui.subscribe(res => {
-          console.log(res);
           this.interface  = res;
           this.ready      = true;
         });
@@ -45,17 +44,3 @@ export class IboxComponent implements OnInit {
     });
   }
 }
-
-
-// query for the interface
-// console.log(this.router);
-// this.route.params.subscribe((params: Params) => {
-//   let id  = params['id'];
-//   let jwt = localStorage.getItem('client');
-//   let _interface = this.service.getInterface(id, jwt);
-//   _interface.subscribe(res => {
-//     console.log(res);
-//     this.interface = res;
-//     this.ready = true;
-//   });
-// });
