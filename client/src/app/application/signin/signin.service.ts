@@ -6,22 +6,25 @@ import { Observable } from 'rxjs/Rx';
 export class SigninService {
   // Store the auth token
   public jwt: string;
+  public expire: any;
 
   constructor(private http: Http) {}
 
 
   VerifyClientToken(jwt: string): Observable<boolean> {
-    let url = 'http://127.0.0.1:1337/app/token';
+    let url = 'http://127.0.0.1:1337/token';
     let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': jwt });
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(url, options)
                     .map((res: Response) => {
-                      this.jwt = res.json().jwt;
+                      this.expire = new Date(res.json().expire).toString();
+                      this.jwt    = res.json().jwt;
+                      localStorage.setItem('expire', this.expire);
                       localStorage.setItem('client', this.jwt);
                       return res.json().valid;
                     })
-                    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+                    .catch((error: any) => Observable.throw(error || 'Server error'));
   };
 
   authenticate( username: string, password: string ): Observable<string> {
