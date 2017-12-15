@@ -1,10 +1,13 @@
 
 
-<button type="button" [ngClass]="( state <= 2 )? 'btn btn-sm btn-primary': { '3' : 'btn btn-sm btn-warning', '4' : 'btn btn-sm btn-danger' } [state]" 
+<button type="button"
+  [ngClass]="'btn btn-sm ' + state" 
   (click)="buttonAction()" 
   [disabled]="state === 1">
   {{config.text || 'Save'}}
-  <i *ngIf="state === 1" class="fa fa-spinner fa-spin"></i>
-  <i *ngIf="state === 2" class="fa fa-check"></i>
-  <i *ngIf="state >=  3" class="fa fa-times"></i>
-</button>
+  <i *ngIf="response.code == 1" class="fa fa-spinner fa-spin"></i>
+  <i *ngIf="response.code == 200" class="fa fa-check"></i>
+  <i *ngIf="response.code == 404" class="fa fa-question"></i>
+  <i *ngIf="response.code == 403" class="fa fa-lock"></i>
+  <i *ngIf="response.code == 500" class="fa fa-times"></i>
+</button> 

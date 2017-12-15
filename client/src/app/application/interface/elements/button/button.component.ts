@@ -16,7 +16,7 @@ export class ButtonComponent implements OnInit {
 
 
   private showDialog = false;
-  private state = 0; // 1: running, 2: finish ok, 3: error, 4: forbidden
+  private state = 'btn-primary'
   private url: string;
   private body: any = {};
   private response: {
@@ -46,7 +46,7 @@ export class ButtonComponent implements OnInit {
 
     // the button should change to read-only while it's
     // executing and present change in css class
-    this.state = 1;
+    this.response.code = 1;
 
     // console.log('Password reset called ' + this.url)
     let action = this.service.execute(this.url, this.body);
@@ -61,30 +61,33 @@ export class ButtonComponent implements OnInit {
         // set state
         switch (this.response.code) {
           case 200:
-            this.state = 2;
+            this.state = 'btn-primary';
             break;
           case 400:
-            this.state = 3;
+            this.state = 'btn-warning';
             break;
           case 403:
-            this.state = 4;
+            this.state = 'btn-warning';
             break;
           default:
-            this.state = 5;
+            this.state = 'btn-danger';
             break;
         }
-        // reset to 0 after 30 seconds
-        setTimeout(() => {
-          this.state = 0;
-        }, 5000);
-
+        
         // expose the response through the output
-        if (this.state === 2) {
+        if (this.response.code === 200) {
           this.result.emit(this.response.data);
         }
-
       }, 2000);
     });
+
+    // reset to 0 after 30 seconds
+    setInterval(() => {
+      if (this.response.code === 1) {
+        this.response.code = 0;
+        this.state = 'btn-primary';
+      }
+    }, 60000);
   }
 
   ngOnInit() {
