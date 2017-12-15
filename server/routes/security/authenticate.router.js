@@ -1,3 +1,4 @@
+const config			= require('../../neptune.configuration.js');
 var express				= require('express');
 var router				= express.Router();
 var passport 			= require('passport');
@@ -6,8 +7,8 @@ var tenants				= require('../../models/tenants.model.js');
 var roles					= require('../../models/roles.model.js');
 var jwt    				= require('jsonwebtoken');
 
-const CERT				= 'secret-word';
-const EXP 				= '1h';
+const CERT				= config.CERT;
+const EXP 				= config.EXP;
 //================================
 //Configure the passport middleware. 
 //ATT! must appear after the 

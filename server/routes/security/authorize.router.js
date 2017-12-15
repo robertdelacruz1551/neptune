@@ -1,52 +1,16 @@
-var express				= require('express');
-var router				= express.Router();
-var jwt    				= require('jsonwebtoken');
-var roles					= require('../../models/roles.model.js');
+const config			= require('../../neptune.configuration.js');
+let express				= require('express');
+let router				= express.Router();
+let jwt    				= require('jsonwebtoken');
+let Roles					= require('../../models/roles.model.js');
 
-const CERT				= 'secret-word';
-const EXP 				= '1h';
-
-// All calls to the secure or api go through this router
-router.all(['/app/*', '/authenticated/*'], function(req, res, next) {
-	let jwtAuthenticationToken = req.headers['authorization'];
-	jwt.verify(jwtAuthenticationToken, CERT, function(err, operator) {
-		if(err) {
-			// if the validation failes return valid false and 401 code
-			res.json({valid: false}).status(401);
-		} else if(operator) {
-			// if validation passes then return the operator data and
-			// store locally
-			res.locals.operator = operator;
-			next();
-		}
-	});
-}).get(['/authenticated/interface/:id', '/authenticated/interface/:id/*'], function(req, res, next) {
-	// get the interface id and determin if the user has 
-	// access to it by checking the assets array
-	let id = req.params.id;
-	res.locals.InterfacePermission = AssetAccessVerification(id, res.locals.operator.assets);
-	if ( res.locals.InterfacePermission = 1 ) {
-		next();
-	} else {
-		res.sendStatus(403);
-	}
-}).all(['/app/feed/*', '/app/action/*', '/app/search/*'], function(req, res, next) {
-	// get the api url and determine if the user has 
-	// access to it by checking the assets array
-	let api = req.url
-	if ( AssetAccessVerification(api, res.locals.operator.assets) > -1 ) {
-		next();
-	} else {
-		next() // remove after testing
-		// res.sendStatus(403);
-	}
-});
-
+const CERT						 = config.CERT;
+const EXPIRE_IN_MINUTE = config.EXPIRE_IN_MINUTE;
 
 let AssetAccessVerification = function(asset, userPermittedAsset) {
 	// the interfacepermission variable is used 
 	// to store the type of access the user is allowed
-	AssetPermission = -1;
+	let AssetPermission = -1;
 
 	// Find inteface in list of assets
 	let AssetLocator = function(Asset) {
@@ -59,15 +23,62 @@ let AssetAccessVerification = function(asset, userPermittedAsset) {
 		AssetPermission = AssetFound.permission
 	};
 
-	return AssetPermission;
+	return 1 // AssetPermission;
 }
 
-router.get('/app/token', function(req, res) {
+let JWT_CHECKPOINT = function(req, res, next) {
+	let jwtAuthenticationToken = req.headers['authorization'];
+	jwt.verify(jwtAuthenticationToken, CERT, function(err, operator) {
+		if(err) {
+			// if the validation failes return valid false and 401 code
+			res.json({valid: false}).status(401);
+		} else if(operator) {
+			// if validation passes then return the operator data and store locally
+			res.locals.operator = operator;
+			res.locals.token 		= jwtAuthenticationToken;
+			next();
+		}
+	});
+};
+
+let JWT_REFRESH = function(req, res) {
 	const OPERATOR = res.locals.operator;
 	delete OPERATOR.iat;
 	delete OPERATOR.exp;
-	let jwtAuthenticationToken = jwt.sign(OPERATOR, CERT, { expiresIn: EXP });
-	res.json({jwt: jwtAuthenticationToken, valid: true}).status(200);
-});
+
+	let current = new Date();
+	let expire  = new Date(current.getTime() + (EXPIRE_IN_MINUTE * 60000));
+
+	let jwtAuthenticationToken = jwt.sign(OPERATOR, CERT, { expiresIn: EXPIRE_IN_MINUTE * 60 });
+	res.json({jwt: jwtAuthenticationToken, valid: true, expire: expire }).status(200);
+};
+
+let INTERFACE_AUTHORIZATION = function(req, res, next) {
+	let interface = req.params.interface;
+	let tenant 		= res.locals.operator.tenant;
+	let user 			= res.locals.operator;
+
+	Role = new Roles({});
+	Role.VerifyUserAccessToInterface(user, tenant, interface, function(permission) {
+		if ( permission ) {
+			res.locals.permission = permission;
+			next();
+		} else {
+			res.sendStatus(403);
+		}
+	});
+}
+
+router.use(JWT_CHECKPOINT);
+
+router.get( '/app/*');
+router.get( '/token', JWT_REFRESH);
+
+router.post('/action/:action');
+router.put( '/action/:action');
+router.get( '/feed/:feed');
+router.get(['/authenticated/interface/:interface',
+						'/authenticated/interface/:interface/:document'], INTERFACE_AUTHORIZATION);
+
 
 module.exports = router;
