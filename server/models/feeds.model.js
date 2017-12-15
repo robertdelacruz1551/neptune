@@ -1,6 +1,6 @@
 var express	 	= require('express');
 var router	 	= express.Router();
-var mongoose	= require('../connections/NeptuneConnection.js');
+var mongoose	= require('../connections/neptune.connection.js');
 
 let FeedsSchema = mongoose.Schema({
   name: String,

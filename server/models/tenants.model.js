@@ -1,6 +1,6 @@
 var express	 	= require('express');
 var router	 	= express.Router();
-var mongoose	= require('../connections/NeptuneConnection.js');
+var mongoose	= require('../connections/neptune.connection.js');
 
 var exp = function() {
 	var now = new Date();
@@ -21,7 +21,7 @@ var UsersSchema = mongoose.Schema({
 	expiration: {type: Date, default: exp},
 	failed: {type: Number, default: 0, min: 0, max: 3},
 	status: { type: String, enum: ['Active', 'Suspended', 'Locked', 'Terminated'], default: 'Active' },
-	roles: [mongoose.Schema.Types.Mixed]
+	roles: [{ type: mongoose.Schema.Types.ObjectId }]
 	//home: {type:String, default: '/authenticated/home'},
 });
 
@@ -133,12 +133,13 @@ TenantSchema.methods.Name = function(fname, lname, mname = null) {
 TenantSchema.methods.UpdateRole = function(user, role, action) {
 	let User = this.users.id(user);
 	if (User) {
-		console.log(role);
 		if (action == 1  && User.roles.indexOf(role) === -1) User.roles.push(role);
 		if (action == 0) {
 			let index = User.roles.indexOf(role);
-			User.roles.splice(index, 1);
-			if (User.roles.indexOf(role) !== -1) this.UpdateRole(user, role, 0)
+			if (index != -1) {
+				User.roles.splice(index, 1);
+				this.UpdateRole(user, role, 0);
+			};
 		}
 	}
 	this.save()

@@ -1,6 +1,6 @@
 var express	 	= require('express');
 var router	 	= express.Router();
-var mongoose	= require('../connections/NeptuneConnection.js');
+var mongoose	= require('../connections/neptune.connection.js');
 var Tenants   = require('./tenants.model.js');
 
   // _id: { type: String, default: new mongoose.Types.ObjectId() },
@@ -192,50 +192,27 @@ RoleSchema.methods.FindRoleForRoleEditForm = function(callback) {
         datatables: "$app_datatable"
       }}
     }},
-    {$project: { _id: "$_id.role_id", tenant: 1, status: 1, name: 1, description: 1, members: 1, apps: 1 }}
+    {$project: { _id: "$_id.role_id", tenant: 1, status: 1, name: 1, description: 1, members: 1,
+      apps: { $filter: { input: "$apps", as: "app",
+      cond: { $ne: ["$$app.name", null] }}}
+    }}
   ]).exec(function(err, r) {
     if (err) console.log(err);
     if (r) {
-      console.log(r);
       callback(r);
     }
   })
 }
-
-
-
-
-
-
-
-
-RoleSchema.methods.Test = function(callback) {
-  let tenant = "598d0e04a848bf4e7f8df53d";
-
-  this.model('roles').aggregate([
-    {$match: {_id: "5a0918e0aaf930b37901db84", tenant: { $in: ['neptune',tenant] }}},
-  ]).exec(function(err, r) {
-    if (err) console.log(err);
-    if (r) {
-      callback(r[0]);
-    }
-  })
-}
-
 
 /**
  * Returns a single role from the collection
  */
 RoleSchema.methods.FindRole = function(role, callback) {
   this.model('roles').findById(role, function(err, role) {
-    if ( role ) {
-      callback(role);
-    } else {
-      callback({})
-    };
+    if (role) callback(null, role);
+    if (err) callback(err, {});
   })
 };
-
 
 /**
  * Returns a list of roles from the collection
@@ -252,7 +229,55 @@ RoleSchema.methods.FindRoles = function(roles, tenant, callback) {
       callback([]);
     }
   })
-}
+};
+
+RoleSchema.methods.VerifyUserAccessToInterface = function(user, tenant, interface, callback) {
+  /**
+   *  TODO: Add a match condition to select roles 
+         in the user.roles array. This array is passed 
+         by the caller in the user varable
+   */
+  this.model('roles').aggregate([
+    { $match: {
+        tenant: { $in: ['neptune', tenant] },
+        members:{ $elemMatch: {_id: user.username, tenant: tenant, member: 1} },
+        apps:   { $elemMatch: {_id: interface, permission: 1} },
+        status:   true
+    } },
+    { $project: {
+        apps: { $filter: { input: "$apps", as: "app",
+          cond: { $eq: ["$$app._id", interface] } } }
+    } },
+    { $unwind: { path:"$apps", preserveNullAndEmptyArrays: false } },
+    { $unwind: { path:"$apps.assets", preserveNullAndEmptyArrays: false } },
+    { $project: { interface: "$apps._id", assets: "$apps.assets" } },
+    { $group: {
+      _id: {
+        interface: "$interface",
+        asset: "$assets._id"
+      },
+      roles: { $addToSet: "$_id" },
+      assets_permission: { $max: "$assets.permission" },
+      assets_add: { $max: "$assets.add" },
+      assets_edit: { $max: "$assets.edit" },
+      assets_delete: { $max: "$assets.delete" },
+    } },
+    { $unwind: { path:"$roles", preserveNullAndEmptyArrays: false } },
+    { $group: {
+      _id: "$_id.interface",
+      roles: { $addToSet: "$roles" },
+      assets: { $addToSet: { _id: "$_id.asset", 
+                             permission: "$assets_permission", 
+                             add: "$assets_add", 
+                             edit: "$assets_edit", 
+                             delete: "$assets_delete" } }
+    } }
+  ]).exec(function(err, permissions) {
+    if (err) callback({});
+    if (permissions) callback(permissions[0]);
+  });
+};
+
 
 /**
  * Method used to find the users roles and find the least 
@@ -298,39 +323,19 @@ RoleSchema.methods.GetTenantRoles = function(callback) {
   );
 };
 
-RoleSchema.methods.TenantRolesForUserForm = function(tenant, callback) {
-  this.model('roles').find(
-    {
-      tenant: { $in: ['neptune', tenant] },
-    },
-    '_id name',
-    function(err, roles) {
-      let roleOptions = [];
-      if (roles) {
-        roles.forEach(function(role) {
-          roleOptions.push({value: role._id, text: role.name });
-        });
-      }
-      callback(roleOptions);
-    }
-  );
-};
-
 /**
  * Updates thos role
  */
 RoleSchema.methods.UpdateRole = function(role, tenant, callback) {
-  let ErrorMessage = { code: 500, message: 'Internal server error. Could complete request.' };
-
   this.model('roles').findById(role._id, function(err, Role) {
     if (err) {
-      callback(ErrorMessage);
+      callback(500, 'Internal server error. Could complete request');
+    } else if (!Role) {
+      callback(404, 'Role not found');
     } else if (Role) {
-      /**
-       * when the role is found, ensure the role is 
-       * accessible to the users attempting to update the role
-       */
-      if (Role.tenant === 'neptune' || Role.tenant === tenant) {
+      if (!Role.tenant === 'neptune' && !Role.tenant === tenant) {
+        callback(403, 'Not authorized');
+      } else {
         // update the role
         Role.name        = role.name;
         Role.description = role.description;
@@ -342,7 +347,6 @@ RoleSchema.methods.UpdateRole = function(role, tenant, callback) {
         role.apps.forEach(function(app) {
           let assets = [].concat(app.elements, app.actions, app.datatables)
           app.assets = assets;
-
           apps.push(app);
         });
         Role.apps = apps;
@@ -354,23 +358,18 @@ RoleSchema.methods.UpdateRole = function(role, tenant, callback) {
             Role.members.forEach(function(member) {
               tenant.UpdateRole(member._id, Role._id, member.member)
             });
-          } else {
-            console.log(tenant);
           }
         });
-      } else {
-        callback({ code: 403, message: 'Could not update role. Request forbiden.'});
+
+        Role.save(function(err, r) {
+          if (err) {
+            console.log(err);
+            callback(500, 'Internal server error. Could complete request');
+          } else if(r) {
+            callback(200, 'Role updated', r);
+          }  
+        });
       }
-      Role.save(function(err, r) {
-        if (err) {
-          console.log(err);
-          callback(ErrorMessage);
-        } else if(r) {
-          callback({ code: 200, message: 'Role updated.', data: r });
-        }  
-      });
-    } else {
-      callback({ code: 400, message: 'Role not found' });
     }
   });
 }
